@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 11.12.2019
+# 17.12.2019
 # ----------------------------------------------------------------------------------------------------------------------
 # Runtime user configuration generator.
 # Special for 'ssh-access' role.
@@ -49,16 +49,16 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
             raise errors.AnsibleFilterError("user role without name :: index: {}".format(i))
         if not isinstance(r.get('groups', []), list):
             raise errors.AnsibleFilterError(
-                "role.groups is {} expected <type 'list'> :: role: {}".format(type(r.get('groups')), r['name']))
+                "groups is {} expected <type 'list'> :: role: {}".format(type(r.get('groups')), r['name']))
         if not isinstance(r.get('hosts', []), list):
             raise errors.AnsibleFilterError(
-                "role.hosts is {} expected <type 'list'> :: role: {}".format(type(r.get('hosts')), r['name']))
+                "hosts is {} expected <type 'list'> :: role: {}".format(type(r.get('hosts')), r['name']))
     # flat user roles list
     flat_user_roles = list(map(lambda x: x['name'], user_roles))
     # check role name uniqueness
     for r in flat_user_roles:
         if flat_user_roles.count(r) > 1:
-            raise errors.AnsibleFilterError("duplicate user role :: role: {}".format(r))
+            raise errors.AnsibleFilterError("duplicate user role :: {}".format(r))
     # list() to dict()
     user_roles = dict((x['name'], x) for x in user_roles)
     # __________________________________________________________________________
@@ -70,19 +70,19 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
             raise errors.AnsibleFilterError(
                 "user_enabled contains {}  expected <type 'dict'> :: index: {}".format(type(u), i))
         if not (isinstance(u.get('name'), (AnsibleUnicode, unicode)) and u.get('name')):
-            raise errors.AnsibleFilterError("user enabled without name :: index: {}".format(i))
+            raise errors.AnsibleFilterError("user_enabled contains item without name :: index: {}".format(i))
         if not isinstance(u.get('hosts', []), list):
             raise errors.AnsibleFilterError(
-                "user.hosts is {} expected <type 'list'> :: user: {}".format(type(u.get('hosts')), u['name']))
+                "hosts is {} expected <type 'list'> :: user: {}".format(type(u.get('hosts')), u['name']))
         if not isinstance(u.get('roles', []), list):
             raise errors.AnsibleFilterError(
-                "user.roles is {} expected <type 'list'> :: user: {}".format(type(u.get('roles')), u['name']))
+                "roles is {} expected <type 'list'> :: user: {}".format(type(u.get('roles')), u['name']))
     # flat user enabled list
     flat_users_enabled = list(map(lambda x: x['name'], user_enabled))
     # check username uniqueness
     for u in flat_users_enabled:
         if flat_users_enabled.count(u) > 1:
-            raise errors.AnsibleFilterError("duplicate user enabled :: user: {}".format(u))
+            raise errors.AnsibleFilterError("duplicate user enabled :: {}".format(u))
     # list() to dict()
     user_enabled = dict((x['name'], x) for x in user_enabled)
     # __________________________________________________________________________
@@ -91,11 +91,12 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         raise errors.AnsibleFilterError("user_disabled is {} expected <type 'list'>".format(type(user_disabled)))
     for i, x in enumerate(user_disabled):
         if not (isinstance(x, (AnsibleUnicode, unicode)) and x):
-            raise errors.AnsibleFilterError("user disabled without name :: index: {}".format(i))
-    # check username uniqueness
+            raise errors.AnsibleFilterError(
+                "user_disabled contains {} expected <type 'dict'> :: index: {}".format(type(x), i))
+        # check username uniqueness
     for x in user_disabled:
         if user_disabled.count(x) > 1:
-            raise errors.AnsibleFilterError("duplicate user disabled :: user: {}".format(x))
+            raise errors.AnsibleFilterError("duplicate user disabled :: {}".format(x))
     # __________________________________________________________________________
     # group_names
     if not isinstance(group_names, list):
@@ -168,5 +169,8 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         # unique groups
         _tmp = list(set(x.get('groups', [])))
         x['groups'] = _tmp
+    for x in user_disabled:
+        result.append({u'name': x, u'enable': False, u'groups': []})
+    print(result)
     # __________________________________________________________________________
     return result

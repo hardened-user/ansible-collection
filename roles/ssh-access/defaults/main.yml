@@ -47,7 +47,7 @@ ssh_access_user_enabled_default:
 
 
 ssh_access_user_disabled_default:
-  - ivan.ivanov
+  - ivanov.ivanovich
 
 
 # combine variables
