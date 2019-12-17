@@ -1,0 +1,93 @@
+---
+# main tasks file
+
+- name: "Runtime user configuration generation"
+  local_action:
+    module: set_fact
+    runtime_users_config: "{{ inventory_hostname | ssh_access_runtime_config(ssh_access_user_roles_merged, ssh_access_user_enabled_merged, ssh_access_user_disabled_merged, group_names) }}"
+  tags:
+    - ssh-access
+
+#- debug:
+#    msg: "{{ runtime_users_config }}"
+#- debug:
+#    msg: "{{ runtime_users_config | rejectattr('enable', 'equalto', false) | list }}"
+
+- fail:
+    msg: "There are no enable users for the host"
+  when: runtime_users_config | rejectattr('enable', 'equalto', false) | list | length < 1
+  tags:
+    - ssh-access
+
+
+- name: "Configure: /etc/ssh/sshd_config"
+  lineinfile:
+    path: "/etc/ssh/sshd_config"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    validate: "/usr/sbin/sshd -T -f %s"
+  with_items: "{{ ssh_access_sshd_config }}"
+  notify: Reload sshd
+  tags:
+    - ssh-access
+    - sshd-config
+
+
+- getent:
+    database: group
+    split: ':'
+  tags:
+    - ssh-access
+
+
+- name: "Add users: ..."
+  user:
+    name: "{{ item.name }}"
+    groups: "{{ item.groups | intersect(getent_group.keys()) }}"
+  with_items: "{{ runtime_users_config | rejectattr('enable', 'equalto', false) | list }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:  item.enable == true
+  tags:
+    - ssh-access
+
+
+- name: "Copy public keys: ..."
+  authorized_key:
+    user: "{{ item.name }}"
+    path: "/etc/ssh/keys/{{ item.name }}.key"
+    key: "{{ lookup('file', '{{ role_name }}/{{ item.name }}.key') }}"
+    state: present
+    exclusive: yes
+    manage_dir: no
+  with_items: "{{ runtime_users_config | rejectattr('enable', 'equalto', false) | list }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:  item.enable == true
+  tags:
+    - ssh-access
+    - ssh-keys
+
+
+- name: "Delete users: ..."
+  user:
+    name: "{{ item.name }}"
+    state: absent
+  with_items: "{{ runtime_users_config | rejectattr('enable', 'equalto', true) | list }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:  item.enable == false
+  tags:
+    - ssh-access
+
+
+- name: "Delete public keys: ..."
+  file:
+    path: "/etc/ssh/keys/{{ item.name }}.key"
+    state: absent
+  with_items: "{{ runtime_users_config | rejectattr('enable', 'equalto', true) | list }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:  item.enable == false
+  tags:
+    - ssh-access

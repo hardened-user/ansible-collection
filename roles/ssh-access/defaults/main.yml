@@ -1,0 +1,56 @@
+---
+# defaults vars file
+
+ssh_access_sshd_config:
+  - { regexp: '^#?AuthorizedKeysFile\s', line: 'AuthorizedKeysFile /etc/ssh/keys/%u.key' }
+  - { regexp: '^#?PermitRootLogin\s', line: 'PermitRootLogin no' }
+  - { regexp: '^#?PasswordAuthentication\s', line: 'PasswordAuthentication no' }
+  - { regexp: '^#?GSSAPIAuthentication\s', line: 'GSSAPIAuthentication no' }
+
+
+ssh_access_user_roles: []
+ssh_access_user_enabled: []
+ssh_access_user_disabled: []
+
+
+ssh_access_user_roles_default:
+  # A special role with the reserved name "default" (optional).
+  # Indicates default user groups if they are not defined.
+  # The "hosts" parameter is ignored.
+  - description: "Default groups"
+    name: "default"
+    groups: []
+  - description: "Super administrator on all hosts"
+    name: "global-super-admin"
+    groups:
+      - sudo
+      - wheel
+      - docker
+    hosts:
+      - all
+  - description: "Regular user on all hosts"
+    name: "global-regular-user"
+    hosts:
+      - all
+  # A role named "disabled" (optional).
+  # Defined for configuration flexibility, such as turning off default users.
+  - description: "Disabled user"
+    name: "disabled"
+    hosts: []
+
+
+ssh_access_user_enabled_default:
+  - description: "Alex King"
+    name: "alex.king"
+    roles:
+      - global-super-admin
+
+
+ssh_access_user_disabled_default:
+  - ivan.ivanov
+
+
+# combine variables
+ssh_access_user_roles_merged: "{{ ssh_access_user_roles_default|combine_list_of_dict(ssh_access_user_roles, 'name') }}"
+ssh_access_user_enabled_merged: "{{ ssh_access_user_enabled_default|combine_list_of_dict(ssh_access_user_enabled, 'name') }}"
+ssh_access_user_disabled_merged: "{{ (ssh_access_user_disabled_default + ssh_access_user_disabled) | unique }}"

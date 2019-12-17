@@ -1,0 +1,7 @@
+---
+# playbook tasks
+
+- hosts: localhost
+  become: yes
+  roles:
+    - ssh-access
