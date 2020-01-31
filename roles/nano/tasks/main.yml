@@ -16,10 +16,10 @@
     - packages
 
 
-- name: "Copy file from template: {{ nano_nanorc_file }}"
+- name: "Copy file from template: {{ nano_conf_file }}"
   template:
     src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.nanorc.j2"
-    dest: "{{ nano_nanorc_file }}"
+    dest: "{{ nano_conf_file }}"
     owner: root
     group: root
     mode: 0644

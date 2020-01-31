@@ -1,4 +1,4 @@
 ---
 # role vars file
 
-nano_nanorc_file: "/etc/nanorc"
+nano_conf_file: "/etc/nanorc"
