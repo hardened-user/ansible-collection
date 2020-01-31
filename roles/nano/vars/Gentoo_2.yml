@@ -1,0 +1,4 @@
+---
+# vars file specific for Gentoo systems
+
+nano_package_name: "app-editors/nano"

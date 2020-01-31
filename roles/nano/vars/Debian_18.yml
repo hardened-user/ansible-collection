@@ -1,0 +1,4 @@
+---
+# vars file specific for Debian systems
+
+nano_package_name: "nano"

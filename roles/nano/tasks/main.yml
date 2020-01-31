@@ -1,0 +1,29 @@
+---
+# tasks file for nano
+
+- name: "Include OS-specific variables"
+  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - nano
+
+
+- name: "Install package: {{ nano_package_name }}"
+  package:
+    name: "{{ nano_package_name }}"
+    state: latest
+  tags:
+    - nano
+    - packages
+
+
+- name: "Copy file from template: {{ nano_nanorc_file }}"
+  template:
+    src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.nanorc.j2"
+    dest: "{{ nano_nanorc_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  tags:
+    - nano
+    - config

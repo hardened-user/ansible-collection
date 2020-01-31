@@ -1,0 +1,4 @@
+---
+# vars file specific for RedHat systems
+
+nano_package_name: "nano"
