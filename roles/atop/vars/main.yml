@@ -1,0 +1,4 @@
+---
+# role vars file
+
+atop_log_dir: "/var/log/atop"

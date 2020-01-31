@@ -1,0 +1,63 @@
+---
+# tasks file for atop
+
+- name: "Include OS-specific variables"
+  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - atop
+
+
+- name: "Install package: {{ atop_package_name }}"
+  package:
+    name: "{{ atop_package_name }}"
+    state: latest
+  tags:
+    - atop
+    - packages
+
+
+- name: "Copy file from template: {{ atop_conf_file }}"
+  template:
+    src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.conf.j2"
+    dest: "{{ atop_conf_file }}"
+    owner: root
+    group: root
+    mode: 0640
+  notify:
+    - Restart atop
+  register: configuration_result
+  tags:
+    - atop
+    - config
+
+
+- name: "Configuration cron: {{ atop_service_name }}"
+  cron:
+    cron_file: "{{ atop_service_name }}"
+    name: "delete logs"
+    minute: "30"
+    hour: "03"
+    user: root
+    job: find {{ atop_log_dir }}/*_* -maxdepth 0 -type f -mtime +{{ atop_log_find_mtime_delete }} -delete
+  tags:
+    - atop
+    - cron
+
+
+- name: "Service enable: {{ atop_service_name }}"
+  service:
+    name: "{{ atop_service_name }}"
+    enabled: yes
+  tags:
+    - atop
+    - service
+
+
+- name: "Service start: {{ atop_service_name }}"
+  service:
+    name: "{{ atop_service_name }}"
+    state: started
+  when: not configuration_result.changed
+  tags:
+    - atop
+    - service

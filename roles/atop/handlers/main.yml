@@ -1,0 +1,7 @@
+---
+# handlers file
+
+- name: "Restart atop"
+  service:
+    name: "{{ atop_service_name }}"
+    state: restarted

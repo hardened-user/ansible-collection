@@ -1,0 +1,6 @@
+---
+# vars file specific for RedHat systems
+
+atop_package_name: "atop"
+atop_service_name: "atop"
+atop_conf_file: "/etc/sysconfig/atop"
