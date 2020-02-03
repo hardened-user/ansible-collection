@@ -1,0 +1,7 @@
+---
+# handlers file
+
+- name: Restart ntpd
+  service:
+    name: "{{ ntpd_service_name }}"
+    state: restarted

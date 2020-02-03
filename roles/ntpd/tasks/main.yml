@@ -1,0 +1,71 @@
+---
+# tasks file for ntpd
+
+- name: "Remove package: {{ chronyd_package_name }}"
+  package:
+    name: "{{ chronyd_package_name }}"
+    state: absent
+  tags:
+    - ntpd
+    - packages
+
+
+- name: "Install package: {{ ntpd_package_name }}"
+  package:
+    name: "{{ ntpd_package_name }}"
+    state: latest
+  tags:
+    - ntpd
+    - packages
+
+
+- name: "Copy file from template: {{ ntpd_conf_file }}"
+  template:
+    src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.conf.j2"
+    dest: "{{ ntpd_conf_file }}"
+    owner: root
+    group: root
+    mode: 0640
+    force: yes
+  notify:
+    - Restart ntpd
+  register: configuration_result
+  tags:
+    - ntpd
+    - config
+
+
+- name: "Service enable: {{ ntpd_service_name }}"
+  service:
+    name: "{{ ntpd_service_name }}"
+    enabled: yes
+  tags:
+    - ntpd
+    - service
+
+
+- name: "Service start: {{ ntpd_service_name }}"
+  service:
+    name: "{{ ntpd_service_name }}"
+    state: started
+  when: not configuration_result.changed
+  tags:
+    - ntpd
+    - service
+
+
+- name: "timedatectl set-ntp true"
+  shell: |-
+    which timedatectl || exit 0;
+    STATE_OLD=$(timedatectl status | awk 'BEGIN{IGNORECASE = 1}!/time/' | md5sum);
+    timedatectl set-ntp true;
+    sleep 3;
+    STATE_NEW=$(timedatectl status | awk 'BEGIN{IGNORECASE = 1}!/time/' | md5sum);
+    if [[ ${STATE_NEW} != ${STATE_OLD} ]]; then echo ansible_changed_when; fi;
+  args:
+    executable: /bin/bash
+  register: shell_result
+  changed_when: '"ansible_changed_when\n" in shell_result.stdout'
+  tags:
+    - ntpd
+    - config

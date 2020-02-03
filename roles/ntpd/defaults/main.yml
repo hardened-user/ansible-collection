@@ -1,0 +1,13 @@
+---
+# defaults vars file
+
+# optional
+# ntpd_cnf_servers: []
+
+ntpd_cnf_restrictions:
+  - "default nomodify notrap nopeer noquery kod limited"
+  - "127.0.0.1"
+  - "::1"
+  - "192.168.0.0 mask 255.255.0.0 nomodify noquery notrap nopeer "
+  - "172.16.0.0 mask 255.240.0.0 nomodify noquery notrap nopeer "
+  - "10.0.0.0 mask 255.0.0.0 nomodify notrap noquery nopeer "

@@ -1,0 +1,25 @@
+# {{ ansible_managed }}
+
+# NOTES:
+# DHCP clients can append or replace NTP configuration files.
+# You should consult your DHCP client documentation about its
+# default behaviour and how to change it.
+
+##
+# A list of available servers can be found here:
+# http://www.pool.ntp.org/
+# http://www.pool.ntp.org/#use
+# A good way to get servers for your machine is:
+# netselect -s 3 pool.ntp.org
+##
+
+{% for item in ntpd_cnf_servers | default(ntpd_cnf_servers_gentoo) %}
+server {{ item }} iburst
+{% endfor %}
+
+# you should not need to modify the following paths
+driftfile       /var/lib/ntp/ntp.drift
+
+{% for item in ntpd_cnf_restrictions %}
+restrict {{ item }}
+{% endfor %}
