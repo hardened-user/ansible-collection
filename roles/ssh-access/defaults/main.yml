@@ -32,11 +32,6 @@ ssh_access_user_roles_default:
     name: "global-regular-user"
     hosts:
       - all
-  # A role named "disabled" (optional).
-  # Defined for configuration flexibility, such as turning off default users.
-  - description: "Disabled user"
-    name: "disabled"
-    hosts: []
 
 
 ssh_access_user_enabled_default:
@@ -50,6 +45,10 @@ ssh_access_user_enabled_default:
         groups:
           - www
           - apache
+    hosts:
+      - name: host3
+        enable: false
+
 
 ssh_access_user_disabled_default:
   - ivanov.ivanovich

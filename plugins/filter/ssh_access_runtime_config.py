@@ -125,18 +125,20 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
     # Start of the work cycle
     # ==================================================================================================================
     for u_name in user_enabled:
-        # print(u_name) #### TEST
-        u_config = {u'name': u_name, u'enable': False}
+        # print(u_name)  #### TEST
+        u_config = {u'name': u_name, u'enable': None}
         result.append(u_config)
         # ______________________________________________________________________
         # groups from user.hosts
         for h in user_enabled[u_name].get('hosts', []):
-            # print("host >", h) #### TEST
+            # print("host >", h)  #### TEST
             if isinstance(h, (AnsibleUnicode, __unicode)):
                 h = {u'name': h, u'groups': default_user_groups}
             elif isinstance(h, dict):
                 if not (isinstance(h.get('name'), (AnsibleUnicode, __unicode)) and h.get('name')):
                     raise errors.AnsibleFilterError("user.hosts configuration failed :: user: {}".format(u_name))
+                if not (isinstance(h.get('enable', True), bool)):
+                    raise errors.AnsibleFilterError("user.enable configuration failed :: user: {}".format(u_name))
             else:
                 raise errors.AnsibleFilterError(
                     "user.hosts is {} expected <type 'str' || 'unicode' || 'dict'> :: user: {}".format(type(h), u_name))
@@ -145,29 +147,32 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
             if h_name == hostname or h_name in group_names or h_name == u'all':
                 # ansible host/group
                 u_config['groups'] = h.get('groups', default_user_groups)
-                u_config['enable'] = True
+                u_config['enable'] = h.get('enable', True)
                 break
-        # _______________________________________________________________________
-        if u_config['enable'] is True:
+        # ______________________________________________________________________
+        if u_config['enable'] is not None:
             continue
-        # _______________________________________________________________________
+        # ______________________________________________________________________
         # groups from user.roles
         for r in user_enabled[u_name].get('roles', []):
-            # print("role >", r) #### TEST
+            # print("role >", r)  #### TEST
             if not isinstance(r, (AnsibleUnicode, __unicode)):
                 raise errors.AnsibleFilterError(
                     "user.roles is {} expected <type 'str' || 'unicode'> :: user: {}".format(type(r), u_name))
             #
             for h_name in user_roles[r].get('hosts', []):
-                # print("     host >", h_name) #### TEST
+                # print("     host >", h_name)  #### TEST
                 if h_name == hostname or h_name in group_names or h_name == u'all':
                     # ansible host/group
                     u_config['groups'] = user_roles[r].get('groups', default_user_groups)
                     u_config['enable'] = True
                     break
-            # ___________________________________________________________________
+            # __________________________________________________________________
             if u_config['enable'] is True:
                 break
+        # ______________________________________________________________________
+        if u_config['enable'] is None:
+            u_config['enable'] = False
     # ==================================================================================================================
     # ==================================================================================================================
     # End of the work cycle
