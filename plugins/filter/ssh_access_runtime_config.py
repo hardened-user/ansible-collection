@@ -9,10 +9,16 @@ from __future__ import (absolute_import, division, print_function)
 
 __metaclass__ = type
 
+import sys
 from itertools import chain
 
 from ansible import errors
 from ansible.parsing.yaml.objects import AnsibleUnicode
+
+if sys.version[0] == "2":
+    __unicode = unicode
+else:
+    __unicode = str
 
 
 class FilterModule(object):
@@ -34,9 +40,10 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
     result = []
     # __________________________________________________________________________
     # hostname
-    # print(hostname) #### TEST
-    if not isinstance(hostname, (AnsibleUnicode, unicode)):
-        raise errors.AnsibleFilterError("hostname is {} expected <type 'unicode'>".format(type(hostname)))
+    # print(hostname)  #### TEST
+    # print(type(hostname))  #### TEST
+    if not isinstance(hostname, (AnsibleUnicode, __unicode)):
+        raise errors.AnsibleFilterError("hostname is {} expected <type 'str' || 'unicode'>".format(type(hostname)))
     # __________________________________________________________________________
     # user_roles
     if not isinstance(user_roles, list):
@@ -44,8 +51,8 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
     for i, r in enumerate(user_roles):
         if not isinstance(r, dict):
             raise errors.AnsibleFilterError(
-                "user_roles contains {}  expected <type 'dict'> :: index: {}".format(type(r), i))
-        if not (isinstance(r.get('name'), (AnsibleUnicode, unicode)) and r.get(u'name')):
+                "user_roles contains {} expected <type 'dict'> :: index: {}".format(type(r), i))
+        if not (isinstance(r.get('name'), (AnsibleUnicode, __unicode)) and r.get(u'name')):
             raise errors.AnsibleFilterError("user role without name :: index: {}".format(i))
         if not isinstance(r.get('groups', []), list):
             raise errors.AnsibleFilterError(
@@ -69,7 +76,7 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         if not isinstance(u, dict):
             raise errors.AnsibleFilterError(
                 "user_enabled contains {}  expected <type 'dict'> :: index: {}".format(type(u), i))
-        if not (isinstance(u.get('name'), (AnsibleUnicode, unicode)) and u.get('name')):
+        if not (isinstance(u.get('name'), (AnsibleUnicode, __unicode)) and u.get('name')):
             raise errors.AnsibleFilterError("user_enabled contains item without name :: index: {}".format(i))
         if not isinstance(u.get('hosts', []), list):
             raise errors.AnsibleFilterError(
@@ -90,7 +97,7 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
     if not isinstance(user_disabled, list):
         raise errors.AnsibleFilterError("user_disabled is {} expected <type 'list'>".format(type(user_disabled)))
     for i, x in enumerate(user_disabled):
-        if not (isinstance(x, (AnsibleUnicode, unicode)) and x):
+        if not (isinstance(x, (AnsibleUnicode, __unicode)) and x):
             raise errors.AnsibleFilterError(
                 "user_disabled contains {} expected <type 'dict'> :: index: {}".format(type(x), i))
         # check username uniqueness
@@ -125,14 +132,14 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         # groups from user.hosts
         for h in user_enabled[u_name].get('hosts', []):
             # print("host >", h) #### TEST
-            if isinstance(h, (AnsibleUnicode, unicode)):
+            if isinstance(h, (AnsibleUnicode, __unicode)):
                 h = {u'name': h, u'groups': default_user_groups}
             elif isinstance(h, dict):
-                if not (isinstance(h.get('name'), (AnsibleUnicode, unicode)) and h.get('name')):
+                if not (isinstance(h.get('name'), (AnsibleUnicode, __unicode)) and h.get('name')):
                     raise errors.AnsibleFilterError("user.hosts configuration failed :: user: {}".format(u_name))
             else:
                 raise errors.AnsibleFilterError(
-                    "user.hosts is {} expected <type 'unicode' || 'dict'> :: user: {}".format(type(h), u_name))
+                    "user.hosts is {} expected <type 'str' || 'unicode' || 'dict'> :: user: {}".format(type(h), u_name))
             #
             h_name = h.get('name')
             if h_name == hostname or h_name in group_names or h_name == u'all':
@@ -147,9 +154,9 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         # groups from user.roles
         for r in user_enabled[u_name].get('roles', []):
             # print("role >", r) #### TEST
-            if not isinstance(r, (AnsibleUnicode, unicode)):
+            if not isinstance(r, (AnsibleUnicode, __unicode)):
                 raise errors.AnsibleFilterError(
-                    "user.roles is {} expected <type 'unicode'> :: user: {}".format(type(r), u_name))
+                    "user.roles is {} expected <type 'str' || 'unicode'> :: user: {}".format(type(r), u_name))
             #
             for h_name in user_roles[r].get('hosts', []):
                 # print("     host >", h_name) #### TEST
@@ -171,6 +178,6 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         x['groups'] = _tmp
     for x in user_disabled:
         result.append({u'name': x, u'enable': False, u'groups': []})
-    # print(result)
+    # print(result)  #### TEST
     # __________________________________________________________________________
     return result
