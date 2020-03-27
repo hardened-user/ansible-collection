@@ -44,7 +44,12 @@ ssh_access_user_enabled_default:
     name: "alex.king"
     roles:
       - global-super-admin
-
+    hosts:
+      - host1
+      - name: host2
+        groups:
+          - www
+          - apache
 
 ssh_access_user_disabled_default:
   - ivanov.ivanovich
