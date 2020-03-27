@@ -171,6 +171,6 @@ def ssh_access(hostname, user_roles, user_enabled, user_disabled, group_names):
         x['groups'] = _tmp
     for x in user_disabled:
         result.append({u'name': x, u'enable': False, u'groups': []})
-    print(result)
+    # print(result)
     # __________________________________________________________________________
     return result
