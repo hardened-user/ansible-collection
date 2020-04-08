@@ -43,7 +43,7 @@
 - name: "Add users: ..."
   user:
     name: "{{ item.name }}"
-    groups: "{{ item.groups | intersect(getent_group.keys()) }}"
+    groups: "{{ item.user_groups | intersect(getent_group.keys()) }}"
   with_items: "{{ runtime_users_config | rejectattr('enable', 'equalto', false) | list }}"
   loop_control:
     label: "{{ item.name }}"
@@ -56,7 +56,7 @@
   authorized_key:
     user: "{{ item.name }}"
     path: "/etc/ssh/keys/{{ item.name }}.key"
-    key: "{{ lookup('file', '{{ role_name }}/{{ item.name }}.key') }}"
+    key: "{{ lookup('file', 'files/{{ role_name }}/{{ item.name }}.key') }}"
     state: present
     exclusive: yes
     manage_dir: no

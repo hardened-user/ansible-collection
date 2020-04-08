@@ -14,38 +14,36 @@ ssh_access_user_disabled: []
 
 
 ssh_access_user_roles_default:
-  # A special role with the reserved name "default" (optional).
+  # A special user role with the reserved name "default" (optional).
   # Indicates default user groups if they are not defined.
   # The "hosts" parameter is ignored.
   - description: "Default groups"
     name: "default"
-    groups: []
+    user_groups: []
   - description: "Super administrator on all hosts"
     name: "global-super-admin"
-    groups:
+    user_groups:
       - sudo
       - wheel
       - docker
-    hosts:
+    user_hosts:
       - all
   - description: "Regular user on all hosts"
     name: "global-regular-user"
-    hosts:
+    user_hosts:
       - all
 
 
-ssh_access_user_enabled_default:
   - description: "Alex King"
     name: "alex.king"
-    roles:
+    user_roles:
       - global-super-admin
-    hosts:
+    user_hosts:
       - host1
       - name: host2
-        groups:
+        user_groups:
           - www
           - apache
-    hosts:
       - name: host3
         enable: false
 
