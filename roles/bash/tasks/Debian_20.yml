@@ -1,0 +1,13 @@
+---
+# tasks file specific for Debian family systems
+
+- name: "Configuring: {{ bash_root_rc_file }}"
+  lineinfile:
+    path: "{{ bash_root_rc_file }}"
+    regexp: '^#force_color_prompt=yes'
+    line: "force_color_prompt=yes"
+  when:
+    - bash_color_prompt
+  tags:
+    - bash
+    - config

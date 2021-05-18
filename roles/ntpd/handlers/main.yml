@@ -1,7 +1,8 @@
 ---
-# handlers file
 
-- name: Restart ntpd
+- name: "restart ntpd"
   service:
     name: "{{ ntpd_service_name }}"
     state: restarted
+  when:
+    - not r_ntpd_start.changed

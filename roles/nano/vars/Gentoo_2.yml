@@ -1,4 +1,5 @@
 ---
-# vars file specific for Gentoo systems
+# vars file specific for Gentoo family systems
 
 nano_package_name: "app-editors/nano"
+nano_system_rc_file: "/etc/nanorc"

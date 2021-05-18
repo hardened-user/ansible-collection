@@ -1,0 +1,4 @@
+---
+
+bash_root_profile: "/root/.bash_profile"
+bash_root_rc_file: "/root/.bashrc"

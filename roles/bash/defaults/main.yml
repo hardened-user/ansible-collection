@@ -1,0 +1,13 @@
+---
+
+bash_color_prompt: True
+
+bash_conf_system_rc_override: {}
+bash_conf_system_rc_default:
+  HISTCONTROL: ignoreboth
+  HISTSIZE: 16384
+  HISTFILESIZE: 65536
+  HISTTIMEFORMAT: "'%Y%m%d %H%M%S  '"
+  alias ll: "'ls -lah'"
+
+bash_conf_system_rc_runtime: "{{ bash_conf_system_rc_default | combine(bash_conf_system_rc_override) }}"

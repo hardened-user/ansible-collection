@@ -1,5 +1,4 @@
 ---
-# defaults vars file
 
-atop_cnf_interval: 300
+atop_interval: 300
 atop_log_find_mtime_delete: 7

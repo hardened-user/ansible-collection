@@ -1,0 +1,61 @@
+---
+
+- name: "Include OS family variables"
+  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - screen
+
+
+- name: "Install package: {{ screen_package_name }}"
+  package:
+    name: "{{ screen_package_name }}"
+    state: present
+  tags:
+    - screen
+    - package
+
+
+- name: "Configuring: {{ screen_system_rc_file }}"
+  lineinfile:
+    path: "{{ screen_system_rc_file }}"
+    line: "##### Ansible >>> #####"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - screen
+    - config
+
+
+- name: "Configuring: {{ screen_system_rc_file }}"
+  lineinfile:
+    path: "{{ screen_system_rc_file }}"
+    line: "##### <<< Ansible #####"
+  tags:
+    - screen
+    - config
+
+
+- name: "Configuring: {{ screen_system_rc_file }}"
+  lineinfile:
+    path: "{{ screen_system_rc_file }}"
+    regexp: '^\s*{{ item.key }}\s'
+    line: "{{ item.key }} {{ item.value }}"
+    insertafter: "^#+ Ansible >>> #+$"
+  with_items:
+    - "{{ lookup('dict', screen_conf_system_rc_runtime) | rejectattr('value', 'none') | list }}"
+  tags:
+    - screen
+    - config
+
+
+- name: "Configuration file: {{ screen_system_rc_file }}"
+  lineinfile:
+    path: "{{ screen_system_rc_file }}"
+    state: absent
+    regexp: '^\s*{{ item.key }}(\s|$)'
+  with_items:
+    - "{{ lookup('dict', screen_conf_system_rc_runtime) | selectattr('value', 'none') | list }}"
+  tags:
+    - screen
+    - config

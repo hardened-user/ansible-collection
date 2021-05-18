@@ -1,0 +1,4 @@
+---
+# vars file specific for Gentoo family systems
+
+bash_system_rc_file: "/etc/bash/bashrc"

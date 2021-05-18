@@ -1,0 +1,13 @@
+---
+# vars file specific for Debian family systems
+
+### ntpd ---------------------------------------------------------------------------------------------------------------
+ntpd_package_name: "ntp"
+ntpd_service_name: "ntp"
+ntpd_conf_file: "/etc/ntp.conf"
+ntpd_daemon_opts_file: "/etc/default/ntp"
+
+
+### chronyd ------------------------------------------------------------------------------------------------------------
+chronyd_package_name: "chrony"
+chronyd_service_name: "chronyd"

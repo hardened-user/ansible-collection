@@ -1,0 +1,5 @@
+---
+# vars file specific for Gentoo family systems
+
+screen_package_name: "app-misc/screen"
+screen_system_rc_file: "/etc/screenrc"

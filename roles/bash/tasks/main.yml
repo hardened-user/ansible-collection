@@ -1,0 +1,58 @@
+---
+
+- name: "Include OS family variables"
+  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - bash
+
+
+- name: "Configuring: {{ bash_system_rc_file }}"
+  lineinfile:
+    path: "{{ bash_system_rc_file }}"
+    line: "##### Ansible >>> #####"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - bash
+    - config
+
+
+- name: "Configuring: {{ bash_system_rc_file }}"
+  lineinfile:
+    path: "{{ bash_system_rc_file }}"
+    line: "##### <<< Ansible #####"
+  tags:
+    - bash
+    - config
+
+
+- name: "Configuring: {{ bash_system_rc_file }}"
+  lineinfile:
+    path: "{{ bash_system_rc_file }}"
+    regexp: '^{{ item.key }}='
+    line: "{{ item.key }}={{ item.value }}"
+    insertafter: "^#+ Ansible >>> #+$"
+  with_items:
+    - "{{ lookup('dict', bash_conf_system_rc_runtime) | rejectattr('value', 'none') | list }}"
+  tags:
+    - bash
+    - config
+
+
+- name: "Configuring: {{ bash_system_rc_file }}"
+  lineinfile:
+    path: "{{ bash_system_rc_file }}"
+    state: absent
+    regexp: '^{{ item.key }}='
+  with_items:
+    - "{{ lookup('dict', bash_conf_system_rc_runtime) | selectattr('value', 'none') | list }}"
+  tags:
+    - bash
+    - config
+
+
+- name: "Include OS family tasks"
+  include_tasks: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - bash

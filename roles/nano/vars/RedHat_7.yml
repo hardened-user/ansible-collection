@@ -1,4 +1,5 @@
 ---
-# vars file specific for RedHat systems
+# vars file specific for RedHat family systems
 
 nano_package_name: "nano"
+nano_system_rc_file: "/etc/nanorc"

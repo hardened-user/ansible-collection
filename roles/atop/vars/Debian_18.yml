@@ -1,6 +1,8 @@
 ---
-# vars file specific for Debian systems
+# vars file specific for Debian family systems
 
 atop_package_name: "atop"
 atop_service_name: "atop"
+
 atop_conf_file: "/etc/default/atop"
+atop_log_dir: "/var/log/atop"

@@ -13,13 +13,13 @@
 # netselect -s 3 pool.ntp.org
 ##
 
-{% for item in ntpd_cnf_servers | default(ntpd_cnf_servers_gentoo) %}
+{% for item in ntpd_servers or ntpd_servers_gentoo %}
 server {{ item }} iburst
 {% endfor %}
 
 # you should not need to modify the following paths
 driftfile       /var/lib/ntp/ntp.drift
 
-{% for item in ntpd_cnf_restrictions %}
+{% for item in ntpd_restrict %}
 restrict {{ item }}
 {% endfor %}

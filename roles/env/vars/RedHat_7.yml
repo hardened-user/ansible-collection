@@ -1,0 +1,13 @@
+---
+# vars file specific for RedHat family systems
+
+### ntpd ---------------------------------------------------------------------------------------------------------------
+ntpd_package_name: "ntp"
+ntpd_service_name: "ntpd"
+ntpd_conf_file: "/etc/ntp.conf"
+ntpd_daemon_opts_file: "/etc/sysconfig/ntpd"
+
+
+### chronyd ------------------------------------------------------------------------------------------------------------
+chronyd_package_name: "chrony"
+chronyd_service_name: "chronyd"

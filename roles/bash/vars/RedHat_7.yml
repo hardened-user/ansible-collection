@@ -1,0 +1,4 @@
+---
+# vars file specific for RedHat family systems
+
+bash_system_rc_file: "/etc/bashrc"
