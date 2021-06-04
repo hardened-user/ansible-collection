@@ -7,7 +7,7 @@
     regexp: '^#force_color_prompt=yes'
     line: "force_color_prompt=yes"
   when:
-    - bash_color_prompt
+    - bash_root_color_prompt
   tags:
     - bash
     - config
