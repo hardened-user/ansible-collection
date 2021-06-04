@@ -1,6 +1,7 @@
 ---
 
 bash_root_color_prompt: True
+bash_root_color_code: '1;31'
 
 bash_conf_system_rc_override: {}
 bash_conf_system_rc_default:
