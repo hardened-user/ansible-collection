@@ -1,0 +1,12 @@
+---
+
+- name: "Include OS distribution specific variables"
+  include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - epel
+
+
+- name: "Include OS distribution specific tasks"
+  include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - epel

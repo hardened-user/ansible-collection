@@ -1,0 +1,21 @@
+---
+
+- name: "Install packages: {{ epel_packages | join(' ') }}"
+  package:
+    name: "{{ epel_packages }}"
+    state: present
+  tags:
+    - epel
+
+
+# IMPORTANT: A legacy Oracle Linux yum server repo file was found.
+#   Oracle Linux yum server repository configurations have changed which means public-yum-ol7.repo will no longer be updated.
+#   New repository configuration files have been installed but are disabled.
+#   To complete the transition, run this script as the root user: /usr/bin/ol_yum_configure.sh
+#   See https://yum.oracle.com/faq.html for more information.
+- name: "Shell command: /usr/bin/ol_yum_configure.sh"
+  shell: "/usr/bin/ol_yum_configure.sh"
+  register: r_epel_ol_yum_configure
+  changed_when: '"Missing /etc/yum.repos.d/public-yum-ol7.repo" not in r_epel_ol_yum_configure.stdout'
+  tags:
+    - epel

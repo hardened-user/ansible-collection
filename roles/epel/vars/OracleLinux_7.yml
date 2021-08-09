@@ -1,0 +1,5 @@
+---
+
+epel_packages:
+  - "oraclelinux-release-el7"
+  - "oracle-epel-release-el7"
