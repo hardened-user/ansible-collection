@@ -20,6 +20,6 @@ server {{ item }} iburst
 # you should not need to modify the following paths
 driftfile       /var/lib/ntp/ntp.drift
 
-{% for item in ntpd_restrict %}
+{% for item in ntpd_restrictions %}
 restrict {{ item }}
 {% endfor %}

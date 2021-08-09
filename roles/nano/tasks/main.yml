@@ -1,6 +1,6 @@
 ---
 
-- name: "Include OS family variables"
+- name: "Include OS family specific variables"
   include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
   tags:
     - nano
@@ -15,10 +15,10 @@
     - package
 
 
-- name: "Copy file from template: {{ nano_system_rc_file }}"
+- name: "Copy file from template: {{ nano_conf_file }}"
   template:
     src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.nanorc.j2"
-    dest: "{{ nano_system_rc_file }}"
+    dest: "{{ nano_conf_file }}"
     owner: root
     group: root
     mode: 0644

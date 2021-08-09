@@ -5,4 +5,6 @@ timezone_name: "Europe/Moscow"
 
 
 ### postgresql ---------------------------------------------------------------------------------------------------------
+postgresql_terse_version: "{{ postgresql_version.split('.') | first }}"
+postgresql_root_dir: "/var/lib/pgsql"
 postgresql_port: 5432

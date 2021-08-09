@@ -33,7 +33,7 @@ server {{ item }} iburst
 # up blocking replies from your own upstream servers.
 
 # By default, exchange time with everybody, but don't allow configuration.
-{% for item in ntpd_restrict %}
+{% for item in ntpd_restrictions %}
 restrict {{ item }}
 {% endfor %}
 

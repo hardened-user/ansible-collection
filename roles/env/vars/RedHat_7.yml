@@ -11,3 +11,20 @@ ntpd_daemon_opts_file: "/etc/sysconfig/ntpd"
 ### chronyd ------------------------------------------------------------------------------------------------------------
 chronyd_package_name: "chrony"
 chronyd_service_name: "chronyd"
+
+
+### postgresql ---------------------------------------------------------------------------------------------------------
+postgresql_user_name: "postgres"
+postgresql_user_group: "postgres"
+postgresql_service_name: "postgresql-{{ postgresql_terse_version }}.service"
+
+
+### zabbix-agent -------------------------------------------------------------------------------------------------------
+zabbix_agent_conf_dir: "/etc/zabbix"
+zabbix_agent_conf_file: "{{ zabbix_agent_conf_dir }}/zabbix_agentd.conf"
+zabbix_agent_conf_d_dir: "{{ zabbix_agent_conf_dir }}/zabbix_agentd.d"
+zabbix_agent_agentscripts_dir: "{{ zabbix_agent_conf_dir }}/agentscripts"
+zabbix_agent_service_name: "zabbix-agent"
+zabbix_agent_package_name: "zabbix-agent"
+zabbix_agent_user_name: "zabbix"
+zabbix_agent_group_name: "zabbix"

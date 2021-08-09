@@ -9,7 +9,7 @@ driftfile /var/lib/ntp/drift
 
 # Permit time synchronization with our time source, but do not
 # permit the source to query or modify the service on this system.
-{% for item in ntpd_restrict %}
+{% for item in ntpd_restrictions %}
 restrict {{ item }}
 {% endfor %}
 

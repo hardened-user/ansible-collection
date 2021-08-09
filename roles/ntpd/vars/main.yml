@@ -7,12 +7,14 @@ ntpd_servers_debian:
   - "3.ubuntu.pool.ntp.org"
   - "ntp.ubuntu.com"
 
+
 ntpd_servers_gentoo:
   - "0.gentoo.pool.ntp.org"
   - "1.gentoo.pool.ntp.org"
   - "2.gentoo.pool.ntp.org"
   - "3.gentoo.pool.ntp.org"
   - "pool.ntp.org"
+
 
 ntpd_servers_redhat:
   - "0.centos.pool.ntp.org"

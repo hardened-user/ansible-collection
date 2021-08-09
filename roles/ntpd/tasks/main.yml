@@ -40,8 +40,7 @@
     group: root
     mode: 0640
     force: yes
-  notify:
-    - restart ntpd
+  notify: restart ntpd
   tags:
     - ntpd
     - config
@@ -65,7 +64,7 @@
     timedatectl set-ntp true;
     sleep 3;
     STATE_NEW=$(timedatectl status | awk 'BEGIN{IGNORECASE = 1}!/time/' | md5sum);
-    if [[ ${STATE_NEW} != ${STATE_OLD} ]]; then echo ansible_changed_when; fi;
+    if [[ ${STATE_NEW} != ${STATE_OLD} ]]; then echo ansible_changed_sign; fi;
   args:
     executable: /bin/bash
   register: r_ntpd_timedatectl

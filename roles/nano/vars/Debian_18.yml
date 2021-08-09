@@ -2,4 +2,3 @@
 # vars file specific for Debian family systems
 
 nano_package_name: "nano"
-nano_system_rc_file: "/etc/nanorc"

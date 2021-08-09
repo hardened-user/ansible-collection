@@ -27,7 +27,7 @@ server {{ item }} iburst
 # Note that "restrict" applies to both servers and clients, so a configuration
 # that might be intended to block requests from certain clients could also end
 # up blocking replies from your own upstream servers.
-{% for item in ntpd_restrict %}
+{% for item in ntpd_restrictions %}
 restrict {{ item }}
 {% endfor %}
 
