@@ -1,0 +1,18 @@
+---
+
+- name: "Install packages: {{ selinux_packages | join(' ') }}"
+  package:
+    name: "{{ selinux_packages }}"
+    state: present
+  tags:
+    - selinux
+    - package
+
+
+- name: "SELinux state: disabled"
+  selinux:
+    policy: targeted
+    state: disabled
+  tags:
+    - selnux
+    - config
