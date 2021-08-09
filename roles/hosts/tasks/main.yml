@@ -1,0 +1,46 @@
+---
+
+- name: "Configuring: {{ hosts_file }}"
+  lineinfile:
+    path: "{{ hosts_file }}"
+    line: "##### Ansible >>> #####"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - hosts
+    - config
+
+
+- name: "Configuring: {{ hosts_file }}"
+  lineinfile:
+    path: "{{ hosts_file }}"
+    line: "##### <<< Ansible #####"
+  tags:
+    - hosts
+    - config
+
+
+- name: "Configuring: {{ hosts_file }}"
+  lineinfile:
+    path: "{{ hosts_file }}"
+    regexp: '^{{ item.key }}\s'
+    line: "{{ item.key }} {{ item.value }}"
+    insertafter: "^#+ Ansible >>> #+$"
+  with_items:
+    - "{{ lookup('dict', hosts_config_keys) | rejectattr('value', 'none') | list }}"
+  tags:
+    - hosts
+    - config
+
+
+- name: "Configuring: {{ hosts_file }}"
+  lineinfile:
+    path: "{{ hosts_file }}"
+    state: absent
+    regexp: '^{{ item.key }}\s'
+  with_items:
+    - "{{ lookup('dict', hosts_config_keys) | selectattr('value', 'none') | list }}"
+  tags:
+    - hosts
+    - config
