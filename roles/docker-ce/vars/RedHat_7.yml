@@ -1,0 +1,16 @@
+---
+# vars file specific for RedHat family systems
+
+docker_install_packages:
+  - "docker-ce-{{ docker_version }}"
+
+
+docker_remove_packages:
+  - "docker"
+  - "docker-client"
+  - "docker-client-latest"
+  - "docker-common"
+  - "docker-latest"
+  - "docker-latest-logrotate"
+  - "docker-logrotate"
+  - "docker-engine"

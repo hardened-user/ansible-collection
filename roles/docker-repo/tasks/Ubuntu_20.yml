@@ -1,0 +1,37 @@
+---
+# tasks file specific for Ubuntu distribution systems
+
+- name: "Shell command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg"
+  shell: |-
+    set -x;
+    STATE_OLD=$(md5sum "{{ docker_repo_gpg_file }}" 2>/dev/null);
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor --yes -o "{{ docker_repo_gpg_file }}"
+    STATE_NEW=$(md5sum "{{ docker_repo_gpg_file }}" 2>/dev/null);
+    if [[ ${STATE_NEW} != ${STATE_OLD} ]]; then echo ansible_changed_sign; fi;
+  args:
+    executable: /bin/bash
+    warn: no
+  register: r_docker_repo_curl_gpg
+  changed_when: '"ansible_changed_sign" in r_docker_repo_curl_gpg.stdout'
+  tags:
+    - docker-repo
+
+
+- name: "Copy file from template: /etc/apt/sources.list.d/{{ docker_repo_file_name }}.list"
+  template:
+    src: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.repo.j2"
+    dest: "/etc/apt/sources.list.d/{{ docker_repo_file_name }}.list"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  tags:
+    - docker-repo
+
+
+- name: "apt-get update"
+  apt:
+    update_cache: yes
+  changed_when: False
+  tags:
+    - docker-repo

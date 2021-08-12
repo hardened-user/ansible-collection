@@ -1,0 +1,37 @@
+---
+
+# Package: docker-ce-rootless-extras-20.10.7-3.el7.x86_64 (docker-ce-stable)
+#   Requires: fuse-overlayfs >= 0.7
+# Package: containerd.io-1.4.6-3.1.el7.x86_64 (docker-ce-stable)
+#   Requires: container-selinux >= 2:2.74
+# Package: 3:docker-ce-20.10.7-3.el7.x86_64 (docker-ce-stable)
+#   Requires: container-selinux >= 2:2.74
+# Package: docker-ce-rootless-extras-20.10.7-3.el7.x86_64 (docker-ce-stable)
+#   Requires: slirp4netns >= 0.4
+- name: "Shell command: yum-config-manager --enable ol7_developer"
+  shell: |-
+    yum-config-manager --version || exit 1;
+    if yum-config-manager ol7_developer | grep -q ol7_developer; then
+      STATE_OLD=$(yum-config-manager ol7_developer | awk 'BEGIN{IGNORECASE = 1}/enabled/' | md5sum);
+      yum-config-manager --enable ol7_developer > /dev/null;
+      STATE_NEW=$(yum-config-manager ol7_developer | awk 'BEGIN{IGNORECASE = 1}/enabled/' | md5sum);
+      if [[ "${STATE_NEW}" != "${STATE_OLD}" ]]; then echo ansible_changed_sign; fi;
+    else
+      cat << \EOF >> /etc/yum.repos.d/public-yum-ol7.repo
+    [ol7_developer]
+    name=Oracle Linux $releasever Development Packages ($basearch)
+    baseurl=https://yum.oracle.com/repo/OracleLinux/OL7/developer/$basearch/
+    gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+    gpgcheck=1
+    enabled=1
+    EOF
+      echo ansible_changed_sign;
+    fi
+  args:
+    executable: /bin/bash
+    warn: no
+  register: r_docker_yum_config_manager
+  changed_when: '"ansible_changed_sign" in r_docker_yum_config_manager.stdout'
+  tags:
+    - docker
+    - repo

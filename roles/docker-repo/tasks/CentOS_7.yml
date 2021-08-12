@@ -1,0 +1,23 @@
+---
+# tasks file specific for CentOS distribution systems
+
+- name: "Copy file from template: /etc/yum.repos.d/{{ docker_repo_file_name }}.repo"
+  template:
+    src: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.repo.j2"
+    dest: "/etc/yum.repos.d/{{ docker_repo_file_name }}.repo"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  tags:
+    - docker-repo
+
+
+- name: "Shell command: yum makecache fast"
+  shell: "yum makecache fast"
+  args:
+    executable: /bin/bash
+    warn: no
+  changed_when: False
+  tags:
+    - docker-repo
