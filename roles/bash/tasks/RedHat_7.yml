@@ -1,7 +1,7 @@
 ---
 # tasks file specific for RedHat family systems
 
-- name: "Configuring: {{ bash_root_profile }}"
+- name: "Ansible opening tag: {{ bash_root_profile }}"
   lineinfile:
     path: "{{ bash_root_profile }}"
     line: "##### Ansible >>> #####"
@@ -13,7 +13,7 @@
     - config
 
 
-- name: "Configuring: {{ bash_root_profile }}"
+- name: "Ansible closing tag: {{ bash_root_profile }}"
   lineinfile:
     path: "{{ bash_root_profile }}"
     line: "##### <<< Ansible #####"
@@ -27,10 +27,8 @@
     path: "{{ bash_root_profile }}"
     regexp: '^export PS1='
     line: |-
-      export PS1='[\[\033[01;31m\]\u\[\033[00m\]@\[\033[{{ bash_root_color_code }}m\]\h\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\]]\\$ '
+      export PS1='{{ bash_root_prompt_map[bash_root_color_prompt] }}'
     insertafter: "^#+ Ansible >>> #+$"
-  when:
-    - bash_root_color_prompt
   tags:
     - bash
     - config

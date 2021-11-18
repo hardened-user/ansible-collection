@@ -6,7 +6,7 @@
     - bash
 
 
-- name: "Configuring: {{ bash_system_rc_file }}"
+- name: "Ansible opening tag: {{ bash_system_rc_file }}"
   lineinfile:
     path: "{{ bash_system_rc_file }}"
     line: "##### Ansible >>> #####"
@@ -18,7 +18,7 @@
     - config
 
 
-- name: "Configuring: {{ bash_system_rc_file }}"
+- name: "Ansible closing tag: {{ bash_system_rc_file }}"
   lineinfile:
     path: "{{ bash_system_rc_file }}"
     line: "##### <<< Ansible #####"
