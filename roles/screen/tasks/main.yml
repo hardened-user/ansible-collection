@@ -15,7 +15,7 @@
     - package
 
 
-- name: "Configuring: {{ screen_system_rc_file }}"
+- name: "Ansible opening tag: {{ screen_system_rc_file }}"
   lineinfile:
     path: "{{ screen_system_rc_file }}"
     line: "##### Ansible >>> #####"
@@ -27,7 +27,7 @@
     - config
 
 
-- name: "Configuring: {{ screen_system_rc_file }}"
+- name: "Ansible closing tag: {{ screen_system_rc_file }}"
   lineinfile:
     path: "{{ screen_system_rc_file }}"
     line: "##### <<< Ansible #####"

@@ -1,6 +1,6 @@
 ---
 
-- name: "Configuring: {{ hosts_file }}"
+- name: "Ansible opening tag: {{ hosts_file }}"
   lineinfile:
     path: "{{ hosts_file }}"
     line: "##### Ansible >>> #####"
@@ -12,7 +12,7 @@
     - config
 
 
-- name: "Configuring: {{ hosts_file }}"
+- name: "Ansible closing tag: {{ hosts_file }}"
   lineinfile:
     path: "{{ hosts_file }}"
     line: "##### <<< Ansible #####"
