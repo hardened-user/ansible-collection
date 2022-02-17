@@ -1,0 +1,51 @@
+# {{ ansible_managed }}
+
+---
+version: '3.5'
+
+{% if prometheus_docker_network != "host" %}
+networks:
+  prometheus-network:
+    driver: "bridge"
+{% endif %}
+
+{% if prometheus_bind_mount_data_volumes is sameas false %}
+volumes:
+  prometheus_data: {}
+{% endif %}
+
+services:
+  prometheus:
+    image: "{{ prometheus_docker_image }}"
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+{% if prometheus_bind_mount_data_volumes is sameas false %}
+      - {{ prometheus_conf_dir }}:/etc/prometheus
+      - prometheus_data:/prometheus
+{% else %}
+      - {{ prometheus_conf_dir }}:/etc/prometheus
+      - {{ prometheus_data_dir }}:/prometheus
+{% endif %}
+    ports:
+      - {{ prometheus_port }}:9090
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--storage.tsdb.retention.time={{ prometheus_storage_tsdb_retention_time }}"
+      - "--storage.tsdb.retention.size={{ prometheus_storage_tsdb_retention_size }}"
+{% if prometheus_docker_network == "host" %}
+      - "--web.listen-address=0.0.0.0:{{ prometheus_port }}"
+{% endif %}
+{% if prometheus_docker_network != "host" %}
+    networks:
+      - prometheus-network
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"
