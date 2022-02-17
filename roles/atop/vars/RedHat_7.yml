@@ -5,4 +5,4 @@ atop_package_name: "atop"
 atop_service_name: "atop"
 
 atop_conf_file: "/etc/sysconfig/atop"
-atop_log_dir: "/var/log/atop"
+atop_logs_dir: "/var/log/atop"

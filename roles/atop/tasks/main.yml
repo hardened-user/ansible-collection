@@ -37,7 +37,7 @@
     minute: "30"
     hour: "03"
     user: root
-    job: find {{ atop_log_dir }}/*_* -maxdepth 0 -type f -mtime +{{ atop_log_find_mtime_delete }} -delete
+    job: find {{ atop_logs_dir }}/*_* -maxdepth 0 -type f -mtime +{{ atop_logs_find_mtime_delete }} -delete
   tags:
     - atop
     - cron

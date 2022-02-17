@@ -1,4 +1,4 @@
 ---
 
 atop_interval: 300
-atop_log_find_mtime_delete: 7
+atop_logs_find_mtime_delete: 7
