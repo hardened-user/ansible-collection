@@ -36,7 +36,7 @@
     - config
 
 
-- name: "Configuring: {{ screen_system_rc_file }}"
+- name: "Configuring screen: {{ screen_system_rc_file }}"
   lineinfile:
     path: "{{ screen_system_rc_file }}"
     regexp: '^\s*{{ item.key }}\s'
@@ -49,7 +49,7 @@
     - config
 
 
-- name: "Configuration screen: {{ screen_system_rc_file }}"
+- name: "Configuring screen: {{ screen_system_rc_file }}"
   lineinfile:
     path: "{{ screen_system_rc_file }}"
     state: absent

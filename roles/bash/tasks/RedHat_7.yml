@@ -22,7 +22,7 @@
     - config
 
 
-- name: "Configuring: {{ bash_root_profile }}"
+- name: "Configuring bash: {{ bash_root_profile }}"
   lineinfile:
     path: "{{ bash_root_profile }}"
     regexp: '^export PS1='

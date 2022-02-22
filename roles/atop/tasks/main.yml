@@ -30,7 +30,7 @@
     - config
 
 
-- name: "Configuring: {{ atop_service_name }}"
+- name: "Configuring cron.d: {{ atop_service_name }}"
   cron:
     cron_file: "{{ atop_service_name }}"
     name: "delete logs"

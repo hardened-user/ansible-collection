@@ -21,7 +21,7 @@
     - config
 
 
-- name: "Configuring: {{ hosts_file }}"
+- name: "Configuring hosts file: {{ hosts_file }}"
   lineinfile:
     path: "{{ hosts_file }}"
     regexp: '^{{ item.key }}\s'
@@ -34,7 +34,7 @@
     - config
 
 
-- name: "Configuring: {{ hosts_file }}"
+- name: "Configuring hosts file: {{ hosts_file }}"
   lineinfile:
     path: "{{ hosts_file }}"
     state: absent

@@ -20,7 +20,7 @@
     - ssh-access
 
 
-- name: "Configure: /etc/ssh/sshd_config"
+- name: "Configuring sshd: /etc/ssh/sshd_config"
   lineinfile:
     path: "/etc/ssh/sshd_config"
     regexp: "{{ item.regexp }}"
