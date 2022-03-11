@@ -1,0 +1,7 @@
+---
+
+nginx_package_name: "nginx"
+nginx_service_name: "nginx"
+
+nginx_conf_dir: "/etc/nginx"
+nginx_cert_dir: "/etc/ssl/nginx"

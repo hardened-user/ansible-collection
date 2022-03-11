@@ -1,0 +1,16 @@
+### disable hide directories and files (.htaccess .htpassword .git, etc)
+location ~ /\. {
+    deny  all;
+}
+
+### favicon.ico
+location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+}
+
+### letsencrypt
+location /.well-known/acme-challenge {
+    allow all;
+    root /home/letsencrypt;
+}

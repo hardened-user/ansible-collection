@@ -1,0 +1,8 @@
+---
+
+- name: "reload nginx"
+  service:
+    name: "{{ nginx_service_name }}"
+    state: reloaded
+  when:
+    - not r_nginx_start.changed

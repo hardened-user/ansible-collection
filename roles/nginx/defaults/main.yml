@@ -1,0 +1,10 @@
+---
+
+# NOTE: Адрес папки с файлами конфигурации nginx
+nginx_conf_source_dir: "{{ role_path }}/files/conf"
+
+# NOTE: Адрес папки с файлами контента nginx
+nginx_html_source_dir: "{{ role_path }}/files/html"
+
+# NOTE: Адрес папки с *зашифрованными* файлами сертификатов
+nginx_cert_source_dir: "{{ role_path }}/files/cert"

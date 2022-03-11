@@ -11,3 +11,8 @@ ntpd_daemon_opts_file: "/etc/conf.d/ntpd"
 ### chronyd ------------------------------------------------------------------------------------------------------------
 chronyd_package_name: "net-misc/chrony"
 chronyd_service_name: "chronyd"
+
+
+### nginx --------------------------------------------------------------------------------------------------------------
+nginx_user_name: "nginx"
+nginx_user_group: "nginx"
