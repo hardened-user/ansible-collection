@@ -1,5 +1,5 @@
 ### disable hide directories and files (.htaccess .htpassword .git, etc)
-location ~ /\. {
+location ~ /\.(ht|hg|git|svn) {
     deny  all;
 }
 
