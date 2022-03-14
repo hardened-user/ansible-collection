@@ -1,0 +1,8 @@
+---
+
+- name: "reload docker-php-fpm"
+  shell: |
+    docker exec {{ php_fpm_container_name }} sh -c "{{ php_fpm_reload_cmd }}"
+  args:
+    chdir: "{{ php_fpm_setup_dir }}"
+  when: not r_php_fpm_start_result.changed
