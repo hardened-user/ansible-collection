@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+
+# see "man logrotate" for details
+# rotate log files weekly
+{{ logrotate_cnf_interval }}
+
+# use the adm group by default, since this is the owning group
+# of /var/log/syslog.
+su root adm
+
+# keep 4 weeks worth of backlogs
+rotate {{ logrotate_cnf_rotate }}
+
+# create new (empty) log files after rotating old ones
+create
+
+# use date as a suffix of the rotated file
+dateext
+
+# uncomment this if you want your log files compressed
+compress
+
+# packages drop log rotation information into this directory
+include /etc/logrotate.d
+
+# system-specific logs may be configured here
