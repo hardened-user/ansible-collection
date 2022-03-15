@@ -3,9 +3,7 @@
 php_fpm_setup_dir: "/srv/php-fpm-{{ php_fpm_version }}"
 php_fpm_php_conf_dir: "{{ php_fpm_setup_dir }}/php"
 php_fpm_fpm_conf_dir: "{{ php_fpm_setup_dir }}/php-fpm.d"
-php_fpm_sessions_dir: "{{ php_fpm_setup_dir }}/sessions"
 php_fpm_sockets_dir: "{{ php_fpm_setup_dir }}/sockets"
-php_fpm_logs_dir: "{{ php_fpm_setup_dir }}/logs"
 
 php_fpm_container_name: "php-fpm-{{ php_fpm_version }}"
 php_fpm_reload_cmd: "kill -USR2 1"

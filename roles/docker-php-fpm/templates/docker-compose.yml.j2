@@ -14,9 +14,9 @@ services:
     volumes:
       - {{ php_fpm_php_conf_dir }}:/usr/local/etc/php:ro
       - {{ php_fpm_fpm_conf_dir }}:/usr/local/etc/php-fpm.d:ro
-      - {{ php_fpm_sessions_dir }}:/var/lib/php/sessions
       - {{ php_fpm_sockets_dir }}:/var/run/php-fpm
       - {{ php_fpm_logs_dir }}:/var/log/php-fpm
+      - {{ php_fpm_sessions_dir }}:/var/lib/php/sessions
       - /var/www:/var/www
 {% if php_fpm_tcp_enable == true %}
     ports:

@@ -11,9 +11,9 @@
     - { path: "{{ php_fpm_setup_dir }}", mode: '0750' }
     - { path: "{{ php_fpm_php_conf_dir }}" }
     - { path: "{{ php_fpm_fpm_conf_dir }}" }
-    - { path: "{{ php_fpm_sessions_dir }}", mode: '0755', owner: "root" }
     - { path: "{{ php_fpm_sockets_dir }}" }
-    - { path: "{{ php_fpm_logs_dir }}" }
+    - { path: "{{ php_fpm_logs_dir }}", mode: '0750', owner: "{{ php_fpm_user_name }}", group: "{{ php_fpm_user_group }}"}
+    - { path: "{{ php_fpm_sessions_dir }}", mode: '0750', owner: "{{ php_fpm_user_name }}", group: "{{ php_fpm_user_group }}" }
   tags:
     - php-fpm
     - mkdir
