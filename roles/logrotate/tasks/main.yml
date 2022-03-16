@@ -19,8 +19,8 @@
   template:
     src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.conf.j2"
     dest: "{{ logrotate_conf_file }}"
-    owner: "root"
-    group: "root"
+    owner: root
+    group: root
     mode: 0644
     force: yes
   tags:
@@ -32,8 +32,8 @@
   template:
     src: "tmpl.d.conf.j2"
     dest: "{{ logrotate_conf_d_dir }}/{{ item.name }}"
-    owner: "root"
-    group: "root"
+    owner: root
+    group: root
     mode: 0644
     force: yes
   with_items:
