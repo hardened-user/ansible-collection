@@ -8,21 +8,21 @@
     group: "{{ item.group | default('root') }}"
     state: directory
   with_items:
-    - { path: "{{ php_fpm_setup_dir }}", mode: '0750' }
-    - { path: "{{ php_fpm_php_conf_dir }}" }
-    - { path: "{{ php_fpm_fpm_conf_dir }}" }
-    - { path: "{{ php_fpm_sockets_dir }}" }
-    - { path: "{{ php_fpm_logs_dir }}", mode: '0750', owner: "{{ php_fpm_user_name }}", group: "{{ php_fpm_user_group }}"}
-    - { path: "{{ php_fpm_sessions_dir }}", mode: '0750', owner: "{{ php_fpm_user_name }}", group: "{{ php_fpm_user_group }}" }
+    - { path: "{{ docker_php_fpm_setup_dir }}", mode: '0750' }
+    - { path: "{{ docker_php_fpm_php_conf_dir }}" }
+    - { path: "{{ docker_php_fpm_fpm_conf_dir }}" }
+    - { path: "{{ docker_php_fpm_sockets_dir }}" }
+    - { path: "{{ docker_php_fpm_logs_dir }}", mode: '0770', owner: "{{ docker_php_fpm_user_name }}", group: "{{ docker_php_fpm_user_group }}"}
+    - { path: "{{ docker_php_fpm_sessions_dir }}", mode: '0770', owner: "{{ docker_php_fpm_user_name }}", group: "{{ docker_php_fpm_user_group }}" }
   tags:
     - php-fpm
     - mkdir
 
 
-- name: "Copy file from template: {{ php_fpm_setup_dir }}/docker-compose.yml"
+- name: "Copy file from template: {{ docker_php_fpm_setup_dir }}/docker-compose.yml"
   template:
     src: "docker-compose.yml.j2"
-    dest: "{{ php_fpm_setup_dir }}/docker-compose.yml"
+    dest: "{{ docker_php_fpm_setup_dir }}/docker-compose.yml"
     owner: root
     group: root
     mode: 0600
@@ -32,10 +32,10 @@
     - config
 
 
-- name: "Copy files (rsync): {{ php_fpm_php_conf_dir }}/"
+- name: "Copy files (rsync): {{ docker_php_fpm_php_conf_dir }}/"
   synchronize:
-    src: "{{ php_fpm_php_conf_source }}/"
-    dest: "{{ php_fpm_php_conf_dir }}/"
+    src: "{{ docker_php_fpm_php_conf_source }}/"
+    dest: "{{ docker_php_fpm_php_conf_dir }}/"
     archive: no
     checksum: yes
     links: yes
@@ -51,10 +51,10 @@
     - copy
 
 
-- name: "Copy files (rsync): {{ php_fpm_fpm_conf_dir }}/"
+- name: "Copy files (rsync): {{ docker_php_fpm_fpm_conf_dir }}/"
   synchronize:
-    src: "{{ php_fpm_fpm_conf_source }}/"
-    dest: "{{ php_fpm_fpm_conf_dir }}/"
+    src: "{{ docker_php_fpm_fpm_conf_source }}/"
+    dest: "{{ docker_php_fpm_fpm_conf_dir }}/"
     archive: no
     checksum: yes
     links: yes
@@ -70,10 +70,13 @@
     - copy
 
 
-- name: "docker-compose up: {{ php_fpm_setup_dir }}"
+- name: "docker-compose up: {{ docker_php_fpm_setup_dir }}"
   docker_compose:
-    project_src: "{{ php_fpm_setup_dir }}"
-  register: r_php_fpm_start_result
+    project_src: "{{ docker_php_fpm_setup_dir }}"
+  register: r_docker_php_fpm_start_result
   tags:
     - php-fpm
     - startup
+
+# TODO logrotate
+# TODO cache

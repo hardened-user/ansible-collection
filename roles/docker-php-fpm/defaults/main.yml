@@ -1,19 +1,19 @@
 ---
 
-php_fpm_version: "7.4"
-php_fpm_docker_tag: "{{ php_fpm_version }}-fpm"
-php_fpm_docker_image: "php:{{ php_fpm_docker_tag }}"
+docker_php_fpm_version: "7.4"
+docker_php_fpm_docker_tag: "{{ docker_php_fpm_version }}-fpm"
+docker_php_fpm_docker_image: "php:{{ docker_php_fpm_docker_tag }}"
 
-php_fpm_user_name: "{{ nginx_user_name }}"
-php_fpm_user_group: "{{ nginx_user_group }}"
+docker_php_fpm_user_name: "{{ nginx_user_name }}"
+docker_php_fpm_user_group: "{{ nginx_user_group }}"
 
-php_fpm_tcp_enable: true
-php_fpm_ext_port: 9000
-php_fpm_logs_dir: "{{ php_fpm_setup_dir }}/logs"
-php_fpm_sessions_dir: "{{ php_fpm_setup_dir }}/sessions"
+docker_php_fpm_tcp_enable: true
+docker_php_fpm_ext_port: 9000
+docker_php_fpm_logs_dir: "{{ docker_php_fpm_setup_dir }}/logs"
+docker_php_fpm_sessions_dir: "{{ docker_php_fpm_setup_dir }}/sessions"
 
 # NOTE: Адрес папки с файлами конфигурации php
-php_fpm_php_conf_source: "{{ role_path }}/files/{{ php_fpm_version }}/php"
+docker_php_fpm_php_conf_source: "{{ role_path }}/files/{{ docker_php_fpm_version }}/php"
 
 # NOTE: Адрес папки с файлами конфигурации php-fpm
-php_fpm_fpm_conf_source: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
+docker_php_fpm_fpm_conf_source: "{{ role_path }}/files/{{ docker_php_fpm_version }}/php-fpm.d"
