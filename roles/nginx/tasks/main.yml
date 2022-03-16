@@ -115,6 +115,19 @@
     - config
 
 
+- name: "Copy file from template: {{ nginx_logrotate_conf_file }}"
+  template:
+    src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.logrotate.conf.j2"
+    dest: "{{ nginx_logrotate_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  tags:
+    - nginx
+    - config
+
+
 - name: "Service start: {{ nginx_service_name }}"
   service:
     name: "{{ nginx_service_name }}"

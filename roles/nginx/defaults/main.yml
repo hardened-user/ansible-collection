@@ -1,5 +1,8 @@
 ---
 
+nginx_logrotate_interval: "daily"
+nginx_logrotate_rotate: 31
+
 # NOTE: Адрес папки с файлами конфигурации nginx
 nginx_conf_source_dir: "{{ role_path }}/files/conf"
 
