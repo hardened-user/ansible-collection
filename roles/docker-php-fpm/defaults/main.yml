@@ -12,6 +12,9 @@ docker_php_fpm_ext_port: 9000
 docker_php_fpm_logs_dir: "{{ docker_php_fpm_setup_dir }}/logs"
 docker_php_fpm_sessions_dir: "{{ docker_php_fpm_setup_dir }}/sessions"
 
+docker_php_fpm_logrotate_interval: "daily"
+docker_php_fpm_logrotate_rotate: 31
+
 # NOTE: Адрес папки с файлами конфигурации php
 docker_php_fpm_php_conf_source: "{{ role_path }}/files/{{ docker_php_fpm_version }}/php"
 

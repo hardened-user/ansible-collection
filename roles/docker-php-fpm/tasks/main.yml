@@ -70,6 +70,19 @@
     - copy
 
 
+- name: "Copy file from template: {{ docker_php_fpm_logrotate_conf_file }}"
+  template:
+    src: "logrotate.conf.j2"
+    dest: "{{ docker_php_fpm_logrotate_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  tags:
+    - php-fpm
+    - config
+
+
 - name: "docker-compose up: {{ docker_php_fpm_setup_dir }}"
   docker_compose:
     project_src: "{{ docker_php_fpm_setup_dir }}"
@@ -77,6 +90,3 @@
   tags:
     - php-fpm
     - startup
-
-# TODO logrotate
-# TODO cache

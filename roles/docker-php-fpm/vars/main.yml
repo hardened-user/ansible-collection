@@ -5,5 +5,7 @@ docker_php_fpm_php_conf_dir: "{{ docker_php_fpm_setup_dir }}/php"
 docker_php_fpm_fpm_conf_dir: "{{ docker_php_fpm_setup_dir }}/php-fpm.d"
 docker_php_fpm_sockets_dir: "{{ docker_php_fpm_setup_dir }}/sockets"
 
+docker_php_fpm_logrotate_conf_file: "/etc/logrotate.d/docker-php-fpm"
+
 docker_php_fpm_container_name: "php-fpm-{{ docker_php_fpm_version }}"
 docker_php_fpm_reload_cmd: "kill -USR2 1"
