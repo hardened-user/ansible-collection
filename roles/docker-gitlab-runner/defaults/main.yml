@@ -1,0 +1,6 @@
+---
+
+docker_gitlab_runner_docker_tag: "latest"
+docker_gitlab_runner_docker_image: "gitlab/gitlab-runner:{{ docker_gitlab_runner_docker_tag }}"
+
+docker_gitlab_runner_concurrent: 1

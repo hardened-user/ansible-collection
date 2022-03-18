@@ -1,0 +1,7 @@
+---
+
+- name: "restart docker-gitlab-runners"
+  docker_compose:
+    project_src: "{{ docker_gitlab_runner_setup_dir }}"
+    restarted: yes
+  when: not r_docker_gitlab_runner_start_result.changed

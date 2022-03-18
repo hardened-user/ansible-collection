@@ -1,0 +1,6 @@
+---
+
+docker_gitlab_runner_setup_dir: "/srv/gitlab-runner"
+docker_gitlab_runner_conf_dir: "{{ docker_gitlab_runner_setup_dir }}/conf"
+
+docker_gitlab_runner_container_name: "gitlab-runner"

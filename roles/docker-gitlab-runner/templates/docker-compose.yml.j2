@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+---
+version: '2.2'
+
+services:
+  gitlab-runner:
+    image: "{{ docker_gitlab_runner_docker_image }}"
+    container_name: "{{ docker_gitlab_runner_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: {{ timezone_name }}
+    volumes:
+      - {{ docker_gitlab_runner_conf_dir }}:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

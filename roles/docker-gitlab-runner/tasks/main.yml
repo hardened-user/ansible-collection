@@ -1,0 +1,51 @@
+---
+
+- name: "Create directories ..."
+  file:
+    path: "{{ item.path }}"
+    mode:  "{{ item.mode  | default('0755') }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    state: directory
+  with_items:
+    - { path: "{{ docker_gitlab_runner_setup_dir }}", mode: '0750' }
+    - { path: "{{ docker_gitlab_runner_conf_dir }}" , mode: '0750' }
+  tags:
+    - gitlab-runner
+    - mkdir
+
+
+- name: "Copy file from template: {{ docker_gitlab_runner_setup_dir }}/docker-compose.yml"
+  template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ docker_gitlab_runner_setup_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+  tags:
+    - gitlab-runner
+    - config
+
+
+- name: "Copy file from template: {{ docker_gitlab_runner_conf_dir }}/config.toml"
+  template:
+    src: "config.toml.j2"
+    dest: "{{ docker_gitlab_runner_conf_dir }}/config.toml"
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+  notify: restart docker-gitlab-runners
+  tags:
+    - gitlab-runner
+    - config
+
+
+- name: "docker-compose up: {{ docker_gitlab_runner_setup_dir }}"
+  docker_compose:
+    project_src: "{{ docker_gitlab_runner_setup_dir }}"
+  register: r_docker_gitlab_runner_start_result
+  tags:
+    - gitlab-runner
+    - startup
