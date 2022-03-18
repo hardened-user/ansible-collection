@@ -4,10 +4,10 @@
 # See "man logrotate" for details.
 
 # rotate log files weekly.
-{{ logrotate_cnf_interval }}
+{{ logrotate_interval }}
 
 # keep 4 weeks worth of backlogs.
-rotate {{ logrotate_cnf_rotate }}
+rotate {{ logrotate_rotate }}
 
 # create new (empty) log files after rotating old ones.
 create

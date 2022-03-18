@@ -2,14 +2,14 @@
 
 # see "man logrotate" for details
 # rotate log files weekly
-{{ logrotate_cnf_interval }}
+{{ logrotate_interval }}
 
 # use the adm group by default, since this is the owning group
 # of /var/log/syslog.
 su root adm
 
 # keep 4 weeks worth of backlogs
-rotate {{ logrotate_cnf_rotate }}
+rotate {{ logrotate_rotate }}
 
 # create new (empty) log files after rotating old ones
 create
