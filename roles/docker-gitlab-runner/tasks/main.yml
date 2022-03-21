@@ -35,7 +35,8 @@
     owner: root
     group: root
     mode: 0600
-    force: yes
+    # do not overwrite
+    force: no
   notify: restart docker-gitlab-runners
   tags:
     - gitlab-runner

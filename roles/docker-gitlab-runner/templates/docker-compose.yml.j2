@@ -12,7 +12,9 @@ services:
       TZ: {{ timezone_name }}
     volumes:
       - {{ docker_gitlab_runner_conf_dir }}:/etc/gitlab-runner
-      - /var/run/docker.sock:/var/run/docker.sock
+{% for v in docker_gitlab_extra_volumes %}
+      - {{ v }}
+{% endfor %}
     logging:
       driver: "json-file"
       options:
