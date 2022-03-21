@@ -4,3 +4,7 @@ docker_gitlab_runner_docker_tag: "latest"
 docker_gitlab_runner_docker_image: "gitlab/gitlab-runner:{{ docker_gitlab_runner_docker_tag }}"
 
 docker_gitlab_runner_concurrent: 1
+
+docker_gitlab_extra_volumes:
+  - "/var/run/docker.sock:/var/run/docker.sock"
+  - "/root/.docker/config.json:/root/.docker/config.json"
