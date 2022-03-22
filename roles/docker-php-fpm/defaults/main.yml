@@ -11,6 +11,7 @@ docker_php_fpm_tcp_enable: true
 docker_php_fpm_ext_port: 9000
 docker_php_fpm_logs_dir: "{{ docker_php_fpm_setup_dir }}/logs"
 docker_php_fpm_sessions_dir: "{{ docker_php_fpm_setup_dir }}/sessions"
+docker_php_fpm_extra_volumes: []
 
 docker_php_fpm_logrotate_interval: "daily"
 docker_php_fpm_logrotate_rotate: 31

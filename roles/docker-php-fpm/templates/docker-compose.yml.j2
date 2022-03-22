@@ -18,6 +18,9 @@ services:
       - {{ docker_php_fpm_logs_dir }}:/var/log/php-fpm
       - {{ docker_php_fpm_sessions_dir }}:/var/lib/php/sessions
       - /var/www:/var/www
+{% for v in docker_php_fpm_extra_volumes %}
+      - {{ v }}
+{% endfor %}
 {% if docker_php_fpm_tcp_enable == true %}
     ports:
       - {{ docker_php_fpm_ext_port }}:9000
