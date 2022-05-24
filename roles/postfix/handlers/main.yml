@@ -1,0 +1,23 @@
+---
+
+- name: "execute postmap"
+  shell: |
+    postmap "{{ item }}"
+  with_items:
+    - "{{ postfix_smtp_generic_maps_file }}"
+    - "{{ postfix_sasl_password_maps_file }}"
+    - "{{ postfix_smtp_header_checks_file }}"
+    - "{{ postfix_sender_canonical_maps_file }}"
+
+
+- name: "execute newaliases"
+  shell: |
+    newaliases
+
+
+- name: "restart postfix"
+  service:
+    name: "{{ postfix_service_name }}"
+    state: restarted
+  when:
+    - not r_postfix_start.changed

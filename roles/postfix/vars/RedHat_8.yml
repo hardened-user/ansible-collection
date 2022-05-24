@@ -1,0 +1,24 @@
+---
+# vars file specific for RedHat family systems
+
+postfix_service_name: "postfix"
+postfix_ca_cert_file: "/etc/ssl/certs/ca-bundle.crt"
+postfix_aliases_file: "/etc/aliases"
+
+# In RHEL 8, the postfix package has been split into multiple subpackages, each subpackage providing a plug-in for a specific database.
+# Previously, RPM packages containing the postfix-pcre, postfix-cdb, and postfix-sqlite plug-ins were not distributed.
+# Consequently, databases with these plug-ins could not be used with Postfix.
+# This update adds RPM packages containing the PCRE, CDB, and SQLite plug-ins to the AppStream repository.
+# As a result, these plug-ins can be used after the appropriate RPM package is installed."
+postfix_install_packages:
+  - "postfix"
+  - "postfix-pcre"
+
+postfix_sasl_packages:
+  - "cyrus-sasl"
+  - "cyrus-sasl-lib"
+  - "cyrus-sasl-plain"
+
+postfix_remove_packages:
+  - "sendmail"
+  - "ssmtp"

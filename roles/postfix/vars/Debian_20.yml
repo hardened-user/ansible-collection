@@ -1,0 +1,19 @@
+---
+# vars file specific for Debian family systems
+
+postfix_service_name: "postfix"
+postfix_ca_cert_file: "/etc/ssl/certs/ca-certificates.crt"
+postfix_aliases_file: "/etc/aliases"
+
+postfix_install_packages:
+  - "postfix"
+  - "postfix-pcre"
+
+postfix_sasl_packages:
+  - "sasl2-bin"
+  - "libsasl2-2"
+  - "libsasl2-modules"
+
+postfix_remove_packages:
+  - "sendmail"
+  - "ssmtp"

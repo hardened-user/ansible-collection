@@ -1,0 +1,47 @@
+---
+
+### aliases ------------------------------------------------------------------------------------------------------------
+postfix_aliases: {}
+
+
+### file content -------------------------------------------------------------------------------------------------------
+postfix_file_content_smtp_generic_maps:
+postfix_file_content_sasl_password_maps:
+postfix_file_content_smtp_header_checks:
+postfix_file_content_sender_canonical_maps:
+
+
+### main.cf ------------------------------------------------------------------------------------------------------------
+postfix_conf_main_override: {}
+postfix_conf_main_default:
+  inet_interfaces: "localhost"
+  inet_protocols: "ipv4"
+  mydestination: "$myhostname, localhost.$mydomain, localhost"
+  mynetworks: "127.0.0.0/8"
+  mynetworks_style:
+  alias_maps: "hash:{{ postfix_aliases_file }}"
+  relay_destination_rate_delay: "1s"
+  mail_name: "MTA"
+  home_mailbox: "Mailbox"
+  # TLS
+  smtp_use_tls: "yes"
+  smtp_tls_ciphers: "high"
+  smtp_tls_protocols: "!SSLv2, !SSLv3"
+  smtp_tls_CAfile: "{{ postfix_ca_cert_file }}"
+  smtp_tls_security_level: "may"
+  smtp_tls_loglevel: 1
+  smtp_tls_note_starttls_offer: "yes"
+  smtp_starttls_timeout: "30s"
+  # SASL
+  smtp_sasl_auth_enable: "no"
+  smtp_sasl_security_options: "noanonymous"
+  smtp_sasl_password_maps: "hash:{{ postfix_sasl_password_maps_file }}"
+  # SMTP
+  smtpd_banner: "ESMTP $mail_name"
+  smtp_destination_rate_delay: "1s"
+  smtpd_recipient_limit: "50"
+  sender_canonical_maps: "hash:{{ postfix_sender_canonical_maps_file }}"
+  smtp_generic_maps: "hash:{{ postfix_smtp_generic_maps_file }}"
+  smtp_header_checks: "pcre:{{ postfix_smtp_header_checks_file }}"
+
+postfix_conf_main_runtime: "{{ postfix_conf_main_default | combine(postfix_conf_main_override) }}"
