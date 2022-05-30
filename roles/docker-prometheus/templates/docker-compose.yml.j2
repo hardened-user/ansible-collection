@@ -20,11 +20,10 @@ services:
     container_name: prometheus
     restart: unless-stopped
     volumes:
-{% if prometheus_bind_mount_data_volumes is sameas false %}
       - {{ prometheus_conf_dir }}:/etc/prometheus
+{% if prometheus_bind_mount_data_volumes is sameas false %}
       - prometheus_data:/prometheus
 {% else %}
-      - {{ prometheus_conf_dir }}:/etc/prometheus
       - {{ prometheus_data_dir }}:/prometheus
 {% endif %}
     ports:
