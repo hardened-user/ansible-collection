@@ -26,8 +26,14 @@ services:
 {% else %}
       - {{ prometheus_data_dir }}:/prometheus
 {% endif %}
+{% if prometheus_docker_network != "host" %}
     ports:
       - {{ prometheus_port }}:9090
+    networks:
+      - prometheus-network
+{% else %}
+    network_mode: host
+{% endif %}
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -37,12 +43,6 @@ services:
       - "--storage.tsdb.retention.size={{ prometheus_storage_tsdb_retention_size }}"
 {% if prometheus_docker_network == "host" %}
       - "--web.listen-address=0.0.0.0:{{ prometheus_port }}"
-{% endif %}
-{% if prometheus_docker_network != "host" %}
-    networks:
-      - prometheus-network
-{% else %}
-    network_mode: host
 {% endif %}
     logging:
       driver: "json-file"
