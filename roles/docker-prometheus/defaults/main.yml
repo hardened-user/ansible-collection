@@ -7,6 +7,7 @@ prometheus_bind_mount_data_volumes: true
 prometheus_port: 9090
 prometheus_storage_tsdb_retention_time: "31d"
 prometheus_storage_tsdb_retention_size: "0"
+# TODO: separate default config and strong
 prometheus_config:
   global:
     scrape_interval: 15s
