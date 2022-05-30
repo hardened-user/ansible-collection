@@ -18,7 +18,7 @@
     - package
 
 
-- name: "Create directories ..."
+- name: "Create directories: ..."
   file:
     path: "{{ item.path }}"
     mode:  "{{ item.mode  | default('0755') }}"
