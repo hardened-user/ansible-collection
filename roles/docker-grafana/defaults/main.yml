@@ -1,0 +1,9 @@
+---
+
+grafana_docker_tag: "8.5.3"
+grafana_docker_image: "grafana/grafana:{{ grafana_docker_tag }}"
+grafana_docker_network: bridge # "bridge" or "host" supported
+grafana_bind_mount_data_volumes: true
+grafana_port: 3000
+
+grafana_reporting_enabled: false

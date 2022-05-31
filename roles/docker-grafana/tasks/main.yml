@@ -1,0 +1,78 @@
+---
+
+- name: "Create directories: ..."
+  file:
+    path: "{{ item.path }}"
+    mode:  "{{ item.mode  | default('0750') }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    state: directory
+  with_items:
+    - { path: "{{ grafana_setup_dir }}" }
+    - { path: "{{ grafana_conf_dir }}" }
+    - { path: "{{ grafana_access_conf_dir }}", group: "{{ grafana_docker_gid | string }}"}
+    - { path: "{{ grafana_dashboards_conf_dir }}", group: "{{ grafana_docker_gid | string }}" }
+    - { path: "{{ grafana_datasources_conf_dir }}", group: "{{ grafana_docker_gid | string }}" }
+    - { path: "{{ grafana_notifiers_conf_dir }}", group: "{{ grafana_docker_gid | string }}" }
+    - { path: "{{ grafana_plugins_conf_dir }}", group: "{{ grafana_docker_gid | string }}" }
+  tags:
+    - grafana
+    - mkdir
+
+
+- name: "Create directories: ..."
+  file:
+    path: "{{ item.path }}"
+    mode:  "{{ item.mode  | default('0750') }}"
+    owner: "{{ item.owner | default(grafana_docker_uid) }}"
+    group: "{{ item.group | default('root') }}"
+    state: directory
+  with_items:
+    - { path: "{{ grafana_data_dir }}" }
+    - { path: "{{ grafana_logs_dir }}" }
+  when: grafana_bind_mount_data_volumes == true
+  tags:
+    - grafana
+    - mkdir
+
+
+- name: "Copy file from template: {{ grafana_setup_dir }}/docker-compose.yml"
+  template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ grafana_setup_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+  tags:
+    - grafana
+    - config
+
+
+- name: "Copy files from template: {{ grafana_conf_dir }}/"
+  template:
+    src: "{{ item }}"
+    dest: "{{ grafana_conf_dir }}/{{ item | basename | regex_replace('\\.j2$','') }}"
+    owner: root
+    group: root
+    mode: 0640
+    force: yes
+  with_items:
+    - "grafana.ini.j2"
+    - "ldap.toml.j2"
+  loop_control:
+    label: "{{ item | basename }}"
+  notify: restart grafana
+  tags:
+    - grafana
+    - config
+
+
+- name: "docker-compose up: {{ grafana_setup_dir }}"
+  docker_compose:
+    project_src: "{{ grafana_setup_dir }}"
+    pull: yes
+  register: r_docker_grafana_start_result
+  tags:
+    - grafana
+    - docker-compose

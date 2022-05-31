@@ -1,0 +1,7 @@
+---
+
+- name: "restart grafana"
+  docker_compose:
+    project_src: "{{ grafana_setup_dir }}"
+    restarted: yes
+  when: not r_docker_grafana_start_result.changed

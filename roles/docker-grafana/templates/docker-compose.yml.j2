@@ -1,0 +1,34 @@
+# {{ ansible_managed }}
+
+---
+version: '3.5'
+
+{% if grafana_docker_network != "host" %}
+networks:
+  grafana-network:
+    driver: "bridge"
+{% endif %}
+
+services:
+  grafana:
+    image: "{{ grafana_docker_image }}"
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - {{ grafana_conf_dir }}:/etc/grafana
+{% if grafana_bind_mount_data_volumes is sameas true %}
+      - {{ grafana_data_dir }}:/var/lib/grafana
+      - {{ grafana_logs_dir }}:/var/log/grafana
+{% endif %}
+{% if grafana_docker_network != "host" %}
+    ports:
+      - {{ grafana_port }}:3000
+    networks:
+      - grafana-network
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"
