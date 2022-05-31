@@ -67,6 +67,7 @@
 - name: "docker-compose up: {{ prometheus_setup_dir }}"
   docker_compose:
     project_src: "{{ prometheus_setup_dir }}"
+    pull: yes
   tags:
     - prometheus
     - startup

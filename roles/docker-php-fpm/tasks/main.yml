@@ -86,6 +86,7 @@
 - name: "docker-compose up: {{ docker_php_fpm_setup_dir }}"
   docker_compose:
     project_src: "{{ docker_php_fpm_setup_dir }}"
+    pull: yes
   register: r_docker_php_fpm_start_result
   tags:
     - php-fpm

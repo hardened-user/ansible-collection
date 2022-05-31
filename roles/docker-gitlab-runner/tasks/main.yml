@@ -46,6 +46,7 @@
 - name: "docker-compose up: {{ docker_gitlab_runner_setup_dir }}"
   docker_compose:
     project_src: "{{ docker_gitlab_runner_setup_dir }}"
+    pull: yes
   register: r_docker_gitlab_runner_start_result
   tags:
     - gitlab-runner
