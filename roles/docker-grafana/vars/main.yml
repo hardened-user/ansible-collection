@@ -9,6 +9,3 @@ grafana_dashboards_conf_dir: "{{ grafana_conf_dir }}/provisioning/dashboards"
 grafana_datasources_conf_dir: "{{ grafana_conf_dir }}/provisioning/datasources"
 grafana_notifiers_conf_dir: "{{ grafana_conf_dir }}/provisioning/notifiers"
 grafana_plugins_conf_dir: "{{ grafana_conf_dir }}/provisioning/plugins"
-
-grafana_docker_uid: 472
-grafana_docker_gid: 0

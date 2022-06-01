@@ -2,6 +2,8 @@
 
 prometheus_docker_tag: "v2.32.1"
 prometheus_docker_image: "prom/prometheus:{{ prometheus_docker_tag }}"
+prometheus_docker_uid: 65534
+prometheus_docker_gid: 65534
 prometheus_docker_network: bridge # "bridge" or "host" supported
 prometheus_bind_mount_data_volumes: true
 prometheus_port: 9090

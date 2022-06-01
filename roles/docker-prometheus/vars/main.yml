@@ -3,5 +3,3 @@
 prometheus_setup_dir: "/srv/prometheus"
 prometheus_data_dir: "{{ prometheus_setup_dir }}/data"
 prometheus_conf_dir: "{{ prometheus_setup_dir }}/conf"
-prometheus_docker_uid: 65534
-prometheus_docker_gid: 65534
