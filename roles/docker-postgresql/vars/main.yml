@@ -1,0 +1,4 @@
+---
+
+postgresql_setup_dir: "/srv/postgresql{{ postgresql_suffix }}"
+postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
