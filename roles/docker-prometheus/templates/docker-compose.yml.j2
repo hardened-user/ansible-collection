@@ -5,7 +5,7 @@ version: '3.5'
 
 {% if prometheus_docker_network != "host" %}
 networks:
-  prometheus-network:
+  prometheus_network:
     driver: "bridge"
 {% endif %}
 
@@ -30,7 +30,7 @@ services:
     ports:
       - {{ prometheus_port }}:9090
     networks:
-      - prometheus-network
+      - prometheus_network
 {% else %}
     network_mode: host
 {% endif %}

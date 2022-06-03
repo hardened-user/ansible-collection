@@ -5,7 +5,7 @@ version: '3.5'
 
 {% if grafana_docker_network != "host" %}
 networks:
-  grafana-network:
+  grafana_network:
     driver: "bridge"
 {% endif %}
 
@@ -24,7 +24,7 @@ services:
     ports:
       - {{ grafana_port }}:3000
     networks:
-      - grafana-network
+      - grafana_network
 {% else %}
     network_mode: host
 {% endif %}
