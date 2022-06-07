@@ -1,0 +1,7 @@
+---
+
+- name: "restart apache nifi"
+  docker_compose:
+    project_src: "{{ apache_nifi_setup_dir }}"
+    restarted: yes
+  when: not r_docker_apache_nifi_start_result.changed

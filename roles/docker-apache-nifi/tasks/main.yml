@@ -1,0 +1,55 @@
+---
+
+- name: "Create directory: {{ apache_nifi_setup_dir }}"
+  file:
+    path:  "{{ apache_nifi_setup_dir }}"
+    owner: root
+    group: root
+    mode:  0750
+    state: directory
+  tags:
+    - apache-nifi
+    - mkdir
+
+
+- name: "Create directories: ..."
+  file:
+    path: "{{ item.path }}"
+    mode:  "{{ item.mode  | default('0750') }}"
+    owner: "{{ item.owner | default(apache_nifi_docker_uid) }}"
+    group: "{{ item.group | default(apache_nifi_docker_gid) }}"
+    state: directory
+  with_items:
+    - { path: "{{ apache_nifi_logs_dir }}" }
+    - { path: "{{ apache_nifi_state_dir }}" }
+    - { path: "{{ apache_nifi_content_repository_dir }}" }
+    - { path: "{{ apache_nifi_database_repository_dir }}" }
+    - { path: "{{ apache_nifi_flowfile_repository_dir }}" }
+    - { path: "{{ apache_nifi_provenance_repository_dir }}" }
+  when: apache_nifi_bind_mount_data_volumes == true
+  tags:
+    - apache-nifi
+    - mkdir
+
+
+- name: "Copy file from template: {{ apache_nifi_setup_dir }}/docker-compose.yml"
+  template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ apache_nifi_setup_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+  tags:
+    - apache-nifi
+    - config
+
+
+- name: "docker-compose up: {{ apache_nifi_setup_dir }}"
+  docker_compose:
+    project_src: "{{ apache_nifi_setup_dir }}"
+    pull: yes
+  register: r_docker_apache_nifi_start_result
+  tags:
+    - apache-nifi
+    - docker-compose

@@ -1,0 +1,17 @@
+---
+
+apache_nifi_docker_tag: "1.16.2"
+apache_nifi_docker_image: "apache/nifi:{{ apache_nifi_docker_tag }}"
+apache_nifi_docker_uid: 1000
+apache_nifi_docker_gid: 1000
+apache_nifi_docker_network: bridge # "bridge" or "host" supported
+apache_nifi_bind_mount_data_volumes: true
+apache_nifi_listen_address: "0.0.0.0"
+apache_nifi_web_http_port: 8080
+apache_nifi_web_https_port: 8443
+# NiFi only supports one mode of HTTP or HTTPS operation, not both simultaneously
+apache_nifi_ssl_enable: false
+# Accepted host headers when HTTPS
+apache_nifi_web_proxy_host: "{{ inventory_hostname }}:{{ apache_nifi_web_https_port }},{{ansible_default_ipv4.address }}:{{ apache_nifi_web_https_port }}"
+apache_nifi_jvm_heap_init: "512m"
+apache_nifi_jvm_heap_max: "512m"

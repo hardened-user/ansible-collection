@@ -1,0 +1,75 @@
+# {{ ansible_managed }}
+
+---
+version: '3.5'
+
+{% if apache_nifi_docker_network != "host" %}
+networks:
+  apache_nifi_network:
+    driver: "bridge"
+{% endif %}
+
+volumes:
+  apache_nifi_conf: {}
+{% if apache_nifi_bind_mount_data_volumes is sameas false %}
+  apache_nifi_logs: {}
+  apache_nifi_state: {}
+  apache_nifi_content_repository: {}
+  apache_nifi_database_repository: {}
+  apache_nifi_flowfile_repository: {}
+  apache_nifi_provenance_repository: {}
+{% endif %}
+
+services:
+  apache-nifi:
+    image: "{{ apache_nifi_docker_image }}"
+    container_name: apache-nifi
+    restart: unless-stopped
+    environment:
+{% if apache_nifi_ssl_enable is sameas true %}
+{% if apache_nifi_docker_network == "host" %}
+      NIFI_WEB_HTTPS_HOST: {{ apache_nifi_listen_address }}
+{% endif %}
+      NIFI_WEB_HTTPS_PORT: {{ apache_nifi_web_https_port }}
+      NIFI_WEB_PROXY_HOST: {{ apache_nifi_web_proxy_host }}
+{% else %}
+{% if apache_nifi_docker_network == "host" %}
+      NIFI_WEB_HTTP_HOST: {{ apache_nifi_listen_address }}
+{% endif %}
+      NIFI_WEB_HTTP_PORT: {{ apache_nifi_web_http_port }}
+{% endif %}
+      NIFI_JVM_HEAP_INIT: {{ apache_nifi_jvm_heap_init }}
+      NIFI_JVM_HEAP_MAX: {{ apache_nifi_jvm_heap_max }}
+    volumes:
+      - apache_nifi_conf:/opt/nifi/nifi-current/conf
+{% if apache_nifi_bind_mount_data_volumes is sameas false %}
+      - apache_nifi_logs:/opt/nifi/nifi-current/logs
+      - apache_nifi_state:/opt/nifi/nifi-current/state
+      - apache_nifi_content_repository:/opt/nifi/nifi-current/content_repository
+      - apache_nifi_database_repository:/opt/nifi/nifi-current/database_repository
+      - apache_nifi_flowfile_repository:/opt/nifi/nifi-current/flowfile_repository
+      - apache_nifi_provenance_repository:/opt/nifi/nifi-current/provenance_repository
+{% else %}
+      - {{ apache_nifi_logs_dir }}:/opt/nifi/nifi-current/logs
+      - {{ apache_nifi_state_dir }}:/opt/nifi/nifi-current/state
+      - {{ apache_nifi_content_repository_dir }}:/opt/nifi/nifi-current/content_repository
+      - {{ apache_nifi_database_repository_dir }}:/opt/nifi/nifi-current/database_repository
+      - {{ apache_nifi_flowfile_repository_dir }}:/opt/nifi/nifi-current/flowfile_repository
+      - {{ apache_nifi_provenance_repository_dir }}:/opt/nifi/nifi-current/provenance_repository
+{% endif %}
+{% if apache_nifi_docker_network != "host" %}
+    ports:
+{% if apache_nifi_ssl_enable is sameas true %}
+      - {{ apache_nifi_listen_address }}:{{ apache_nifi_web_https_port }}:8443
+{% else %}
+      - {{ apache_nifi_listen_address }}:{{ apache_nifi_web_http_port }}:8080
+{% endif %}
+    networks:
+      - apache_nifi_network
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

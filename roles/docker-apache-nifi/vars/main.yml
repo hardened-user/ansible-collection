@@ -1,0 +1,9 @@
+---
+
+apache_nifi_setup_dir: "/srv/apache-nifi"
+apache_nifi_logs_dir: "{{ apache_nifi_setup_dir }}/logs"
+apache_nifi_state_dir: "{{ apache_nifi_setup_dir }}/state"
+apache_nifi_content_repository_dir: "{{ apache_nifi_setup_dir }}/content_repository"
+apache_nifi_database_repository_dir: "{{ apache_nifi_setup_dir }}/database_repository"
+apache_nifi_flowfile_repository_dir: "{{ apache_nifi_setup_dir }}/flowfile_repository"
+apache_nifi_provenance_repository_dir: "{{ apache_nifi_setup_dir }}/provenance_repository"
