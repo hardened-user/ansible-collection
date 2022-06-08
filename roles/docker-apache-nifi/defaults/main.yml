@@ -13,5 +13,7 @@ apache_nifi_web_https_port: 8443
 apache_nifi_ssl_enable: false
 # Accepted host headers when HTTPS
 apache_nifi_web_proxy_host: "{{ inventory_hostname }}:{{ apache_nifi_web_https_port }},{{ansible_default_ipv4.address }}:{{ apache_nifi_web_https_port }}"
+apache_nifi_single_user_credentials_username: ""
+apache_nifi_single_user_credentials_password: ""
 apache_nifi_jvm_heap_init: "512m"
 apache_nifi_jvm_heap_max: "512m"

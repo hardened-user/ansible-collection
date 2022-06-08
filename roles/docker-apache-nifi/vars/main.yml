@@ -7,3 +7,4 @@ apache_nifi_content_repository_dir: "{{ apache_nifi_setup_dir }}/content_reposit
 apache_nifi_database_repository_dir: "{{ apache_nifi_setup_dir }}/database_repository"
 apache_nifi_flowfile_repository_dir: "{{ apache_nifi_setup_dir }}/flowfile_repository"
 apache_nifi_provenance_repository_dir: "{{ apache_nifi_setup_dir }}/provenance_repository"
+apache_nifi_drivers_dir: "{{ apache_nifi_setup_dir }}/drivers"

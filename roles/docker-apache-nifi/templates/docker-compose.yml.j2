@@ -18,6 +18,7 @@ volumes:
   apache_nifi_database_repository: {}
   apache_nifi_flowfile_repository: {}
   apache_nifi_provenance_repository: {}
+  apache_nifi_drivers: {}
 {% endif %}
 
 services:
@@ -38,6 +39,8 @@ services:
 {% endif %}
       NIFI_WEB_HTTP_PORT: {{ apache_nifi_web_http_port }}
 {% endif %}
+      SINGLE_USER_CREDENTIALS_USERNAME: {{ apache_nifi_single_user_credentials_username }}
+      SINGLE_USER_CREDENTIALS_PASSWORD: {{ apache_nifi_single_user_credentials_password }}
       NIFI_JVM_HEAP_INIT: {{ apache_nifi_jvm_heap_init }}
       NIFI_JVM_HEAP_MAX: {{ apache_nifi_jvm_heap_max }}
     volumes:
@@ -49,6 +52,7 @@ services:
       - apache_nifi_database_repository:/opt/nifi/nifi-current/database_repository
       - apache_nifi_flowfile_repository:/opt/nifi/nifi-current/flowfile_repository
       - apache_nifi_provenance_repository:/opt/nifi/nifi-current/provenance_repository
+      - apache_nifi_drivers:/opt/nifi/nifi-current/drivers
 {% else %}
       - {{ apache_nifi_logs_dir }}:/opt/nifi/nifi-current/logs
       - {{ apache_nifi_state_dir }}:/opt/nifi/nifi-current/state
@@ -56,6 +60,7 @@ services:
       - {{ apache_nifi_database_repository_dir }}:/opt/nifi/nifi-current/database_repository
       - {{ apache_nifi_flowfile_repository_dir }}:/opt/nifi/nifi-current/flowfile_repository
       - {{ apache_nifi_provenance_repository_dir }}:/opt/nifi/nifi-current/provenance_repository
+      - {{ apache_nifi_drivers_dir }}:/opt/nifi/nifi-current/drivers
 {% endif %}
 {% if apache_nifi_docker_network != "host" %}
     ports:

@@ -26,6 +26,7 @@
     - { path: "{{ apache_nifi_database_repository_dir }}" }
     - { path: "{{ apache_nifi_flowfile_repository_dir }}" }
     - { path: "{{ apache_nifi_provenance_repository_dir }}" }
+    - { path: "{{ apache_nifi_drivers_dir }}" }
   when: apache_nifi_bind_mount_data_volumes == true
   tags:
     - apache-nifi
