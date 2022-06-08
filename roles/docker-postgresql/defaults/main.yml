@@ -7,7 +7,7 @@ postgresql_docker_uid: 999
 postgresql_docker_gid: 999
 postgresql_docker_network: bridge # "bridge" or "host" supported
 postgresql_bind_mount_data_volumes: true
-postgresql_listen_address: "127.0.0.1"
+postgresql_listen_address: "0.0.0.0"
 postgresql_port: 5432
 postgresql_init_user: "postgres"
 postgresql_init_pass: "postgres"
