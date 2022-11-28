@@ -1,0 +1,13 @@
+---
+# vars file specific for Debian family systems
+
+docker_install_packages:
+  - "docker-ce={{ docker_version }}"
+
+
+docker_remove_packages:
+  - "docker"
+  - "docker-engine"
+  - "docker.io"
+  - "containerd"
+  - "runc"

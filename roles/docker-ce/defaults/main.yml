@@ -1,6 +1,6 @@
 ---
 
-docker_version: "20.10.8"
+docker_version: "20.10.21"
 docker_environment_keys: {}
 
 
