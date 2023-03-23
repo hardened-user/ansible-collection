@@ -1,2 +1,6 @@
 # ansible-collection
-Ansible playbooks and roles
+Collection of Ansible Roles.
+
+* Ubuntu
+* Centos
+* Gentoo
