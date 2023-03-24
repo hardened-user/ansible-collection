@@ -1,9 +1,10 @@
 # hosts
 Setup local DNS using the `/etc/hosts` file.
 
-## Example Playbook
+## Example
+### Playbook
 ```
-- name: "Example"
+- name: "Setup local DNS"
   hosts: locahost
   become: yes
   vars:
