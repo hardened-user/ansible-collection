@@ -1,0 +1,5 @@
+---
+etcd_package_name: "etcd"
+etcd_service_name: "etcd"
+
+etcd_conf_file: "/etc/etcd/etcd.conf"

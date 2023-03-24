@@ -1,0 +1,25 @@
+# {{ ansible_managed }}
+
+# Unique name for this node.
+ETCD_NAME="{{ inventory_hostname }}"
+
+# Path to the data directory.
+ETCD_DATA_DIR="{{ etcd_data_dir }}"
+
+# List of URLs to listen on for peer traffic.
+ETCD_LISTEN_PEER_URLS="http://0.0.0.0:{{ etcd_peer_port }}"
+
+# List of URLs to listen on for client traffic.
+ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:{{ etcd_client_port }}"
+
+# Initial cluster state ('new' or 'existing').
+ETCD_INITIAL_CLUSTER_STATE="new"
+
+# List of this member’s peer URLs to advertise to the rest of the cluster.
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://{{ etcd_node_address }}:{{ etcd_peer_port }}"
+
+# Initial cluster configuration for bootstrapping.
+ETCD_INITIAL_CLUSTER="{% for x in groups[etcd_inventory_group_name] %}{{ x }}=http://{{ hostvars[x]['etcd_node_address'] }}:{{ etcd_peer_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+
+# List of this member’s client URLs to advertise to the rest of the cluster.
+ETCD_ADVERTISE_CLIENT_URLS="http://{{ etcd_node_address }}:{{ etcd_client_port }}"

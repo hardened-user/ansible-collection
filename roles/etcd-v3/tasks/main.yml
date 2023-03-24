@@ -1,0 +1,61 @@
+---
+- name: "Check if inventory group are defined: {{ etcd_inventory_group_name }}"
+  fail: msg="Inventory group '{{ etcd_inventory_group_name }}' is not defined"
+  when: groups[etcd_inventory_group_name] is undefined
+  tags:
+    - etcd
+    - check
+
+- name: "Check if variable are defined: etcd_node_address"
+  fail: msg="Variable 'etcd_node_address' is not defined"
+  when: vars['etcd_node_address'] is undefined
+  tags:
+    - etcd
+    - check
+
+- name: "Install package: {{ etcd_package_name }}"
+  ansible.builtin.package:
+    name: "{{ etcd_package_name }}"
+    state: present
+  tags:
+    - etcd
+    - package
+
+
+- name: "Copy file from template: {{ etcd_conf_file }}"
+  template:
+    src: "etcd.conf.j2"
+    dest: "{{ etcd_conf_file }}"
+    owner: root
+    group: root
+    mode: 0640
+    force: yes
+  notify:
+    - restart etcd
+  tags:
+    - etcd
+    - config
+
+
+- name: "Service start: {{ etcd_service_name }}"
+  service:
+    name: "{{ etcd_service_name }}"
+    state: started
+    enabled: yes
+  register: r_etcd_start
+  tags:
+    - etcd
+    - service
+
+- name: "Check cluster status"
+  ansible.builtin.shell: |-
+    etcdctl --cluster=true endpoint status -w table
+  environment:
+    ETCDCTL_API=3
+  register: _result
+  changed_when: false
+
+
+- name: "Print cluster status"
+  ansible.builtin.debug:
+    msg: "{{ _result.stdout_lines }}"
