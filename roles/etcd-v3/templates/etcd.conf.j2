@@ -23,3 +23,6 @@ ETCD_INITIAL_CLUSTER="{% for x in groups[etcd_inventory_group_name] %}{{ x }}=ht
 
 # List of this member’s client URLs to advertise to the rest of the cluster.
 ETCD_ADVERTISE_CLIENT_URLS="http://{{ etcd_node_address }}:{{ etcd_client_port }}"
+
+# Accept etcd V2 client requests
+ETCD_ENABLE_V2={{ etcd_enable_v2 | lower }}
