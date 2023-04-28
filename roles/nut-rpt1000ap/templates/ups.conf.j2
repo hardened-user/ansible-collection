@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+maxretry = 3
+
+[RPT1000AP]
+driver = usbhid-ups
+port = auto
+desc = "UPS PowerCom Raptor RPT-1000AP EURO"
+ignorelb
+override.battery.charge.low = {{ nut_override_battery_charge_low }}

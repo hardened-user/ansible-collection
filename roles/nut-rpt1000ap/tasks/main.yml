@@ -1,0 +1,106 @@
+---
+- name: "Install package: {{ nut_package_name }}"
+  ansible.builtin.package:
+    name: "{{ nut_package_name }}"
+    state: present
+  tags:
+    - nut
+    - package
+
+
+- name: "Copy file from template: {{ nut_conf_file }}"
+  ansible.builtin.template:
+    src: "nut.conf.j2"
+    dest: "{{ nut_conf_file }}"
+    owner: root
+    group: nut
+    mode: '0640'
+    force: true
+  tags:
+    - nut
+    - config
+
+
+- name: "Copy files from template: ..."
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: nut
+    mode: '0640'
+    force: true
+  with_items:
+      - { dest: "{{ nut_ups_conf_file }}", src: "ups.conf.j2" }
+      - { dest: "{{ nut_upsd_conf_file }}", src: "upsd.conf.j2" }
+      - { dest: "{{ nut_upsd_users_file }}", src: "upsd.users.j2" }
+  loop_control:
+    label: "{{ item.dest }}"
+  notify:
+    - restart upsd
+  tags:
+    - nut
+    - config
+
+
+- name: "Copy file from template: {{ nut_upsmon_conf_file }}"
+  ansible.builtin.template:
+    src: "upsmon.conf.j2"
+    dest: "{{ nut_upsmon_conf_file }}"
+    owner: root
+    group: nut
+    mode: '0640'
+    force: true
+  notify:
+    - restart upsmon
+  tags:
+    - nut
+    - config
+
+
+- name: "Copy file from template: {{ nut_udev_conf_file }}"
+  ansible.builtin.template:
+    src: "90-nut-ups.rules.j2"
+    dest: "{{ nut_udev_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+    force: true
+  notify:
+    - restart udev
+  tags:
+    - nut
+    - config
+
+
+- name: "Configuring service: /lib/systemd/system/{{ nut_driver_service_name }}.service"
+  ansible.builtin.replace:
+    path: "/lib/systemd/system/{{ nut_driver_service_name }}.service"
+    regexp: '^\s*(Wants=.*)'
+    replace: '#\1'
+  notify:
+    - systemd daemon reload
+  tags:
+    - nut
+    - config
+
+
+- name: "Service start: {{ nut_upsd_service_name }}"
+  ansible.builtin.service:
+    name: "{{ nut_upsd_service_name }}"
+    state: started
+    enabled: yes
+  register: r_upsd_start
+  tags:
+    - nut
+    - service
+
+
+- name: "Service start: {{ nut_upsmon_service_name }}"
+  ansible.builtin.service:
+    name: "{{ nut_upsmon_service_name }}"
+    state: started
+    enabled: yes
+  register: r_upsmon_start
+  tags:
+    - nut
+    - service

@@ -1,0 +1,13 @@
+---
+nut_package_name: "nut"
+
+nut_driver_service_name: "nut-driver"
+nut_upsd_service_name: "nut-server"
+nut_upsmon_service_name: "nut-monitor"
+
+nut_conf_file: "/etc/nut/nut.conf"
+nut_ups_conf_file: "/etc/nut/ups.conf"
+nut_upsd_conf_file: "/etc/nut/upsd.conf"
+nut_upsd_users_file: "/etc/nut/upsd.users"
+nut_upsmon_conf_file: "/etc/nut/upsmon.conf"
+nut_udev_conf_file: "/etc/udev/rules.d/90-nut-ups.rules"

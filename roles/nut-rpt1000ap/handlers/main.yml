@@ -1,0 +1,23 @@
+---
+- name: "systemd daemon reload"
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: "restart upsd"
+  ansible.builtin.service:
+    name: "{{ nut_upsd_service_name }}"
+    state: restarted
+  when:
+    - not r_upsd_start.changed
+
+- name: "restart upsmon"
+  ansible.builtin.service:
+    name: "{{ nut_upsmon_service_name }}"
+    state: restarted
+  when:
+    - not r_upsmon_start.changed
+
+- name: "restart udev"
+  ansible.builtin.service:
+    name: "udev"
+    state: restarted

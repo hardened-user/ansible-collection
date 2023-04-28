@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+# This user should not have write access to upsmon.conf.
+RUN_AS_USER nut
+
+MONITOR RPT1000AP@127.0.0.1 1 upsmon pass123 master
+
+MINSUPPLIES 1
+SHUTDOWNCMD "/sbin/shutdown -h +0"
+POLLFREQ 5
+POLLFREQALERT 1
+HOSTSYNC 15
+DEADTIME 15
+POWERDOWNFLAG /etc/killpower
+RBWARNTIME 43200
+NOCOMMWARNTIME 300
+FINALDELAY 5
