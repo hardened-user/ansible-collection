@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+---
+version: '2.2'
+
+services:
+  php-fpm:
+    image: "{{ php_fpm_docker_image }}"
+    container_name: "{{ php_fpm_container_name }}"
+    restart: unless-stopped
+    working_dir: /var/www
+    environment:
+      TZ: {{ timezone_name }}
+    volumes:
+      - {{ php_fpm_php_conf_dir }}:/usr/local/etc/php:ro
+      - {{ php_fpm_fpm_conf_dir }}:/usr/local/etc/php-fpm.d:ro
+      - {{ php_fpm_fpm_sock_dir }}:/var/run/php-fpm
+      - {{ php_fpm_logs_dir }}:/var/log/php-fpm
+      - {{ php_fpm_sessions_dir }}:/var/lib/php/sessions
+      - /var/www:/var/www
+{% for v in php_fpm_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if php_fpm_tcp_enabled == true %}
+    ports:
+      - {{ php_fpm_listen_port }}:9000
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

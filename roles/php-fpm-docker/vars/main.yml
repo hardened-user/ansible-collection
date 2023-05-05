@@ -1,0 +1,11 @@
+---
+php_fpm_setup_dir: "/srv/php-fpm-{{ php_fpm_version }}"
+php_fpm_php_conf_dir: "{{ php_fpm_setup_dir }}/php"
+php_fpm_fpm_conf_dir: "{{ php_fpm_setup_dir }}/php-fpm.d"
+php_fpm_fpm_sock_dir: "{{ php_fpm_setup_dir }}/socket"
+
+php_fpm_container_name: "php-fpm-{{ php_fpm_version }}"
+
+php_fpm_logrotate_conf_file: "/etc/logrotate.d/php-fpm-docker"
+
+php_fpm_reload_cmd: "kill -USR2 1"

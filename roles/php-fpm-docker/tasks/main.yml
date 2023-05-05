@@ -1,0 +1,92 @@
+---
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  with_items:
+    - { path: "{{ php_fpm_setup_dir }}", mode: '0750' }
+    - { path: "{{ php_fpm_php_conf_dir }}" }
+    - { path: "{{ php_fpm_fpm_conf_dir }}" }
+    - { path: "{{ php_fpm_fpm_sock_dir }}" }
+    - { path: "{{ php_fpm_logs_dir }}", mode: '0770', owner: "{{ php_fpm_user_name }}", group: "{{ php_fpm_user_group }}"}
+    - { path: "{{ php_fpm_sessions_dir }}", mode: '0770', owner: "{{ php_fpm_user_name }}", group: "{{ php_fpm_user_group }}" }
+  tags:
+    - php-fpm
+    - mkdir
+
+
+- name: "Copy file from template: {{ php_fpm_setup_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ php_fpm_setup_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - php-fpm
+    - config
+
+
+- name: "Copy files (rsync): {{ php_fpm_php_conf_dir }}/"
+  ansible.builtin.synchronize:
+    src: "{{ php_fpm_php_conf_source }}/"
+    dest: "{{ php_fpm_php_conf_dir }}/"
+    archive: no
+    checksum: yes
+    links: yes
+    recursive: yes
+    rsync_opts:
+      - "--chown=root:root"
+      - "--chmod=D0755,F0644"
+      - "--exclude=.*"
+  notify:
+    - reload php-fpm-docker
+  tags:
+    - php-fpm
+    - config
+    - copy
+
+
+- name: "Copy files (rsync): {{ php_fpm_fpm_conf_dir }}/"
+  ansible.builtin.synchronize:
+    src: "{{ php_fpm_fpm_conf_source }}/"
+    dest: "{{ php_fpm_fpm_conf_dir }}/"
+    archive: no
+    checksum: yes
+    links: yes
+    recursive: yes
+    rsync_opts:
+      - "--chown=root:root"
+      - "--chmod=D0755,F0644"
+      - "--exclude=.*"
+  notify:
+    - reload php-fpm-docker
+  tags:
+    - php-fpm
+    - config
+    - copy
+
+
+- name: "Copy file from template: {{ php_fpm_logrotate_conf_file }}"
+  ansible.builtin.template:
+    src: "logrotate.conf.j2"
+    dest: "{{ php_fpm_logrotate_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - php-fpm
+    - config
+
+
+- name: "docker-compose up: {{ php_fpm_setup_dir }}"
+  docker_compose:
+    project_src: "{{ php_fpm_setup_dir }}"
+    pull: true
+  register: r_php_fpm_start_result
+  tags:
+    - php-fpm
+    - docker-compose
