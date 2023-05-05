@@ -1,4 +1,8 @@
 ---
+- name: "systemd daemon reload"
+  ansible.builtin.systemd:
+    daemon_reload: true
+
 - name: "restart docker"
   ansible.builtin.service:
     name: "{{ docker_service_name }}"

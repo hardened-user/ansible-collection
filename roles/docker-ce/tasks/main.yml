@@ -20,16 +20,19 @@
     - docker-ce
 
 
-- name: "Create directory: {{ docker_conf_dir }}"
-  ansible.builtin.file:
-    path: "{{ docker_conf_dir }}"
+- name: "Create directories: ..."
+  file:
+    path: "{{ item.path }}"
     state: directory
-    owner: root
-    group: root
-    mode: '0755'
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  with_items:
+    - { path: "{{ docker_conf_dir }}" }
+    - { path: "{{ docker_systemd_override_dir }}" }
   tags:
     - docker-ce
-    - config
+    - mkdir
 
 
 - name: "Copy file from template: {{ docker_conf_file }}"
@@ -39,21 +42,23 @@
     owner: root
     group: root
     mode: '0644'
-  notify: restart docker
+  notify:
+    - restart docker
   tags:
     - docker-ce
     - config
 
 
-- name: "Copy file from template: /etc/systemd/system/{{ docker_service_name }}.service.d/override.conf"
+- name: "Copy file from template: {{ docker_systemd_override_file }}"
   ansible.builtin.template:
     src: "service.override.conf.j2"
-    dest: "/etc/systemd/system/{{ docker_service_name }}.service.d/override.conf"
+    dest: "{{ docker_systemd_override_file }}"
     owner: root
     group: root
     mode: '0644'
-  when: docker_systemd_env_dict | length > 0
-  notify: restart docker
+  notify:
+    - systemd daemon reload
+    - restart docker
   tags:
     - docker-ce
     - config

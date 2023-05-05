@@ -4,3 +4,6 @@ docker_service_name: "docker"
 
 docker_conf_dir: "/etc/docker"
 docker_conf_file: "/etc/docker/daemon.json"
+
+docker_systemd_override_dir: "/etc/systemd/system/{{ docker_service_name }}.service.d"
+docker_systemd_override_file: "{{ docker_systemd_override_dir }}/override.conf"
