@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+[Service]
+{% for x in docker_systemd_env_dict | dict2items %}
+Environment={{ x.key }}={{ x.value }}
+{% endfor %}

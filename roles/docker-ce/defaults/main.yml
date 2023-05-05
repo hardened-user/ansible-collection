@@ -1,10 +1,12 @@
 ---
+docker_version: ""
 
-docker_version: "20.10.21"
-docker_environment_keys: {}
+
+### systemd ------------------------------------------------------------------------------------------------------------
+docker_systemd_env_dict: {}
 
 
 ### daemon.json --------------------------------------------------------------------------------------------------------
-docker_config_keys: {}
+docker_config_dict: {}
 docker_config_default: {}
-docker_config_runtime: "{{ docker_config_default | combine(docker_config_keys) | dict2items | rejectattr('value', 'none') | list | items2dict }}"
+docker_config_runtime: "{{ docker_config_default | combine(docker_config_dict) | dict2items | rejectattr('value', 'none') | list | items2dict }}"

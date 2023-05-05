@@ -1,0 +1,9 @@
+---
+# vars file specific for Ubuntu distribution systems
+
+docker_remove_packages:
+  - "docker"
+  - "docker-engine"
+  - "docker.io"
+  - "containerd"
+  - "runc"

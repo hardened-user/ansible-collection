@@ -1,5 +1,6 @@
 ---
+docker_package_name: "docker-ce"
+docker_service_name: "docker"
 
 docker_conf_dir: "/etc/docker"
 docker_conf_file: "/etc/docker/daemon.json"
-docker_service_name: "docker"

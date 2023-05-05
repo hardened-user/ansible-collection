@@ -1,9 +1,5 @@
 ---
-# vars file specific for RedHat family systems
-
-docker_install_packages:
-  - "docker-ce-{{ docker_version }}"
-
+# vars file specific for OracleLinux distribution systems
 
 docker_remove_packages:
   - "docker"

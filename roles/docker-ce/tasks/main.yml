@@ -1,85 +1,70 @@
 ---
-
-- name: "Include OS family specific variables"
-  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+- name: "Include OS distribution specific variables"
+  include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
   tags:
-    - docker
+    - docker-ce
 
 
 - name: "Remove packages: {{ docker_remove_packages | join(' ') }}"
-  package:
+  ansible.builtin.package:
     name: "{{ docker_remove_packages }}"
     state: absent
   tags:
-    - docker
+    - docker-ce
     - package
 
 
 - name: "Include OS distribution specific tasks"
   include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
   tags:
-    - docker
-
-
-- name: "Install packages: {{ docker_install_packages | join(' ') }}"
-  package:
-    name: "{{ docker_install_packages }}"
-    state: present
-  tags:
-    - docker
-    - package
+    - docker-ce
 
 
 - name: "Create directory: {{ docker_conf_dir }}"
-  file:
+  ansible.builtin.file:
     path: "{{ docker_conf_dir }}"
+    state: directory
     owner: root
     group: root
-    mode:  0755
-    state: directory
+    mode: '0755'
   tags:
-    - docker
-    - mkdir
+    - docker-ce
+    - config
 
 
 - name: "Copy file from template: {{ docker_conf_file }}"
-  template:
+  ansible.builtin.template:
     src: "daemon.json.j2"
     dest: "{{ docker_conf_file }}"
     owner: root
     group: root
-    mode: 0644
-    force: yes
+    mode: '0644'
   notify: restart docker
   tags:
-    - docker
+    - docker-ce
     - config
 
 
-- name: "Create file: /etc/systemd/system/{{ docker_service_name }}.service.d/override.conf"
-  copy:
-    content: |-
-      # ATTENTION !!! Ansible managed.
-      [Service]
-      {% for x in docker_environment_keys | dict2items %}
-      Environment={{ x.key }}={{ x.value }}
-      {% endfor %}
+- name: "Copy file from template: /etc/systemd/system/{{ docker_service_name }}.service.d/override.conf"
+  ansible.builtin.template:
+    src: "service.override.conf.j2"
     dest: "/etc/systemd/system/{{ docker_service_name }}.service.d/override.conf"
-    mode: 0644
-    force: yes
-  when: docker_environment_keys.keys() | length > 0
+    owner: root
+    group: root
+    mode: '0644'
+  when: docker_systemd_env_dict | length > 0
   notify: restart docker
   tags:
-    - docker
-    - service
+    - docker-ce
+    - config
 
 
 - name: "Service start: {{ docker_service_name }}"
-  service:
+  ansible.builtin.service:
     name: "{{ docker_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   register: r_docker_start
   tags:
-    - docker
+    - docker-ce
     - service

@@ -1,1 +1,10 @@
 ---
+# tasks file specific for CentOS distribution systems
+
+- name: "Install package: {{ docker_package_name + '-' + docker_version if docker_version else docker_package_name }}"
+  ansible.builtin.package:
+    name: "{{ docker_package_name + '-' + docker_version if docker_version else docker_package_name }}"
+    state: present
+  tags:
+    - docker-ce
+    - package
