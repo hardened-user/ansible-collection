@@ -1,11 +1,7 @@
-Docker CE (Community Edition)
-================
-
+# Docker CE (Community Edition)
 https://docs.docker.com/engine/install/
 
-
-Example
-==============
+## Example
 ### Variables
 ```
 # latest
