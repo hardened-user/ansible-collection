@@ -60,7 +60,7 @@
     - config
 
 
-# NOTE: Используем `copy` т.к. файлы должны быть зашифрованы
+# NOTE: Использовать `copy` т.к. файлы могут быть зашифрованы через ansible-vault encrypt
 - name: "Copy files: {{ nginx_cert_dir }}/"
   copy:
     src: "{{ item }}"
