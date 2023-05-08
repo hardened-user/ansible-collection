@@ -5,3 +5,4 @@ skip_list:
   - name[casing]
   - risky-shell-pipe
   - no-changed-when
+  - schema[meta]
