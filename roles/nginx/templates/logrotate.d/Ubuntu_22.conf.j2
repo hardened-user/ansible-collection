@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+/var/log/nginx/*.log {
+    {{ nginx_logrotate_interval }}
+    rotate {{ nginx_logrotate_rotate }}
+    missingok
+    dateext
+    compress
+    delaycompress
+    notifempty
+    create 0640 www-data adm
+    sharedscripts
+    prerotate
+        if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+            run-parts /etc/logrotate.d/httpd-prerotate; \
+        fi \
+    endscript
+    postrotate
+        invoke-rc.d nginx rotate >/dev/null 2>&1
+    endscript
+}

@@ -1,4 +1,5 @@
 ---
+nginx_root_dir: "/var/www/default/html"
 
 nginx_logrotate_interval: "daily"
 nginx_logrotate_rotate: 31
@@ -6,8 +7,8 @@ nginx_logrotate_rotate: 31
 # NOTE: Адрес папки с файлами конфигурации nginx
 nginx_conf_source_dir: "{{ role_path }}/files/conf"
 
-# NOTE: Адрес папки с файлами контента nginx
-nginx_html_source_dir: "{{ role_path }}/files/html"
-
-# NOTE: Адрес папки с *зашифрованными* файлами сертификатов
+# NOTE: Адрес папки с зашифрованными файлами сертификатов
 nginx_cert_source_dir: "{{ role_path }}/files/cert"
+
+# NOTE: Адрес папки с файлами контента nginx
+nginx_root_source_dir: "{{ role_path }}/files/data"

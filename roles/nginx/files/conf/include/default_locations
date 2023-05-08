@@ -14,3 +14,8 @@ location /.well-known/acme-challenge {
     allow all;
     root /home/letsencrypt;
 }
+
+### robots.txt
+location = /robots.txt {
+    log_not_found off;
+}

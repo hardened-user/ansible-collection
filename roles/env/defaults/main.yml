@@ -1,5 +1,4 @@
 ---
-
 ### timezone -----------------------------------------------------------------------------------------------------------
 timezone_name: "Europe/Moscow"
 
@@ -8,8 +7,3 @@ timezone_name: "Europe/Moscow"
 postgresql_terse_version: "{{ postgresql_version.split('.') | first }}"
 postgresql_root_dir: "/var/lib/pgsql"
 postgresql_port: 5432
-
-
-### nginx --------------------------------------------------------------------------------------------------------------
-nginx_home_dir: "/var/www"
-nginx_html_dir: "{{ nginx_home_dir }}/default/html"
