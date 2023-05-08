@@ -35,6 +35,8 @@
     src: "{{ php_fpm_php_conf_source }}/"
     dest: "{{ php_fpm_php_conf_dir }}/"
     archive: false
+    times: false
+    perms: true
     checksum: true
     links: true
     recursive: true
@@ -55,6 +57,8 @@
     src: "{{ php_fpm_fpm_conf_source }}/"
     dest: "{{ php_fpm_fpm_conf_dir }}/"
     archive: false
+    times: false
+    perms: true
     checksum: true
     links: true
     recursive: true
