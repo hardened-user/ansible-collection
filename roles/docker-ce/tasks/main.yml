@@ -1,6 +1,6 @@
 ---
 - name: "Include OS distribution specific variables"
-  include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
   tags:
     - docker-ce
 
@@ -15,13 +15,13 @@
 
 
 - name: "Include OS distribution specific tasks"
-  include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  ansible.builtin.include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
   tags:
     - docker-ce
 
 
 - name: "Create directories: ..."
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner | default('root') }}"
