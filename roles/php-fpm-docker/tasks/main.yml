@@ -31,13 +31,13 @@
 
 
 - name: "Copy files (rsync): {{ php_fpm_php_conf_dir }}/"
-  ansible.builtin.synchronize:
+  ansible.posix.synchronize:
     src: "{{ php_fpm_php_conf_source }}/"
     dest: "{{ php_fpm_php_conf_dir }}/"
-    archive: no
-    checksum: yes
-    links: yes
-    recursive: yes
+    archive: false
+    checksum: true
+    links: true
+    recursive: true
     rsync_opts:
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
@@ -51,13 +51,13 @@
 
 
 - name: "Copy files (rsync): {{ php_fpm_fpm_conf_dir }}/"
-  ansible.builtin.synchronize:
+  ansible.posix.synchronize:
     src: "{{ php_fpm_fpm_conf_source }}/"
     dest: "{{ php_fpm_fpm_conf_dir }}/"
-    archive: no
-    checksum: yes
-    links: yes
-    recursive: yes
+    archive: false
+    checksum: true
+    links: true
+    recursive: true
     rsync_opts:
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
@@ -83,7 +83,7 @@
 
 
 - name: "docker-compose up: {{ php_fpm_setup_dir }}"
-  docker_compose:
+  community.docker.docker_compose:
     project_src: "{{ php_fpm_setup_dir }}"
     pull: true
   register: r_php_fpm_start_result

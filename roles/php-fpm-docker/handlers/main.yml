@@ -1,6 +1,6 @@
 ---
 - name: "reload php-fpm-docker"
-  ansible.builtin.shell: |-
+  ansible.builtin.command: |-
     docker exec {{ php_fpm_container_name }} sh -c "{{ php_fpm_reload_cmd }}"
   args:
     chdir: "{{ php_fpm_setup_dir }}"
