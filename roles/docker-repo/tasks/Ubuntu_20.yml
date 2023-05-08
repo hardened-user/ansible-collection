@@ -2,7 +2,7 @@
 # tasks file specific for Ubuntu distribution systems
 
 - name: "Install package: gpg"
-  apt:
+  ansible.builtin.apt:
     name: "gpg"
     state: present
   tags:
@@ -40,7 +40,7 @@
 
 - name: "apt-get update"
   ansible.builtin.apt:
-    update_cache: yes
-  changed_when: False
+    update_cache: true
+  changed_when: false
   tags:
     - docker-repo

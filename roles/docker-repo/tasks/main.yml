@@ -1,5 +1,5 @@
 ---
 - name: "Include OS distribution specific tasks"
-  include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  ansible.builtin.include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
   tags:
     - docker-repo
