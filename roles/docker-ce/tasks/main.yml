@@ -16,8 +16,6 @@
 
 - name: "Include OS distribution specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
-  tags:
-    - docker-ce
 
 
 - name: "Create directories: ..."
@@ -42,8 +40,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify:
-    - restart docker
+  notify: restart docker
   tags:
     - docker-ce
     - config

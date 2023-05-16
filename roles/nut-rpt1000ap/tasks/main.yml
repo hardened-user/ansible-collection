@@ -30,13 +30,12 @@
     mode: '0640'
     force: true
   with_items:
-      - { dest: "{{ nut_ups_conf_file }}", src: "ups.conf.j2" }
-      - { dest: "{{ nut_upsd_conf_file }}", src: "upsd.conf.j2" }
-      - { dest: "{{ nut_upsd_users_file }}", src: "upsd.users.j2" }
+    - { dest: "{{ nut_ups_conf_file }}", src: "ups.conf.j2" }
+    - { dest: "{{ nut_upsd_conf_file }}", src: "upsd.conf.j2" }
+    - { dest: "{{ nut_upsd_users_file }}", src: "upsd.users.j2" }
   loop_control:
     label: "{{ item.dest }}"
-  notify:
-    - restart upsd
+  notify: restart upsd
   tags:
     - nut
     - config
@@ -50,8 +49,7 @@
     group: nut
     mode: '0640'
     force: true
-  notify:
-    - restart upsmon
+  notify: restart upsmon
   tags:
     - nut
     - config
@@ -65,8 +63,7 @@
     group: root
     mode: '0644'
     force: true
-  notify:
-    - restart udev
+  notify: restart udev
   tags:
     - nut
     - config
@@ -77,8 +74,7 @@
     path: "/lib/systemd/system/{{ nut_driver_service_name }}.service"
     regexp: '^\s*(Wants=.*)'
     replace: '#\1'
-  notify:
-    - systemd daemon reload
+  notify: systemd daemon reload
   tags:
     - nut
     - config
@@ -88,7 +84,7 @@
   ansible.builtin.service:
     name: "{{ nut_upsd_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   register: r_upsd_start
   tags:
     - nut
@@ -99,7 +95,7 @@
   ansible.builtin.service:
     name: "{{ nut_upsmon_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   register: r_upsmon_start
   tags:
     - nut

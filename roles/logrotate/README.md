@@ -14,7 +14,7 @@
 ---
 
 - name: "Configuration logrotate.d: syslog"
-  hosts: vm
+  hosts: locahost
   become: yes
   vars:
     logrotate_d_config:

@@ -23,8 +23,7 @@
     group: root
     mode: 0640
     force: yes
-  notify:
-    - restart atop
+  notify: restart atop
   tags:
     - atop
     - config

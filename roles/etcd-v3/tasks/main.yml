@@ -30,8 +30,7 @@
     group: root
     mode: 0640
     force: yes
-  notify:
-    - restart etcd
+  notify: restart etcd
   tags:
     - etcd
     - config
