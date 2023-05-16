@@ -1,0 +1,3 @@
+# {{ ansible_managed }}
+
+{{ getssl_user_name }} ALL=(root) NOPASSWD: {{ getssl_reload_cmd | regex_replace('^sudo\s+(.*)', '\\1') }}

@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+# Additional domains - this could be multiple domains / subdomains in a comma separated list
+# Note: this is Additional domains - so should not include the primary domain.
+SANS="{{ item.sans | default([]) | map('trim') | sort | join(',') }}"

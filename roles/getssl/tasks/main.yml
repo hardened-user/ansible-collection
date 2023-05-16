@@ -1,0 +1,185 @@
+---
+- name: "Install package: openssl"
+  ansible.builtin.package:
+    name: "openssl"
+    state: present
+  tags:
+    - getssl
+    - package
+
+
+- name: "Create group: {{ getssl_user_name }}"
+  ansible.builtin.group:
+    name: "{{ getssl_user_name }}"
+    system: true
+  tags:
+    - getssl
+    - config
+    - user
+
+
+- name: "Create user: {{ getssl_user_name }}"
+  ansible.builtin.user:
+    name: "{{ getssl_user_name }}"
+    group: "{{ getssl_user_name }}"
+    home: "{{ getssl_user_home }}"
+    shell: "/bin/bash"
+    comment: "created by ansible"
+    system: true
+    create_home: true
+  tags:
+    - getssl
+    - config
+    - user
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default(getssl_user_name) }}"
+    group: "{{ item.group | default(getssl_user_name) }}"
+    mode: "{{ item.mode | default('0750') }}"
+  with_items:
+    - { path: "{{ getssl_user_home }}" }
+    - { path: "{{ getssl_user_home }}/bin", owner: "root" }
+    - { path: "{{ getssl_conf_dir }}", mode: '0700' }
+    - { path: "{{ getssl_cert_dir }}" }
+    - { path: "{{ getssl_acme_challenge_dir }}" }
+  loop_control:
+    label: "{{ item.path }}"
+  tags:
+    - getssl
+    - mkdir
+
+
+- name: "Download file: {{ getssl_user_home }}/bin/getssl"
+  ansible.builtin.get_url:
+    url: "{{ getssl_download_url }}"
+    dest: "{{ getssl_user_home }}/bin/getssl"
+    mode: '0755'
+  tags:
+    - getssl
+    - download
+
+
+- name: "Copy file from template: {{ getssl_main_conf_file }}"
+  ansible.builtin.template:
+    src: "getssl.cfg.j2"
+    dest: "{{ getssl_main_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - getssl
+    - config
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ getssl_conf_dir }}/{{ item.name }}"
+    state: directory
+    owner: "{{ getssl_user_name }}"
+    group: "{{ getssl_user_name }}"
+    mode: '0750'
+  with_items:
+    - "{{ getssl_domain_list }}"
+  loop_control:
+    label: "{{ getssl_conf_dir }}/{{ item.name }}"
+  tags:
+    - getssl
+    - config
+
+
+- name: "Copy files from template: ..."
+  ansible.builtin.template:
+    src: "domain.cfg.j2"
+    dest: "{{ getssl_conf_dir }}/{{ item.name }}/getssl.cfg"
+    owner: "{{ getssl_user_name }}"
+    group: "{{ getssl_user_name }}"
+    mode: '0644'
+  with_items:
+    - "{{ getssl_domain_list }}"
+  loop_control:
+    label: "{{ getssl_conf_dir }}/{{ item.name }}/getssl.cfg"
+  tags:
+    - getssl
+    - config
+
+
+- name: "Copy file from template: {{ getssl_sudoers_conf_file }}"
+  ansible.builtin.template:
+    src: "sudoers.j2"
+    dest: "{{ getssl_sudoers_conf_file }}"
+    owner: root
+    group: root
+    mode: '0640'
+    validate: "visudo -cf %s"
+  tags:
+    - getssl
+    - config
+
+
+- name: "Checking existing certificates"
+  ansible.builtin.stat:
+    path: "{{ getssl_cert_dir }}/{{ item.name }}.pem"
+  register: r_getssl_certs_stat
+  with_items:
+    - "{{ getssl_domain_list }}"
+  loop_control:
+    label: "{{ getssl_cert_dir }}/{{ item.name }}.pem"
+  tags:
+    - getssl
+    - config
+
+
+- name: "Generate a Self-Signed SSL certificates: ..."
+  become_user: "{{ getssl_user_name }}"
+  ansible.builtin.shell: |-
+    openssl req -new -x509 -days 7 -nodes \
+      -subj "/C=RU/O=Ansible/CN={{ item.name }}" \
+      -out "{{ getssl_cert_dir }}/{{ item.name }}.pem" \
+      -keyout "{{ getssl_cert_dir }}/{{ item.name }}.key" 2>&1
+    chmod 640 "{{ getssl_cert_dir }}/{{ item.name }}.key"
+  with_items:
+    - "{{ r_getssl_certs_stat.results | selectattr('stat.exists', 'false') | map(attribute='item') }}"
+  loop_control:
+    label: "{{ getssl_cert_dir }}/{{ item.name }}.pem"
+  tags:
+    - getssl
+    - config
+
+
+- name: "Configuring cron.d env: {{ getssl_user_name }}"
+  community.general.cronvar:
+    cron_file: "{{ role_name }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { name: "MAILTO", value: "{{ getssl_cron_mailto }}" }
+  tags:
+    - getssl
+    - config
+    - cron
+
+
+- name: "Configuring cron.d job: {{ getssl_user_name }}"
+  ansible.builtin.cron:
+    cron_file: "{{ getssl_user_name }}"
+    name: "Check all certificates"
+    minute: 10
+    hour: 12
+    weekday: 2
+    user: "{{ getssl_user_name }}"
+    job: "{{ getssl_user_home }}/bin/getssl -a -U -q"
+  tags:
+    - getssl
+    - config
+    - cron
+
+
+- name: "execute getssl"
+  become_user: "{{ getssl_user_name }}"
+  ansible.builtin.command: |-
+    {{ getssl_user_home }}/bin/getssl -a -U
+  changed_when: false

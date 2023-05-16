@@ -1,0 +1,9 @@
+---
+getssl_user_home: "/home/{{ getssl_user_name }}"
+
+getssl_conf_dir: "{{ getssl_user_home }}/.getssl"
+getssl_main_conf_file: "{{ getssl_conf_dir }}/getssl.cfg"
+getssl_sudoers_conf_file: "/etc/sudoers.d/getssl"
+
+# shared vars ----------------------------------------------------------------------------------------------------------
+# getssl_user_name
