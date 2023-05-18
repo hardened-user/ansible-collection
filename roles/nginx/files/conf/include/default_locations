@@ -12,7 +12,7 @@ location = /favicon.ico {
 ### letsencrypt
 location /.well-known/acme-challenge {
     allow all;
-    root /home/letsencrypt;
+    root /home/getssl;
 }
 
 ### robots.txt

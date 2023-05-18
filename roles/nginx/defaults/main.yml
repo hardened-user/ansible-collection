@@ -1,14 +1,16 @@
 ---
+# Адрес папки, которая будет корневым каталогом для виртуального сервера по-умолчанию
 nginx_root_dir: "/var/www/default/html"
+
+# Адрес папки с файлами контента виртуального сервера по-умолчанию
+nginx_root_source_dir: "{{ role_path }}/files/data"
+
+# Адрес папки с файлами конфигурации nginx
+nginx_conf_source_dir: "{{ role_path }}/files/conf"
+
+# Адрес папки с файлами сертификатов (файлы желательно зашифровать ansible-vault encrypt)
+nginx_cert_source_dir: "{{ role_path }}/files/cert"
+
 
 nginx_logrotate_interval: "daily"
 nginx_logrotate_rotate: 31
-
-# NOTE: Адрес папки с файлами конфигурации nginx
-nginx_conf_source_dir: "{{ role_path }}/files/conf"
-
-# NOTE: Адрес папки с файлами сертификатов (файлы желательно зашифровать ansible-vault encrypt)
-nginx_cert_source_dir: "{{ role_path }}/files/cert"
-
-# NOTE: Адрес папки с файлами контента nginx
-nginx_root_source_dir: "{{ role_path }}/files/data"
