@@ -16,7 +16,7 @@
     group: "{{ item.group | default('root') }}"
     mode:  "{{ item.mode  | default('0755') }}"
   with_items:
-    - { path: "{{ nginx_conf_dir }}" }
+    - { path: "{{ nginx_conf_dir }}", mode: '0750' }
     - { path: "{{ nginx_cert_dir }}", mode: '0700' }
     - { path: "{{ nginx_root_dir }}" }
   tags:
