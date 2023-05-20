@@ -5,3 +5,12 @@
     state: reloaded
   when:
     - not r_nginx_start.changed
+    - not r_nginx_add_group.changed
+
+
+- name: "restart nginx"
+  ansible.builtin.service:
+    name: "{{ nginx_service_name }}"
+    state: restarted
+  when:
+    - not r_nginx_start.changed

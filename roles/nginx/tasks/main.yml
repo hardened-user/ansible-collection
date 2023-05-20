@@ -8,6 +8,20 @@
     - package
 
 
+- name: "Add user '{{ nginx_user_name }}' to groups: {{ nginx_user_extra_groups }}"
+  ansible.builtin.user:
+    name: "{{ nginx_user_name }}"
+    groups: "{{ nginx_user_extra_groups }}"
+    append: true
+  register: r_nginx_add_group
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+    - config
+    - user
+
+
 - name: "Create directories: ..."
   ansible.builtin.file:
     path: "{{ item.path }}"
@@ -36,7 +50,7 @@
     recursive: true
     rsync_opts:
       - "--chown=root:root"
-      - "--chmod=D0755,F0644"
+      - "--chmod=D0750,F0644"
       - "--exclude=.*"
   notify:
     - reload nginx

@@ -5,6 +5,12 @@
 Соответствующие файлы должны быть подготовлены заранее (см. [конфиг по-умолчанию](files/conf)).
 
 ## Example
+#### nginx_user_extra_groups
+Имя или список групп, в которые будет добавлен пользователь `{{ nginx_user_name }}`.
+```
+nginx_user_extra_groups: []
+```
+
 ### Playbook
 ```
 - name: "Setup Nginx"
