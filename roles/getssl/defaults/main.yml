@@ -3,7 +3,7 @@ getssl_download_url: "https://raw.githubusercontent.com/srvrco/getssl/latest/get
 
 getssl_domain_list: []
 getssl_production_enabled: false
-getssl_renewal_period: 60
+getssl_renewal_period: 30
 getssl_reload_cmd: "sudo /bin/systemctl reload nginx"
 
 getssl_cert_dir: "/etc/ssl/getssl"

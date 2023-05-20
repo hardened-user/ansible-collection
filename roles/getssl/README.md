@@ -24,6 +24,14 @@ sudo su - getssl
 getssl_production_enabled: false
 ```
 
+#### getssl_renewal_period
+Количество дней, оставшихся до окончания срока действия сертификата, в этот период **getssl** будет обновлять сертификат.<br/>
+Т.е. будет 30 дней на обновление.
+```
+getssl_renewal_period: 30
+```
+
+
 ### Playbook
 ```
 - name: "Setup GetSSL"
