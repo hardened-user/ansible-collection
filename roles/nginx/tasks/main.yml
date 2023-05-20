@@ -28,7 +28,7 @@
     state: directory
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
-    mode:  "{{ item.mode  | default('0755') }}"
+    mode: "{{ item.mode | default('0755') }}"
   with_items:
     - { path: "{{ nginx_conf_dir }}", mode: '0750' }
     - { path: "{{ nginx_cert_dir }}", mode: '0700' }
@@ -61,7 +61,7 @@
 
 
 - name: "Copy file from template: {{ nginx_conf_dir }}/nginx.conf"
-  template:
+  ansible.builtin.template:
     src: "nginx.conf.j2"
     dest: "{{ nginx_conf_dir }}/nginx.conf"
     owner: root
@@ -76,7 +76,7 @@
 
 # NOTE: Использовать `copy` т.к. файлы могут быть зашифрованы через ansible-vault encrypt
 - name: "Copy files: {{ nginx_cert_dir }}/"
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ nginx_cert_dir }}/"
     owner: root
@@ -115,7 +115,7 @@
 
 
 - name: "Copy file from template: {{ nginx_logrotate_conf_file }}"
-  template:
+  ansible.builtin.template:
     src: "logrotate.d/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.conf.j2"
     dest: "{{ nginx_logrotate_conf_file }}"
     owner: root
@@ -127,10 +127,10 @@
 
 
 - name: "Service start: {{ nginx_service_name }}"
-  service:
+  ansible.builtin.service:
     name: "{{ nginx_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   register: r_nginx_start
   tags:
     - nginx
