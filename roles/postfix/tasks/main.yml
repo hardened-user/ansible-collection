@@ -1,13 +1,10 @@
 ---
-
-- name: "Include OS family specific variables"
-  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
-  tags:
-    - postfix
+- name: "Include OS distribution specific variables"
+  ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
 
 
 - name: "Remove packages: {{ postfix_remove_packages | join(' ') }}"
-  package:
+  ansible.builtin.package:
     name: "{{ postfix_remove_packages }}"
     state: absent
   tags:
@@ -16,7 +13,7 @@
 
 
 - name: "Install packages: {{ postfix_install_packages | join(' ') }}"
-  package:
+  ansible.builtin.package:
     name: "{{ postfix_install_packages }}"
     state: present
   tags:
@@ -25,9 +22,9 @@
 
 
 - name: "Install packages (SASL): {{ postfix_sasl_packages | join(' ') }}"
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items:
     - "{{ postfix_sasl_packages }}"
   when:
@@ -38,41 +35,38 @@
 
 
 - name: "Copy files from template: ..."
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    mode: 0600
-    force: yes
+    mode: '0600'
+  notify: execute postmap
   with_items:
-      - { dest: "{{ postfix_smtp_generic_maps_file }}", src: "smtp_generic_maps.j2" }
-      - { dest: "{{ postfix_sasl_password_maps_file }}", src: "sasl_password_maps.j2" }
-      - { dest: "{{ postfix_smtp_header_checks_file }}", src: "smtp_header_checks.j2" }
-      - { dest: "{{ postfix_sender_canonical_maps_file }}", src: "sender_canonical_maps.j2" }
+    - { dest: "{{ postfix_smtp_generic_maps_file }}", src: "smtp_generic_maps.j2" }
+    - { dest: "{{ postfix_sasl_password_maps_file }}", src: "sasl_password_maps.j2" }
+    - { dest: "{{ postfix_smtp_header_checks_file }}", src: "smtp_header_checks.j2" }
+    - { dest: "{{ postfix_sender_canonical_maps_file }}", src: "sender_canonical_maps.j2" }
   loop_control:
     label: "{{ item.dest }}"
-  notify:
-    - execute postmap
   tags:
     - postfix
     - config
 
 
 - name: "Configuring aliases: {{ postfix_aliases_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postfix_aliases_file }}"
     regexp: '^{{ item.key }}:'
     line: "{{ item.key }}: {{ item.value }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
+  notify: execute newaliases
   with_items:
     - "{{ lookup('dict', postfix_aliases) }}"
   when:
     - item.value
-  notify:
-    - execute newaliases
   tags:
     - postfix
     - config
@@ -80,19 +74,18 @@
 
 ### add/edit
 - name: "Configuring postfix: {{ postfix_main_conf_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postfix_main_conf_file }}"
     regexp: '^{{ item.key }}[\s=]'
     line: "{{ item.key }} = {{ item.value }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
+  notify: restart postfix
   with_items:
     - "{{ lookup('dict', postfix_conf_main_runtime) | rejectattr('value', 'none') | list }}"
   when:
     - item.value
-  notify:
-    - restart postfix
   tags:
     - postfix
     - config
@@ -100,26 +93,25 @@
 
 ### remove
 - name: "Configuring postfix: {{ postfix_main_conf_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postfix_main_conf_file }}"
     state: absent
     regexp: '^{{ item.key }}[\s=]'
+  notify: restart postfix
   with_items:
     - "{{ lookup('dict', postfix_conf_main_runtime) | selectattr('value', 'none') | list }}"
   when:
     - not item.value
-  notify:
-    - restart postfix
   tags:
     - postfix
     - config
 
 
 - name: "Service start: {{ postfix_service_name }}"
-  service:
+  ansible.builtin.service:
     name: "{{ postfix_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   register: r_postfix_start
   tags:
     - postfix

@@ -1,5 +1,5 @@
 ---
-# vars file specific for Gentoo family systems
+# tasks file specific for Gentoo distribution systems
 
 postfix_service_name: "postfix"
 postfix_ca_cert_file: "/etc/ssl/certs/ca-certificates.crt"

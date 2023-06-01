@@ -1,7 +1,6 @@
 ---
-
 - name: "execute postmap"
-  shell: |
+  ansible.builtin.shell: |
     postmap "{{ item }}"
   with_items:
     - "{{ postfix_smtp_generic_maps_file }}"
@@ -11,12 +10,12 @@
 
 
 - name: "execute newaliases"
-  shell: |
+  ansible.builtin.shell: |
     newaliases
 
 
 - name: "restart postfix"
-  service:
+  ansible.builtin.service:
     name: "{{ postfix_service_name }}"
     state: restarted
   when:

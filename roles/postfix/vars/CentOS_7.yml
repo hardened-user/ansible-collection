@@ -1,0 +1,18 @@
+---
+# tasks file specific for CentOS distribution systems
+
+postfix_service_name: "postfix"
+postfix_ca_cert_file: "/etc/ssl/certs/ca-bundle.crt"
+postfix_aliases_file: "/etc/aliases"
+
+postfix_install_packages:
+  - "postfix"
+
+postfix_sasl_packages:
+  - "cyrus-sasl"
+  - "cyrus-sasl-lib"
+  - "cyrus-sasl-plain"
+
+postfix_remove_packages:
+  - "sendmail"
+  - "ssmtp"

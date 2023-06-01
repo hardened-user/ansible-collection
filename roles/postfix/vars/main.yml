@@ -1,5 +1,4 @@
 ---
-
 postfix_main_conf_file: "/etc/postfix/main.cf"
 postfix_smtp_generic_maps_file: "/etc/postfix/generic"
 postfix_sasl_password_maps_file: "/etc/postfix/sasl_passwd"

@@ -1,7 +1,10 @@
 # Postfix MTA
+Postfix - агент передачи почты (MTA - mail transfer agent)
 
-### Example config
 
+## Example
+### Variables
+Пример настройки на отправку почты через Gmail.
 ```yaml
 postfix_conf_main_override:
   smtp_sasl_auth_enable: "yes"
@@ -33,4 +36,14 @@ postfix_file_content_smtp_header_checks: |
   /^X-Mailer:/                      IGNORE
   /^X-Originating-IP:/              IGNORE
   /^DKIM-Filter:/                   IGNORE
+```
+
+
+### Playbook
+```
+- name: "Setup Postfix"
+  hosts: locahost
+  become: yes
+  roles:
+    - postfix
 ```
