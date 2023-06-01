@@ -1,8 +1,6 @@
 ---
 - name: "Include OS distribution specific variables"
   ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
-  tags:
-    - docker-ce
 
 
 - name: "Remove packages: {{ docker_remove_packages | join(' ') }}"
@@ -20,8 +18,8 @@
 
 - name: "Create directories: ..."
   ansible.builtin.file:
-    path: "{{ item.path }}"
     state: directory
+    path: "{{ item.path }}"
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"

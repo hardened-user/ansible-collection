@@ -1,4 +1,5 @@
 ---
+# vars file specific for OracleLinux distribution systems
 
 epel_packages:
   - "oraclelinux-release-el7"

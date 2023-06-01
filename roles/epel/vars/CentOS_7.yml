@@ -1,4 +1,5 @@
 ---
+# vars file specific for CentOS distribution systems
 
 epel_packages:
   - "epel-release"
