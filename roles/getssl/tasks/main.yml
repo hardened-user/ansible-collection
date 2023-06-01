@@ -109,7 +109,7 @@
 
 - name: "Copy file from template: {{ getssl_sudoers_conf_file }}"
   ansible.builtin.template:
-    src: "sudoers.j2"
+    src: "sudoers.d.j2"
     dest: "{{ getssl_sudoers_conf_file }}"
     owner: root
     group: root
