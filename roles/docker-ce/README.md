@@ -1,6 +1,7 @@
 # Docker CE (Community Edition)
 https://docs.docker.com/engine/install/
 
+
 ## Example
 ### Variables
 ```
@@ -24,6 +25,7 @@ docker_config_dict:
   insecure-registries:
     - "self.signed.registry.com"
 ```
+
 
 ### Playbook
 ```
