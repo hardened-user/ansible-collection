@@ -1,0 +1,27 @@
+---
+- name: "Configuring journald: {{ journald_conf_file }}"
+  community.general.ini_file:
+    dest: "{{ journald_conf_file }}"
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart journald
+  loop:
+    - { section: "Journal", option: "SystemMaxUse", value: "{{ journald_system_max_use }}"}
+  tags:
+    - journald
+    - config
+
+- name: "Service start: {{ journald_service_name }}"
+  service:
+    name: "{{ journald_service_name }}"
+    state: started
+    enabled: yes
+  register: r_journald_start
+  tags:
+    - journald
+    - service

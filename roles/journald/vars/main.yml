@@ -1,0 +1,3 @@
+---
+journald_service_name: "systemd-journald"
+journald_conf_file: "/etc/systemd/journald.conf"

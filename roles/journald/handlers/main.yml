@@ -1,0 +1,7 @@
+---
+- name: "restart journald"
+  service:
+    name: "{{ journald_service_name }}"
+    state: restarted
+  when:
+    - not r_journald_start.changed
