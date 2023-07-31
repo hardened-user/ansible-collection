@@ -23,7 +23,7 @@ services:
 {% endfor %}
 {% if php_fpm_tcp_enabled == true %}
     ports:
-      - {{ php_fpm_listen_port }}:9000
+      - {{ php_fpm_listen_addr }}:{{ php_fpm_listen_port }}:9000
 {% endif %}
     logging:
       driver: "json-file"

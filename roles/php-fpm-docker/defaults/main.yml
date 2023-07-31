@@ -7,6 +7,7 @@ php_fpm_user_name: "{{ nginx_user_name }}"
 php_fpm_user_group: "{{ nginx_user_group }}"
 
 php_fpm_tcp_enabled: true
+php_fpm_listen_addr: "0.0.0.0"
 php_fpm_listen_port: 9000
 
 php_fpm_logs_dir: "{{ php_fpm_setup_dir }}/logs"
