@@ -2,6 +2,7 @@
 php_fpm_version: "7.4"
 php_fpm_docker_tag: "{{ php_fpm_version }}-fpm"
 php_fpm_docker_image: "php:{{ php_fpm_docker_tag }}"
+php_fpm_docker_timezone: "{{ timezone_name }}"
 
 php_fpm_user_name: "{{ nginx_user_name }}"
 php_fpm_user_group: "{{ nginx_user_group }}"
