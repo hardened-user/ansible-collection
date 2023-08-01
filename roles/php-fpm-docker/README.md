@@ -8,6 +8,20 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
+#### php_fpm_docker_uid
+**UID** пользователя, под которым работает приложение внутри контейнера.
+```
+# default
+php_fpm_docker_uid: 33
+```
+
+#### php_fpm_docker_gid
+**GID** пользователя, под которым работает приложение внутри контейнера.
+```
+# default
+php_fpm_docker_gid: 33
+```
+
 #### php_fpm_tcp_enabled
 Разрешить доступ по **TCP/IP**
 ```
