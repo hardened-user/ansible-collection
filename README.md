@@ -1,6 +1,6 @@
 # ansible-collection
 Collection of Ansible Roles.
 
-* Ubuntu
-* Centos
-* Gentoo
+Recommended:
+
+* ansible >= 7.x (ansible-core >= 2.12)
