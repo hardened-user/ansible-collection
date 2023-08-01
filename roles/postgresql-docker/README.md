@@ -16,14 +16,14 @@ postgresql_version: "14.8"
 ```
 
 #### postgresql_docker_uid
-**UID** пользователя `postgres` внутри контейнера.
+**UID** пользователя, под которым работает приложение внутри контейнера.
 ```
 # default
 postgresql_docker_uid: 999
 ```
 
 #### postgresql_docker_gid
-**GID** пользователя `postgres` внутри контейнера.
+**GID** пользователя, под которым работает приложение внутри контейнера.
 ```
 # default
 postgresql_docker_gid: 999
