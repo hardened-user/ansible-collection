@@ -32,7 +32,7 @@
 
 - name: "Copy files (rsync): {{ php_fpm_php_conf_dir }}/"
   ansible.posix.synchronize:
-    src: "{{ php_fpm_php_conf_source }}/"
+    src: "{{ php_fpm_php_conf_src }}/"
     dest: "{{ php_fpm_php_conf_dir }}/"
     archive: false
     times: false
@@ -54,7 +54,7 @@
 
 - name: "Copy files (rsync): {{ php_fpm_fpm_conf_dir }}/"
   ansible.posix.synchronize:
-    src: "{{ php_fpm_fpm_conf_source }}/"
+    src: "{{ php_fpm_fpm_conf_src }}/"
     dest: "{{ php_fpm_fpm_conf_dir }}/"
     archive: false
     times: false

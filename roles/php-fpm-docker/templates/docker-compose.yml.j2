@@ -18,7 +18,7 @@ services:
       - {{ php_fpm_logs_dir }}:/var/log/php-fpm
       - {{ php_fpm_sessions_dir }}:/var/lib/php/sessions
       - /var/www:/var/www
-{% for v in php_fpm_extra_volumes %}
+{% for v in php_fpm_docker_extra_volumes %}
       - {{ v }}
 {% endfor %}
 {% if php_fpm_tcp_enabled == true %}

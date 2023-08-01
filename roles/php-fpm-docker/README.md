@@ -33,37 +33,37 @@ php_fpm_listen_addr: "127.0.0.1"
 php_fpm_listen_port: 9000
 ```
 
-#### php_fpm_extra_volumes
+#### php_fpm_docker_extra_volumes
 Дополнительные каталоги для монтирования в контейнер.
 ```
 # default
-php_fpm_extra_volumes: []
+php_fpm_docker_extra_volumes: []
 
 # example
-php_fpm_extra_volumes:
+php_fpm_docker_extra_volumes:
   - "/mnt/ram0/php-cache:/var/www/site/html/data/cache"
 ```
 
-#### php_fpm_php_conf_source
-Конфигурация **PHP** осуществляется путем копирования файлов из каталога `php_fpm_php_conf_source`.<br/>
+#### php_fpm_php_conf_src
+Конфигурация **PHP** осуществляется путем копирования файлов из каталога `php_fpm_php_conf_src`.<br/>
 Соответствующие файлы должны быть подготовлены заранее.
 ```
 # default
-php_fpm_php_conf_source: "{{ role_path }}/files/{{ php_fpm_version }}/php"
+php_fpm_php_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php"
 
 # example
-php_fpm_php_conf_source: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_version }}/php"
+php_fpm_php_conf_src: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_version }}/php"
 ```
 
-#### php_fpm_fpm_conf_source
-Конфигурация **FPM** осуществляется путем копирования файлов из каталога `php_fpm_fpm_conf_source`.<br/>
+#### php_fpm_fpm_conf_src
+Конфигурация **FPM** осуществляется путем копирования файлов из каталога `php_fpm_fpm_conf_src`.<br/>
 Соответствующие файлы должны быть подготовлены заранее.
 ```
 # default
-php_fpm_fpm_conf_source: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
+php_fpm_fpm_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
 
 # example
-php_fpm_fpm_conf_source: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_version }}/php-fpm.d"
+php_fpm_fpm_conf_src: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_version }}/php-fpm.d"
 ```
 
 

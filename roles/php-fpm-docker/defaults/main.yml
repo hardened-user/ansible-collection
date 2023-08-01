@@ -12,10 +12,10 @@ php_fpm_listen_port: 9000
 
 php_fpm_logs_dir: "{{ php_fpm_setup_dir }}/logs"
 php_fpm_sessions_dir: "{{ php_fpm_setup_dir }}/sessions"
-php_fpm_extra_volumes: []
+php_fpm_docker_extra_volumes: []
 
 php_fpm_logrotate_interval: "daily"
 php_fpm_logrotate_rotate: 31
 
-php_fpm_php_conf_source: "{{ role_path }}/files/{{ php_fpm_version }}/php"
-php_fpm_fpm_conf_source: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
+php_fpm_php_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php"
+php_fpm_fpm_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
