@@ -1,0 +1,55 @@
+# {{ ansible_managed }}
+
+---
+version: '3.5'
+
+{% if postgresql_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+{% endif %}
+
+services:
+  postgresql:
+    image: "{{ postgresql_docker_image }}"
+    container_name: "{{ postgresql_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ postgresql_docker_timezone }}"
+      # credentials for initialization
+      POSTGRES_USER: "{{ postgresql_init_user }}"
+      POSTGRES_PASSWORD: "{{ postgresql_init_pass }}"
+      POSTGRES_DB: "{{ postgresql_init_base }}"
+    volumes:
+      - {{ postgresql_conf_dir }}:/etc/postgresql:ro
+{% if postgresql_docker_bind_mount_volumes is sameas false %}
+      - data:/var/lib/postgresql/data
+{% else %}
+      - {{ postgresql_data_dir }}:/var/lib/postgresql/data
+{% endif %}
+{% for v in postgresql_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if postgresql_docker_network != "host" %}
+    ports:
+      - {{ postgresql_listen_addr }}:{{ postgresql_listen_port }}:5432
+    command:
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+      - "-c"
+      - "hba_file=/etc/postgresql/pg_hba.conf"
+{% else %}
+    network_mode: host
+    command:
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+      - "-c"
+      - "hba_file=/etc/postgresql/pg_hba.conf"
+      - "-c"
+      - "listen_addresses={{ postgresql_listen_addr }}"
+      - "-c"
+      - "port={{ postgresql_listen_port }}"
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

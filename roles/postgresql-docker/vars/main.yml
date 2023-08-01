@@ -1,0 +1,7 @@
+---
+postgresql_major_version: "{{ postgresql_version.split('.') | first }}"
+
+postgresql_setup_dir: "/srv/postgresql-{{ postgresql_major_version }}"
+postgresql_conf_dir: "{{ postgresql_setup_dir }}/conf"
+
+postgresql_container_name: "postgresql-{{ postgresql_major_version }}"

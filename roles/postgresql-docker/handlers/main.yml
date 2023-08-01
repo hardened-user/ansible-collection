@@ -1,0 +1,7 @@
+---
+- name: "restart postgresql"
+  community.docker.docker_compose:
+    project_src: "{{ postgresql_setup_dir }}"
+    restarted: true
+    timeout: 60
+  when: not r_postgresql_start_result.changed

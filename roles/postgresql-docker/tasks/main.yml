@@ -1,0 +1,82 @@
+---
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  with_items:
+    - { path: "{{ postgresql_setup_dir }}", mode: '0750' }
+    - { path: "{{ postgresql_conf_dir }}", owner: "{{ postgresql_docker_uid }}", group: "{{ postgresql_docker_gid }}" }
+  tags:
+    - postgresql
+    - mkdir
+
+
+- name: "Create directory: {{ postgresql_data_dir }}"
+  ansible.builtin.file:
+    state: directory
+    path:  "{{ postgresql_data_dir }}"
+    owner: "{{ postgresql_docker_uid }}"
+    group: "{{ postgresql_docker_gid }}"
+    mode:  '0700'
+  when: postgresql_docker_bind_mount_volumes == true
+  tags:
+    - postgresql
+    - mkdir
+
+
+- name: "Copy file from template: {{ postgresql_setup_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ postgresql_setup_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - postgresql
+    - config
+
+
+- name: "Copy files (rsync): {{ postgresql_conf_dir }}/"
+  ansible.posix.synchronize:
+    src: "{{ postgresql_conf_source }}/"
+    dest: "{{ postgresql_conf_dir }}/"
+    archive: false
+    times: false
+    perms: true
+    checksum: true
+    links: true
+    recursive: true
+    rsync_opts:
+      - "--chown={{ postgresql_docker_uid }}:{{ postgresql_docker_gid }}"
+      - "--chmod=D0755,F0600"
+      - "--exclude=.*"
+  notify:
+    - restart postgresql
+  tags:
+    - postgresql
+    - config
+    - copy
+
+
+- name: "Copy file from template: {{ postgresql_setup_dir }}/psql.sh"
+  ansible.builtin.template:
+    src: "psql.sh.j2"
+    dest: "{{ postgresql_setup_dir }}/psql.sh"
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - postgresql
+
+
+- name: "docker-compose up: {{ postgresql_setup_dir }}"
+  community.docker.docker_compose:
+    project_src: "{{ postgresql_setup_dir }}"
+    pull: true
+  register: r_postgresql_start_result
+  tags:
+    - postgresql
+    - docker-compose

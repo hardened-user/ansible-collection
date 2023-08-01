@@ -16,3 +16,8 @@ chronyd_service_name: "chronyd"
 ### nginx --------------------------------------------------------------------------------------------------------------
 nginx_user_name: "nginx"
 nginx_user_group: "nginx"
+
+
+### postgresql ---------------------------------------------------------------------------------------------------------
+postgresql_user_name: "postgres"
+postgresql_user_group: "postgres"

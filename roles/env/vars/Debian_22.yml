@@ -21,7 +21,6 @@ nginx_user_group: "www-data"
 ### postgresql ---------------------------------------------------------------------------------------------------------
 postgresql_user_name: "postgres"
 postgresql_user_group: "postgres"
-postgresql_service_name: "postgresql-{{ postgresql_terse_version }}.service"
 
 
 ### zabbix-agent -------------------------------------------------------------------------------------------------------

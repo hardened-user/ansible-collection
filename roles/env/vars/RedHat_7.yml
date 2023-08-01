@@ -13,10 +13,14 @@ chronyd_package_name: "chrony"
 chronyd_service_name: "chronyd"
 
 
+### nginx --------------------------------------------------------------------------------------------------------------
+nginx_user_name: "nginx"
+nginx_user_group: "nginx"
+
+
 ### postgresql ---------------------------------------------------------------------------------------------------------
 postgresql_user_name: "postgres"
 postgresql_user_group: "postgres"
-postgresql_service_name: "postgresql-{{ postgresql_terse_version }}.service"
 
 
 ### zabbix-agent -------------------------------------------------------------------------------------------------------
@@ -30,6 +34,3 @@ zabbix_agent_user_name: "zabbix"
 zabbix_agent_user_group: "zabbix"
 
 
-### nginx --------------------------------------------------------------------------------------------------------------
-nginx_user_name: "nginx"
-nginx_user_group: "nginx"
