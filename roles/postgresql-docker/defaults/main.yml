@@ -17,4 +17,4 @@ postgresql_init_base: "postgres"
 postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
 postgresql_docker_extra_volumes: []
 
-postgresql_conf_source: "{{ role_path }}/files/{{ postgresql_major_version }}"
+postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"

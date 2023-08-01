@@ -41,7 +41,7 @@
 
 - name: "Copy files (rsync): {{ postgresql_conf_dir }}/"
   ansible.posix.synchronize:
-    src: "{{ postgresql_conf_source }}/"
+    src: "{{ postgresql_conf_src }}/"
     dest: "{{ postgresql_conf_dir }}/"
     archive: false
     times: false

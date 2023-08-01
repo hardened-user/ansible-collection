@@ -56,15 +56,15 @@ postgresql_docker_extra_volumes:
   - "/mnt/data0:/mnt/tablespace"
 ```
 
-#### postgresql_conf_source
-Конфигурация **PostgreSQL** осуществляется путем копирования файлов из каталога `postgresql_conf_source`.<br/>
+#### postgresql_conf_src
+Конфигурация **PostgreSQL** осуществляется путем копирования файлов из каталога `postgresql_conf_src`.<br/>
 Соответствующие файлы должны быть подготовлены заранее.
 ```
 # default
-postgresql_conf_source: "{{ role_path }}/files/{{ postgresql_major_version }}"
+postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"
 
 # example
-postgresql_conf_source: "files/postgresql-docker/{{ inventory_hostname }}/{{ postgresql_major_version }}"
+postgresql_conf_src: "files/postgresql-docker/{{ inventory_hostname }}/{{ postgresql_major_version }}"
 ```
 
 
