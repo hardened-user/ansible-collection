@@ -5,6 +5,7 @@ php_fpm_docker_image: "php:{{ php_fpm_docker_tag }}"
 php_fpm_docker_uid: 33
 php_fpm_docker_gid: 33
 php_fpm_docker_timezone: "{{ timezone_name }}"
+php_fpm_docker_extra_volumes: []
 
 php_fpm_tcp_enabled: true
 php_fpm_listen_addr: "0.0.0.0"
@@ -12,8 +13,6 @@ php_fpm_listen_port: 9000
 
 php_fpm_logs_dir: "{{ php_fpm_setup_dir }}/logs"
 php_fpm_sessions_dir: "{{ php_fpm_setup_dir }}/sessions"
-php_fpm_docker_extra_volumes: []
-
 php_fpm_php_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php"
 php_fpm_fpm_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
 

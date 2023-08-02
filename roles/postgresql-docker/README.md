@@ -37,14 +37,6 @@ postgresql_docker_gid: 999
 postgresql_docker_bind_mount_volumes: true
 ```
 
-#### postgresql_data_dir
-Каталог для хранения данных на диске.<br/>
-Используется если `postgresql_docker_bind_mount_volumes: false`
-```
-# default
-postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
-```
-
 #### postgresql_docker_extra_volumes
 Дополнительные каталоги для монтирования в контейнер.
 ```
@@ -54,6 +46,14 @@ postgresql_docker_extra_volumes: []
 # example
 postgresql_docker_extra_volumes:
   - "/mnt/data0:/mnt/tablespace"
+```
+
+#### postgresql_data_dir
+Каталог для хранения данных на диске.<br/>
+Используется если `postgresql_docker_bind_mount_volumes: false`
+```
+# default
+postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
 ```
 
 #### postgresql_conf_src

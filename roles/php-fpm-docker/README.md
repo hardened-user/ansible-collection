@@ -22,6 +22,17 @@ php_fpm_docker_uid: 33
 php_fpm_docker_gid: 33
 ```
 
+#### php_fpm_docker_extra_volumes
+Дополнительные каталоги для монтирования в контейнер.
+```
+# default
+php_fpm_docker_extra_volumes: []
+
+# example
+php_fpm_docker_extra_volumes:
+  - "/mnt/ram0/php-cache:/var/www/site/html/data/cache"
+```
+
 #### php_fpm_tcp_enabled
 Разрешить доступ по **TCP/IP**
 ```
@@ -45,17 +56,6 @@ php_fpm_listen_addr: "127.0.0.1"
 ```
 # default
 php_fpm_listen_port: 9000
-```
-
-#### php_fpm_docker_extra_volumes
-Дополнительные каталоги для монтирования в контейнер.
-```
-# default
-php_fpm_docker_extra_volumes: []
-
-# example
-php_fpm_docker_extra_volumes:
-  - "/mnt/ram0/php-cache:/var/www/site/html/data/cache"
 ```
 
 #### php_fpm_php_conf_src
