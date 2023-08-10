@@ -8,7 +8,7 @@
     mode: "{{ item.mode | default('0755') }}"
   with_items:
     - { path: "{{ postgresql_setup_dir }}", mode: '0750' }
-    - { path: "{{ postgresql_conf_dir }}", owner: "{{ postgresql_docker_uid }}", group: "{{ postgresql_docker_gid }}" }
+    - { path: "{{ postgresql_conf_dir }}" }
   tags:
     - postgresql
     - mkdir
@@ -21,7 +21,7 @@
     owner: "{{ postgresql_docker_uid }}"
     group: "{{ postgresql_docker_gid }}"
     mode:  '0700'
-  when: postgresql_docker_bind_mount_volumes == true
+  when: postgresql_docker_bind_mount_volumes
   tags:
     - postgresql
     - mkdir
@@ -39,26 +39,20 @@
     - config
 
 
-- name: "Copy files (rsync): {{ postgresql_conf_dir }}/"
-  ansible.posix.synchronize:
-    src: "{{ postgresql_conf_src }}/"
-    dest: "{{ postgresql_conf_dir }}/"
-    archive: false
-    times: false
-    perms: true
-    checksum: true
-    links: true
-    recursive: true
-    rsync_opts:
-      - "--chown={{ postgresql_docker_uid }}:{{ postgresql_docker_gid }}"
-      - "--chmod=D0755,F0600"
-      - "--exclude=.*"
+- name: "Copy files from template: {{ postgresql_conf_dir }}/"
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ postgresql_conf_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_fileglob:
+    - "{{ postgresql_conf_src }}/*.j2"
   notify:
     - restart postgresql
   tags:
     - postgresql
     - config
-    - copy
 
 
 - name: "Copy file from template: {{ postgresql_setup_dir }}/psql.sh"
@@ -70,6 +64,7 @@
     mode: '0755'
   tags:
     - postgresql
+    - copy
 
 
 - name: "docker-compose up: {{ postgresql_setup_dir }}"

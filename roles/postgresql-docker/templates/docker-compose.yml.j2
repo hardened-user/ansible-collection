@@ -14,11 +14,11 @@ services:
     container_name: "{{ postgresql_container_name }}"
     restart: unless-stopped
     environment:
-      TZ: "{{ postgresql_docker_timezone }}"
+      TZ: {{ postgresql_docker_timezone }}
       # credentials for initialization
-      POSTGRES_USER: "{{ postgresql_init_user }}"
-      POSTGRES_PASSWORD: "{{ postgresql_init_pass }}"
-      POSTGRES_DB: "{{ postgresql_init_base }}"
+      POSTGRES_USER: {{ postgresql_init_user }}
+      POSTGRES_PASSWORD: {{ postgresql_init_pass }}
+      POSTGRES_DB: {{ postgresql_init_base }}
     volumes:
       - {{ postgresql_conf_dir }}:/etc/postgresql:ro
 {% if postgresql_docker_bind_mount_volumes is sameas false %}

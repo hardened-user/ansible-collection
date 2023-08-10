@@ -8,12 +8,11 @@ postgresql_docker_network: bridge # "bridge" or "host" supported
 postgresql_docker_bind_mount_volumes: true
 postgresql_docker_timezone: "{{ timezone_name }}"
 postgresql_docker_extra_volumes: []
+postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
+postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"
 
 postgresql_listen_addr: "0.0.0.0"
 postgresql_listen_port: 5432
 postgresql_init_user: "postgres"
 postgresql_init_pass: "postgres"
 postgresql_init_base: "postgres"
-
-postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
-postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"
