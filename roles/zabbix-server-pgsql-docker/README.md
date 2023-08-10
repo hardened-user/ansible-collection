@@ -16,14 +16,14 @@ zabbix_server_pgsql_version: "6.0"
 **UID** пользователя, под которым работает приложение внутри контейнера.
 ```
 # default
-zabbix_server_pgsql_docker_uid: 999
+zabbix_server_pgsql_docker_uid: 1997
 ```
 
 #### zabbix_server_pgsql_docker_gid
 **GID** пользователя, под которым работает приложение внутри контейнера.
 ```
 # default
-zabbix_server_pgsql_docker_gid: 999
+zabbix_server_pgsql_docker_gid: 1995
 ```
 
 #### zabbix_server_pgsql_docker_network
