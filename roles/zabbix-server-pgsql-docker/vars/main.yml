@@ -1,0 +1,5 @@
+---
+zabbix_server_pgsql_setup_dir: "/srv/zabbix-server-pgsql-{{ zabbix_server_pgsql_version }}"
+zabbix_server_pgsql_alertscripts_dir: "{{ zabbix_server_pgsql_setup_dir }}/alertscripts"
+zabbix_server_pgsql_externalscripts_dir: "{{ zabbix_server_pgsql_setup_dir }}/externalscripts"
+zabbix_server_pgsql_container_name: "zabbix-server-pgsql-{{ zabbix_server_pgsql_version }}"
