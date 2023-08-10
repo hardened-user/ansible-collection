@@ -88,6 +88,17 @@ zabbix_server_pgsql_externalscripts_src: "files/zabbix-server-pgsql/{{ inventory
 
 #### zabbix_server_pgsql_docker_extra_env_dict
 Дополнительные параметры окружения docker контейнера.<br/>
+```
+# default
+zabbix_server_pgsql_docker_extra_env_dict: {}
+
+# example
+zabbix_server_pgsql_docker_extra_env_dict:
+  ZBX_TIMEOUT: 5
+```
+
+
+## Note
 Список переменных поддерживаемых в `docker-entrypoint.sh`:
 ```
 ZBX_ALLOWUNSUPPORTEDDBVERSIONS - AllowUnsupportedDBVersions
@@ -168,15 +179,6 @@ ZBX_VMWAREFREQUENCY - VMwareFrequency
 ZBX_VMWAREPERFFREQUENCY - VMwarePerfFrequency
 ZBX_VMWARETIMEOUT - VMwareTimeout
 ZBX_WEBSERVICEURL - WebServiceURL
-```
-
-```
-# default
-zabbix_server_pgsql_docker_extra_env_dict: {}
-
-# example
-zabbix_server_pgsql_docker_extra_env_dict:
-  ZBX_TIMEOUT: 5
 ```
 
 
