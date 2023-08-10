@@ -17,10 +17,10 @@
 - name: "Create directory: {{ postgresql_data_dir }}"
   ansible.builtin.file:
     state: directory
-    path:  "{{ postgresql_data_dir }}"
+    path: "{{ postgresql_data_dir }}"
     owner: "{{ postgresql_docker_uid }}"
     group: "{{ postgresql_docker_gid }}"
-    mode:  '0700'
+    mode: '0700'
   when: postgresql_docker_bind_mount_volumes
   tags:
     - postgresql
