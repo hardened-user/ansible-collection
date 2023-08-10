@@ -30,7 +30,7 @@
   with_items:
     - { path: "{{ grafana_data_dir }}" }
     - { path: "{{ grafana_logs_dir }}" }
-  when: grafana_bind_mount_data_volumes == true
+  when: grafana_bind_mount_data_volumes
   tags:
     - grafana
     - mkdir

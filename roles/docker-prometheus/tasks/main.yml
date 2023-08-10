@@ -31,7 +31,7 @@
     group: "{{ prometheus_docker_gid | string }}"
     mode:  0750
     state: directory
-  when: prometheus_bind_mount_data_volumes == true
+  when: prometheus_bind_mount_data_volumes
   tags:
     - prometheus
     - mkdir
