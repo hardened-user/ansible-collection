@@ -11,8 +11,8 @@ postfix_file_content_sender_canonical_maps:
 
 
 ### main.cf ------------------------------------------------------------------------------------------------------------
-postfix_conf_main_override: {}
-postfix_conf_main_default:
+postfix_main_conf_dict: {}
+postfix_main_conf_default:
   inet_interfaces: "localhost"
   inet_protocols: "ipv4"
   mydestination: "$myhostname, localhost.$mydomain, localhost"
@@ -43,4 +43,4 @@ postfix_conf_main_default:
   smtp_generic_maps: "hash:{{ postfix_smtp_generic_maps_file }}"
   smtp_header_checks: "pcre:{{ postfix_smtp_header_checks_file }}"
 
-postfix_conf_main_runtime: "{{ postfix_conf_main_default | combine(postfix_conf_main_override) }}"
+postfix_main_conf_runtime: "{{ postfix_main_conf_default | combine(postfix_main_conf_dict) }}"

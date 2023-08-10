@@ -28,7 +28,7 @@
   with_items:
     - "{{ postfix_sasl_packages }}"
   when:
-    - postfix_conf_main_runtime.smtp_sasl_auth_enable == "yes"
+    - postfix_main_conf_runtime.smtp_sasl_auth_enable == "yes"
   tags:
     - postfix
     - package
@@ -83,7 +83,7 @@
     mode: '0644'
   notify: restart postfix
   with_items:
-    - "{{ lookup('dict', postfix_conf_main_runtime) | rejectattr('value', 'none') | list }}"
+    - "{{ lookup('dict', postfix_main_conf_runtime) | rejectattr('value', 'none') | list }}"
   when:
     - item.value
   tags:
@@ -99,7 +99,7 @@
     regexp: '^{{ item.key }}[\s=]'
   notify: restart postfix
   with_items:
-    - "{{ lookup('dict', postfix_conf_main_runtime) | selectattr('value', 'none') | list }}"
+    - "{{ lookup('dict', postfix_main_conf_runtime) | selectattr('value', 'none') | list }}"
   when:
     - not item.value
   tags:

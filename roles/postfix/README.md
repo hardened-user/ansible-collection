@@ -6,7 +6,7 @@ Postfix - агент передачи почты (MTA - mail transfer agent)
 ### Variables
 Пример настройки на отправку почты через Gmail.
 ```yaml
-postfix_conf_main_override:
+postfix_main_conf_dict:
   smtp_sasl_auth_enable: "yes"
   smtp_destination_rate_delay: "60s"
   relay_destination_rate_delay: "60s"
