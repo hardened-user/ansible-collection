@@ -30,7 +30,7 @@ services:
       ZBX_LISTENIP: {{ zabbix_server_pgsql_listen_addr }}
       ZBX_LISTENPORT: {{ zabbix_server_pgsql_listen_port }}
 {% endif %}
-{% for e in zabbix_server_pgsql_docker_extra_env_runtime | dict2items %}
+{% for e in zabbix_server_pgsql_docker_extra_env_runtime | dict2items | rejectattr('value', 'none') %}
       {{ e.key }}: {{ e.value }}
 {% endfor %}
     volumes:
