@@ -1,1 +1,1 @@
-{{ docker_config_runtime | dict2items | rejectattr('value', 'none') | list | items2dict | to_nice_json }}
+{{ docker_conf_runtime | dict2items | rejectattr('value', 'none') | list | items2dict | to_nice_json }}

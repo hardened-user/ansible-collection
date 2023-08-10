@@ -7,6 +7,6 @@ docker_systemd_env_dict: {}
 
 
 ### daemon.json --------------------------------------------------------------------------------------------------------
-docker_config_dict: {}
-docker_config_default: {}
-docker_config_runtime: "{{ docker_config_default | combine(docker_config_dict) }}"
+docker_conf_dict: {}
+docker_conf_default: {}
+docker_conf_runtime: "{{ docker_conf_default | combine(docker_conf_dict) }}"
