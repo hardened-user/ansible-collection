@@ -35,9 +35,9 @@ zabbix_server_pgsql_docker_network: bridge
 ```
 
 #### zabbix_server_pgsql_docker_bind_mount_volumes
-Параметр указывает, где будут храниться данные.<br/>
-Если значение `true` - данные будут храниться в каталоге на хосте.<br/>
-Если значение `false` - данные будут храниться в docker volume.
+Параметр указывает, где будут храниться данные:<br/>
+* `true` - данные будут храниться в каталоге на хосте.<br/>
+* `false` - данные будут храниться в docker volume.
 ```
 # default
 zabbix_server_pgsql_docker_bind_mount_volumes: true
@@ -124,7 +124,7 @@ ZBX_SOURCEIP - SourceIP
 ZBX_STARTALERTERS - StartAlerters
 ZBX_STARTDBSYNCERS - StartDBSyncers
 ZBX_STARTDISCOVERERS - StartDiscoverers
-ZBX_STARTESCALATORS - StartEscalators                                       `
+ZBX_STARTESCALATORS - StartEscalators
 ZBX_STARTHISTORYPOLLERS - StartHistoryPollers
 ZBX_STARTHTTPPOLLERS - StartHTTPPollers
 ZBX_STARTJAVAPOLLERS - StartJavaPollers
