@@ -4,6 +4,14 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
+#### php_fpm_version
+Версия **PHP-FPM**.<br/>
+Используется как базовое значение для определения других переменных, имён каталогов и т.п.
+```
+# default
+php_fpm_version: "7.4"
+```
+
 #### php_fpm_docker_uid
 **UID** пользователя, под которым работает приложение внутри контейнера.
 ```
@@ -29,6 +37,28 @@ php_fpm_docker_extra_volumes:
   - "/mnt/ram0/php-cache:/var/www/site/html/data/cache"
 ```
 
+#### php_fpm_php_conf_src
+Каталог, откуда будут скопированы файлы конфигураций **PHP**.<br/>
+Соответствующие файлы должны быть подготовлены заранее.
+```
+# default
+php_fpm_php_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php"
+
+# example
+php_fpm_php_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_version }}/php"
+```
+
+#### php_fpm_fpm_conf_src
+Каталог, откуда будут скопированы файлы конфигураций **FPM**.<br/>
+Соответствующие файлы должны быть подготовлены заранее.
+```
+# default
+php_fpm_fpm_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
+
+# example
+php_fpm_fpm_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_version }}/php-fpm.d"
+```
+
 #### php_fpm_tcp_enabled
 Разрешить доступ по **TCP/IP**
 ```
@@ -52,28 +82,6 @@ php_fpm_listen_addr: "127.0.0.1"
 ```
 # default
 php_fpm_listen_port: 9000
-```
-
-#### php_fpm_php_conf_src
-Конфигурация **PHP** осуществляется путем копирования файлов из каталога `php_fpm_php_conf_src`.<br/>
-Соответствующие файлы должны быть подготовлены заранее.
-```
-# default
-php_fpm_php_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php"
-
-# example
-php_fpm_php_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_version }}/php"
-```
-
-#### php_fpm_fpm_conf_src
-Конфигурация **FPM** осуществляется путем копирования файлов из каталога `php_fpm_fpm_conf_src`.<br/>
-Соответствующие файлы должны быть подготовлены заранее.
-```
-# default
-php_fpm_fpm_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
-
-# example
-php_fpm_fpm_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_version }}/php-fpm.d"
 ```
 
 
