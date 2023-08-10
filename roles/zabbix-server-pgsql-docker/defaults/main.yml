@@ -21,8 +21,8 @@ zabbix_server_pgsql_db_name: "zabbix"
 zabbix_server_pgsql_db_user: "zabbix"
 zabbix_server_pgsql_db_pass: "zabbix"
 
-zabbix_server_pgsql_docker_extra_env_dict: {}
-zabbix_server_pgsql_docker_extra_env_default:
+zabbix_server_pgsql_docker_env_dict: {}
+zabbix_server_pgsql_docker_env_default:
   ZBX_TIMEOUT: 30
   ZBX_TRAPPERTIMEOUT: 30
-zabbix_server_pgsql_docker_extra_env_runtime: "{{ zabbix_server_pgsql_docker_extra_env_default | combine(zabbix_server_pgsql_docker_extra_env_dict) }}"
+zabbix_server_pgsql_docker_env_runtime: "{{ zabbix_server_pgsql_docker_env_default | combine(zabbix_server_pgsql_docker_env_dict) }}"

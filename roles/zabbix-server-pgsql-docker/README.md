@@ -86,20 +86,20 @@ zabbix_server_pgsql_externalscripts_src: "{{ role_path }}/files/externalscripts"
 zabbix_server_pgsql_externalscripts_src: "files/zabbix-server-pgsql/{{ inventory_hostname }}/externalscripts"
 ```
 
-#### zabbix_server_pgsql_docker_extra_env_dict
-Дополнительные параметры окружения docker контейнера.<br/>
+#### zabbix_server_pgsql_docker_env_dict
+Переменные окружения docker контейнера.<br/>
 ```
 # default
-zabbix_server_pgsql_docker_extra_env_dict: {}
+zabbix_server_pgsql_docker_env_dict: {}
 
 # example
-zabbix_server_pgsql_docker_extra_env_dict:
+zabbix_server_pgsql_docker_env_dict:
   ZBX_TIMEOUT: 5
 ```
 
 
 ## Note
-Список переменных поддерживаемых в `docker-entrypoint.sh`:
+Список переменных окружения поддерживаемых в `docker-entrypoint.sh`:
 ```
 ZBX_ALLOWUNSUPPORTEDDBVERSIONS - AllowUnsupportedDBVersions
 ZBX_CACHESIZE - CacheSize
