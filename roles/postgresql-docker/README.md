@@ -29,9 +29,18 @@ postgresql_docker_uid: 999
 postgresql_docker_gid: 999
 ```
 
+#### postgresql_docker_network
+Параметр указывает, в каком сетевом пространстве будет запущен docker контейнер.<br/>
+Доступные варианты [bridge](https://docs.docker.com/network/drivers/bridge/) или [host](https://docs.docker.com/network/drivers/host/).
+```
+# default
+postgresql_docker_network: bridge
+```
+
 #### postgresql_docker_bind_mount_volumes
-Если значение `true` - данные будут храниться в каталоге `postgresql_data_dir`.<br/>
-Если значение `false` - данные будут храниться в **docker volume**.
+Параметр указывает, где будут храниться данные:<br/>
+* `true` - данные будут храниться в каталоге на хосте.<br/>
+* `false` - данные будут храниться в docker volume.
 ```
 # default
 postgresql_docker_bind_mount_volumes: true
@@ -57,14 +66,14 @@ postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
 ```
 
 #### postgresql_conf_src
-Конфигурация **PostgreSQL** осуществляется путем копирования файлов из каталога `postgresql_conf_src`.<br/>
+Каталог, откуда будут скопированы шаблоны конфигураций **PostgreSQL**.<br/>
 Соответствующие файлы должны быть подготовлены заранее.
 ```
 # default
 postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"
 
 # example
-postgresql_conf_src: "files/postgresql-docker/{{ inventory_hostname }}/{{ postgresql_major_version }}"
+postgresql_conf_src: "files/postgresql/{{ inventory_hostname }}/{{ postgresql_major_version }}"
 ```
 
 
