@@ -1,10 +1,6 @@
 # PHP-FPM
+
 Simple installation compatible with the [official Docker image](https://hub.docker.com/_/php)
-
-
-## NOTE
-**USR1** - reload logs<br/>
-**USR2** - full reload
 
 
 ## Variables
@@ -66,7 +62,7 @@ php_fpm_listen_port: 9000
 php_fpm_php_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php"
 
 # example
-php_fpm_php_conf_src: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_version }}/php"
+php_fpm_php_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_version }}/php"
 ```
 
 #### php_fpm_fpm_conf_src
@@ -77,8 +73,13 @@ php_fpm_php_conf_src: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_
 php_fpm_fpm_conf_src: "{{ role_path }}/files/{{ php_fpm_version }}/php-fpm.d"
 
 # example
-php_fpm_fpm_conf_src: "files/php-fpm-docker/{{ inventory_hostname }}/{{ php_fpm_version }}/php-fpm.d"
+php_fpm_fpm_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_version }}/php-fpm.d"
 ```
+
+
+## Note
+**USR1** - reload logs<br/>
+**USR2** - full reload
 
 
 ## Example

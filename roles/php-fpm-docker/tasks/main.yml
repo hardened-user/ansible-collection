@@ -11,8 +11,8 @@
     - { path: "{{ php_fpm_php_conf_dir }}" }
     - { path: "{{ php_fpm_fpm_conf_dir }}" }
     - { path: "{{ php_fpm_fpm_sock_dir }}" }
-    - { path: "{{ php_fpm_logs_dir }}", mode: '0770', owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}"}
-    - { path: "{{ php_fpm_sessions_dir }}", mode: '0770', owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}" }
+    - { path: "{{ php_fpm_logs_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0770' }
+    - { path: "{{ php_fpm_sessions_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0770' }
   tags:
     - php-fpm
     - mkdir
