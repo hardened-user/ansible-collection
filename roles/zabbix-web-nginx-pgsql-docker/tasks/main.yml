@@ -1,0 +1,34 @@
+---
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  with_items:
+    - { path: "{{ zabbix_web_nginx_pgsql_setup_dir }}", mode: '0750' }
+  tags:
+    - zabbix-web-nginx-pgsql
+    - mkdir
+
+
+- name: "Copy file from template: {{ zabbix_web_nginx_pgsql_setup_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ zabbix_web_nginx_pgsql_setup_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - zabbix-web-nginx-pgsql
+    - config
+
+
+- name: "docker-compose up: {{ zabbix_web_nginx_pgsql_setup_dir }}"
+  community.docker.docker_compose:
+    project_src: "{{ zabbix_web_nginx_pgsql_setup_dir }}"
+    pull: true
+  tags:
+    - zabbix-web-nginx-pgsql
+    - docker-compose
