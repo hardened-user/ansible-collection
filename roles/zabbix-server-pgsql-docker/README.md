@@ -76,7 +76,7 @@ zabbix_server_pgsql_alertscripts_src: "{{ role_path }}/files/alertscripts"
 zabbix_server_pgsql_alertscripts_src: "files/zabbix-server-pgsql/{{ inventory_hostname }}/alertscripts"
 ```
 
-#### zabbix_server_pgsql_alertscripts_src
+#### zabbix_server_pgsql_externalscripts_src
 Каталог, откуда будут скопированы пользовательские скрипты [External checks](https://www.zabbix.com/documentation/6.0/en/manual/config/items/itemtypes/external).
 ```
 # default
