@@ -1,4 +1,4 @@
-# Zabbix Server with PostgreSQL database support
+# Zabbix Web Interface with PostgreSQL database support
 
 Simple installation compatible with the [official Docker image](https://hub.docker.com/r/zabbix/zabbix-web-nginx-pgsql)
 
