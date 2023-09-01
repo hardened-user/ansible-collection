@@ -107,19 +107,6 @@
     - config
 
 
-- name: "Copy file from template: {{ getssl_sudoers_conf_file }}"
-  ansible.builtin.template:
-    src: "sudoers.d.j2"
-    dest: "{{ getssl_sudoers_conf_file }}"
-    owner: root
-    group: root
-    mode: '0640'
-    validate: "visudo -cf %s"
-  tags:
-    - getssl
-    - config
-
-
 - name: "Checking existing certificates"
   ansible.builtin.stat:
     path: "{{ getssl_cert_dir }}/{{ item.name }}.pem"
@@ -145,6 +132,22 @@
     - "{{ r_getssl_certs_stat.results | selectattr('stat.exists', 'false') | map(attribute='item') }}"
   loop_control:
     label: "{{ getssl_cert_dir }}/{{ item.name }}.pem"
+  tags:
+    - getssl
+    - config
+
+
+# TODO: remove domains directories
+
+
+- name: "Copy file from template: {{ getssl_sudoers_conf_file }}"
+  ansible.builtin.template:
+    src: "sudoers.d.j2"
+    dest: "{{ getssl_sudoers_conf_file }}"
+    owner: root
+    group: root
+    mode: '0640'
+    validate: "visudo -cf %s"
   tags:
     - getssl
     - config
