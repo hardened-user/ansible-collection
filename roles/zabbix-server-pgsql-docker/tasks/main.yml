@@ -8,8 +8,8 @@
     mode: "{{ item.mode | default('0755') }}"
   with_items:
     - { path: "{{ zabbix_server_pgsql_setup_dir }}", mode: '0750' }
-    - { path: "{{ zabbix_server_pgsql_alertscripts_dir }}", group: "{{ zabbix_server_pgsql_docker_gid }}", mode: '0750' }
-    - { path: "{{ zabbix_server_pgsql_externalscripts_dir }}", group: "{{ zabbix_server_pgsql_docker_gid }}", mode: '0750' }
+    - { path: "{{ zabbix_server_pgsql_alertscripts_dir }}" }
+    - { path: "{{ zabbix_server_pgsql_externalscripts_dir }}" }
   tags:
     - zabbix-server-pgsql
     - mkdir
