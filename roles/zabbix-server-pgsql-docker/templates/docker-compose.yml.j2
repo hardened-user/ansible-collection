@@ -15,23 +15,20 @@ services:
     container_name: "{{ zabbix_server_pgsql_container_name }}"
     restart: unless-stopped
     environment:
-      TZ: {{ zabbix_server_pgsql_docker_timezone }}
+      TZ: "{{ zabbix_server_pgsql_docker_timezone }}"
       #
-      DB_SERVER_HOST: {{ zabbix_server_pgsql_db_host }}
-      DB_SERVER_PORT: {{ zabbix_server_pgsql_db_port }}
-      POSTGRES_DB: {{ zabbix_server_pgsql_db_name }}
-      POSTGRES_USER: {{ zabbix_server_pgsql_db_user }}
-      POSTGRES_PASSWORD: {{ zabbix_server_pgsql_db_pass }}
+      DB_SERVER_HOST: "{{ zabbix_server_pgsql_db_host }}"
+      DB_SERVER_PORT: "{{ zabbix_server_pgsql_db_port }}"
+      POSTGRES_DB: "{{ zabbix_server_pgsql_db_name }}"
+      POSTGRES_USER: "{{ zabbix_server_pgsql_db_user }}"
+      POSTGRES_PASSWORD: "{{ zabbix_server_pgsql_db_pass }}"
       #
-{% if zabbix_server_pgsql_docker_network != "host" %}
-      ZBX_LISTENIP: 0.0.0.0
-      ZBX_LISTENPORT: 10051
-{% else %}
-      ZBX_LISTENIP: {{ zabbix_server_pgsql_listen_addr }}
-      ZBX_LISTENPORT: {{ zabbix_server_pgsql_listen_port }}
+{% if zabbix_server_pgsql_docker_network == "host" %}
+      ZBX_LISTENIP: "{{ zabbix_server_pgsql_listen_addr }}"
+      ZBX_LISTENPORT: "{{ zabbix_server_pgsql_listen_port }}"
 {% endif %}
 {% for e in zabbix_server_pgsql_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
-      {{ e.key }}: {{ e.value }}
+      {{ e.key }}: "{{ e.value }}"
 {% endfor %}
     volumes:
 {% if not zabbix_server_pgsql_docker_bind_mount_volumes %}

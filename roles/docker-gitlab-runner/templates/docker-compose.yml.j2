@@ -9,7 +9,7 @@ services:
     container_name: "{{ docker_gitlab_runner_container_name }}"
     restart: unless-stopped
     environment:
-      TZ: {{ timezone_name }}
+      TZ: "{{ timezone_name }}"
     volumes:
       - {{ docker_gitlab_runner_conf_dir }}:/etc/gitlab-runner
 {% for v in docker_gitlab_extra_volumes %}

@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     environment:
-      TZ: {{ php_fpm_docker_timezone }}
+      TZ: "{{ php_fpm_docker_timezone }}"
     volumes:
       - {{ php_fpm_php_conf_dir }}:/usr/local/etc/php:ro
       - {{ php_fpm_fpm_conf_dir }}:/usr/local/etc/php-fpm.d:ro
