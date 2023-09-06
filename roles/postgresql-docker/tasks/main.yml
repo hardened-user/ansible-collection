@@ -7,8 +7,8 @@
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
   with_items:
-    - { path: "{{ postgresql_setup_dir }}", mode: '0750' }
-    - { path: "{{ postgresql_conf_dir }}" }
+    - { path: "{{ postgresql_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ postgresql_docker_conf_dir }}" }
   tags:
     - postgresql
     - mkdir
@@ -27,10 +27,10 @@
     - mkdir
 
 
-- name: "Copy file from template: {{ postgresql_setup_dir }}/docker-compose.yml"
+- name: "Copy file from template: {{ postgresql_docker_compose_dir }}/docker-compose.yml"
   ansible.builtin.template:
     src: "docker-compose.yml.j2"
-    dest: "{{ postgresql_setup_dir }}/docker-compose.yml"
+    dest: "{{ postgresql_docker_compose_dir }}/docker-compose.yml"
     owner: root
     group: root
     mode: '0600'
@@ -39,10 +39,10 @@
     - config
 
 
-- name: "Copy files from template: {{ postgresql_conf_dir }}/"
+- name: "Copy files from template: {{ postgresql_docker_conf_dir }}/"
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: "{{ postgresql_conf_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    dest: "{{ postgresql_docker_conf_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
     owner: root
     group: root
     mode: '0644'
@@ -55,10 +55,10 @@
     - config
 
 
-- name: "Copy file from template: {{ postgresql_setup_dir }}/psql.sh"
+- name: "Copy file from template: {{ postgresql_docker_compose_dir }}/psql.sh"
   ansible.builtin.template:
     src: "psql.sh.j2"
-    dest: "{{ postgresql_setup_dir }}/psql.sh"
+    dest: "{{ postgresql_docker_compose_dir }}/psql.sh"
     owner: root
     group: root
     mode: '0755'
@@ -67,9 +67,9 @@
     - copy
 
 
-- name: "docker-compose up: {{ postgresql_setup_dir }}"
+- name: "docker-compose up: {{ postgresql_docker_compose_dir }}"
   community.docker.docker_compose:
-    project_src: "{{ postgresql_setup_dir }}"
+    project_src: "{{ postgresql_docker_compose_dir }}"
     pull: true
   register: r_postgresql_start_result
   tags:

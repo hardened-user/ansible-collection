@@ -8,8 +8,8 @@ zabbix_server_pgsql_docker_network: bridge # "bridge" or "host" supported
 zabbix_server_pgsql_docker_bind_mount_volumes: true
 zabbix_server_pgsql_docker_timezone: "{{ timezone_name }}"
 zabbix_server_pgsql_docker_extra_volumes: []
-zabbix_server_pgsql_export_dir: "{{ zabbix_server_pgsql_setup_dir }}/export"
-zabbix_server_pgsql_snmptraps_dir: "{{ zabbix_server_pgsql_setup_dir }}/snmptraps"
+zabbix_server_pgsql_export_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/export"
+zabbix_server_pgsql_snmptraps_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/snmptraps"
 zabbix_server_pgsql_alertscripts_src: "{{ role_path }}/files/alertscripts"
 zabbix_server_pgsql_externalscripts_src: "{{ role_path }}/files/externalscripts"
 

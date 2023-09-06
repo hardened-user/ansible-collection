@@ -7,10 +7,10 @@
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
   with_items:
-    - { path: "{{ php_fpm_setup_dir }}", mode: '0750' }
-    - { path: "{{ php_fpm_php_conf_dir }}" }
-    - { path: "{{ php_fpm_fpm_conf_dir }}" }
-    - { path: "{{ php_fpm_fpm_sock_dir }}" }
+    - { path: "{{ php_fpm_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ php_fpm_docker_php_conf_dir }}" }
+    - { path: "{{ php_fpm_docker_fpm_conf_dir }}" }
+    - { path: "{{ php_fpm_docker_fpm_sock_dir }}" }
     - { path: "{{ php_fpm_logs_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0770' }
     - { path: "{{ php_fpm_sessions_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0770' }
   tags:
@@ -18,10 +18,10 @@
     - mkdir
 
 
-- name: "Copy file from template: {{ php_fpm_setup_dir }}/docker-compose.yml"
+- name: "Copy file from template: {{ php_fpm_docker_compose_dir }}/docker-compose.yml"
   ansible.builtin.template:
     src: "docker-compose.yml.j2"
-    dest: "{{ php_fpm_setup_dir }}/docker-compose.yml"
+    dest: "{{ php_fpm_docker_compose_dir }}/docker-compose.yml"
     owner: root
     group: root
     mode: '0600'
@@ -30,10 +30,10 @@
     - config
 
 
-- name: "Copy files (rsync): {{ php_fpm_php_conf_dir }}/"
+- name: "Copy files (rsync): {{ php_fpm_docker_php_conf_dir }}/"
   ansible.posix.synchronize:
     src: "{{ php_fpm_php_conf_src }}/"
-    dest: "{{ php_fpm_php_conf_dir }}/"
+    dest: "{{ php_fpm_docker_php_conf_dir }}/"
     archive: false
     times: false
     perms: true
@@ -52,10 +52,10 @@
     - copy
 
 
-- name: "Copy files (rsync): {{ php_fpm_fpm_conf_dir }}/"
+- name: "Copy files (rsync): {{ php_fpm_docker_fpm_conf_dir }}/"
   ansible.posix.synchronize:
     src: "{{ php_fpm_fpm_conf_src }}/"
-    dest: "{{ php_fpm_fpm_conf_dir }}/"
+    dest: "{{ php_fpm_docker_fpm_conf_dir }}/"
     archive: false
     times: false
     perms: true
@@ -86,9 +86,9 @@
     - config
 
 
-- name: "docker-compose up: {{ php_fpm_setup_dir }}"
+- name: "docker-compose up: {{ php_fpm_docker_compose_dir }}"
   community.docker.docker_compose:
-    project_src: "{{ php_fpm_setup_dir }}"
+    project_src: "{{ php_fpm_docker_compose_dir }}"
     pull: true
   register: r_php_fpm_start_result
   tags:

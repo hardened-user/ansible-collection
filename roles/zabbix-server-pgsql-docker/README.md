@@ -55,7 +55,7 @@ zabbix_server_pgsql_docker_extra_volumes: []
 Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: false`
 ```
 # default
-zabbix_server_pgsql_export_dir: "{{ zabbix_server_pgsql_setup_dir }}/export"
+zabbix_server_pgsql_export_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/export"
 ```
 
 #### zabbix_server_pgsql_snmptraps_dir
@@ -63,7 +63,7 @@ zabbix_server_pgsql_export_dir: "{{ zabbix_server_pgsql_setup_dir }}/export"
 Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: false`
 ```
 # default
-zabbix_server_pgsql_snmptraps_dir: "{{ zabbix_server_pgsql_setup_dir }}/snmptraps"
+zabbix_server_pgsql_snmptraps_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/snmptraps"
 ```
 
 #### zabbix_server_pgsql_alertscripts_src

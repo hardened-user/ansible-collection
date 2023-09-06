@@ -12,7 +12,7 @@ volumes:
 services:
   zabbix-server-pgsql:
     image: "{{ zabbix_server_pgsql_docker_image }}"
-    container_name: "{{ zabbix_server_pgsql_container_name }}"
+    container_name: "{{ zabbix_server_pgsql_docker_container_name }}"
     restart: unless-stopped
     environment:
       TZ: "{{ zabbix_server_pgsql_docker_timezone }}"

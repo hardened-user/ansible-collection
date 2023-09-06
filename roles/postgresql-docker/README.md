@@ -62,7 +62,7 @@ postgresql_docker_extra_volumes:
 Используется если `postgresql_docker_bind_mount_volumes: false`
 ```
 # default
-postgresql_data_dir: "{{ postgresql_setup_dir }}/data"
+postgresql_data_dir: "{{ postgresql_docker_compose_dir }}/data"
 ```
 
 #### postgresql_conf_src
