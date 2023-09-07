@@ -49,7 +49,7 @@
   with_fileglob:
     - "{{ postgresql_conf_src }}/*.j2"
   notify:
-    - restart postgresql
+    - restart postgresql-docker
   tags:
     - postgresql
     - config

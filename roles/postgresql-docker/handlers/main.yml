@@ -1,5 +1,5 @@
 ---
-- name: "restart postgresql"
+- name: "restart postgresql-docker"
   community.docker.docker_compose:
     project_src: "{{ postgresql_docker_compose_dir }}"
     restarted: true
