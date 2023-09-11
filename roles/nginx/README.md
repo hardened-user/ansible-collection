@@ -4,13 +4,14 @@
 Конфигурация осуществляется путем копирования файлов из каталога `nginx_conf_source_dir`.<br/>
 Соответствующие файлы должны быть подготовлены заранее (см. [конфиг по-умолчанию](files/conf)).
 
-## Example
+## Variables
 #### nginx_user_extra_groups
 Имя или список групп, в которые будет добавлен пользователь `{{ nginx_user_name }}`.
 ```
 nginx_user_extra_groups: []
 ```
 
+## Example
 ### Playbook
 ```
 - name: "Setup Nginx"
