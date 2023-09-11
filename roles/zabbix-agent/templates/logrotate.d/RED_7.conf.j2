@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+{{ zabbix_agent_logs_dir }}/zabbix_agentd.log {
+    daily
+    rotate 31
+    ifempty
+    missingok
+    compress
+    delaycompress
+    copytruncate
+    su {{ zabbix_agent_user_name }} {{ zabbix_agent_user_group }}
+}

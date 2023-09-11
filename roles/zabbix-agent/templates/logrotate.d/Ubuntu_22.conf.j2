@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+{{ zabbix_agent_logs_dir }}/zabbix_agentd.log {
+    daily
+    rotate 31
+    ifempty
+    missingok
+    compress
+    delaycompress
+    create 0640 {{ zabbix_agent_user_name }} {{ zabbix_agent_user_group }}
+    sharedscripts
+    postrotate
+        [ -e /run/zabbix/zabbix_agentd.pid ] && invoke-rc.d zabbix-agent force-reload >/dev/null || true
+    endscript
+}

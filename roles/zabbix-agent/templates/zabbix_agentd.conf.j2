@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+{% for x in zabbix_agent_conf_runtime | dict2items | rejectattr('value', 'none') %}
+{{ x.key }}={{ x.value }}
+{% endfor %}
+Include={{ zabbix_agent_conf_d_dir }}/*.conf

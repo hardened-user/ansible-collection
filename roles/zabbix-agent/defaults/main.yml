@@ -1,0 +1,16 @@
+---
+zabbix_agent_conf_d_src: "{{ role_path }}/files/conf.d"
+zabbix_agent_scripts_src: "{{ role_path }}/files/agentscripts"
+
+zabbix_agent_conf_dict: {}
+zabbix_agent_conf_default:
+  ListenIP: "0.0.0.0"
+  ListenPort: 10050
+  Server: "localhost"
+  StartAgents: 3
+  Timeout: 30
+  PidFile: "/run/zabbix/zabbix_agentd.pid"
+  LogFile: "{{ zabbix_agent_logs_dir }}/zabbix_agentd.log"
+  LogFileSize: 0
+  DebugLevel: 3
+zabbix_agent_conf_runtime: "{{ zabbix_agent_conf_default | combine(zabbix_agent_conf_dict) }}"
