@@ -21,14 +21,3 @@ nginx_user_group: "nginx"
 ### postgresql ---------------------------------------------------------------------------------------------------------
 postgresql_user_name: "postgres"
 postgresql_user_group: "postgres"
-
-
-### zabbix-agent -------------------------------------------------------------------------------------------------------
-zabbix_agent_conf_dir: "/etc/zabbix"
-zabbix_agent_conf_file: "{{ zabbix_agent_conf_dir }}/zabbix_agentd.conf"
-zabbix_agent_conf_d_dir: "{{ zabbix_agent_conf_dir }}/zabbix_agentd.d"
-zabbix_agent_agentscripts_dir: "{{ zabbix_agent_conf_dir }}/agentscripts"
-zabbix_agent_service_name: "zabbix-agent"
-zabbix_agent_package_name: "zabbix-agent"
-zabbix_agent_user_name: "zabbix"
-zabbix_agent_user_group: "zabbix"
