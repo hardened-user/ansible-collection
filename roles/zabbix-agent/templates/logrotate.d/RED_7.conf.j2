@@ -3,8 +3,8 @@
 {{ zabbix_agent_logs_dir }}/zabbix_agentd.log {
     daily
     rotate 31
-    ifempty
     missingok
+    notifempty
     compress
     delaycompress
     copytruncate

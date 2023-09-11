@@ -4,10 +4,9 @@
     {{ nginx_logrotate_interval }}
     rotate {{ nginx_logrotate_rotate }}
     missingok
-    dateext
+    notifempty
     compress
     delaycompress
-    notifempty
     sharedscripts
     postrotate
         test -r /run/nginx.pid && kill -USR1 `cat /run/nginx.pid`

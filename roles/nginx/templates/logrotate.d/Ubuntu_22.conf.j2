@@ -4,10 +4,9 @@
     {{ nginx_logrotate_interval }}
     rotate {{ nginx_logrotate_rotate }}
     missingok
-    dateext
+    notifempty
     compress
     delaycompress
-    notifempty
     create 0640 www-data adm
     sharedscripts
     prerotate
