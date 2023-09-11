@@ -31,6 +31,9 @@ zabbix_web_nginx_pgsql_docker_env_dict:
 - name: "Setup Zabbix Web Interface in Docker"
   hosts: locahost
   become: yes
+  vars:
+    zabbix_web_nginx_pgsql_docker_env_dict:
+      ENABLE_WEB_ACCESS_LOG: "false"
   roles:
     - zabbix-web-nginx-pgsql-docker
 ```
