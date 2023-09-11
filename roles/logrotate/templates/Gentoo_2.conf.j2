@@ -13,10 +13,11 @@ rotate {{ logrotate_rotate }}
 create
 
 # use date as a suffix of the rotated file.
-dateext
+{% if not logrotate_dateext %}#{% endif %}dateext
 
 # compress rotated log files.
-compress
+{% if not logrotate_compress %}#{% endif %}compress
+{% if not (logrotate_compress and logrotate_delaycompress) %}#{% endif %}delaycompress
 
 notifempty
 nomail

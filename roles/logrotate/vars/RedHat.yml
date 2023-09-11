@@ -1,4 +1,0 @@
----
-# vars file specific for RedHat family systems
-
-logrotate_package_name: "logrotate"

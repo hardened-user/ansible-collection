@@ -1,5 +1,6 @@
 ---
-
 logrotate_interval: "daily"
 logrotate_rotate: 31
-logrotate_d_config: {}
+logrotate_dateext: true
+logrotate_compress: true
+logrotate_delaycompress: true

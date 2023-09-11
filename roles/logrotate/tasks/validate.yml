@@ -1,0 +1,26 @@
+---
+- name: Validate | Ensure that variable is string
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - logrotate_interval
+
+- name: Validate | Ensure that variable is integer
+  ansible.builtin.assert:
+    that: vars[item] | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - logrotate_rotate
+
+- name: Validate | Ensure that variable is boolean
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - logrotate_dateext
+    - logrotate_compress
+    - logrotate_delaycompress

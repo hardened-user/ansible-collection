@@ -1,13 +1,10 @@
 ---
-
-- name: "Include OS family specific variables"
-  include_vars: "{{ ansible_os_family }}.yml"
-  tags:
-    - logrotate
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
 
 
 - name: "Install package: {{ logrotate_package_name }}"
-  package:
+  ansible.builtin.package:
     name: "{{ logrotate_package_name }}"
     state: present
   tags:
@@ -16,29 +13,12 @@
 
 
 - name: "Copy file from template: {{ logrotate_conf_file }}"
-  template:
-    src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.conf.j2"
+  ansible.builtin.template:
+    src: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.conf.j2"
     dest: "{{ logrotate_conf_file }}"
     owner: root
     group: root
-    mode: 0644
-    force: yes
-  tags:
-    - logrotate
-    - config
-
-
-- name: "Generate files: {{ logrotate_conf_d_dir }}/"
-  template:
-    src: "tmpl.d.conf.j2"
-    dest: "{{ logrotate_conf_d_dir }}/{{ item.name }}"
-    owner: root
-    group: root
-    mode: 0644
-    force: yes
-  with_items:
-    - "{{ logrotate_d_config }}"
-  when: logrotate_d_config | bool
+    mode: '0644'
   tags:
     - logrotate
     - config

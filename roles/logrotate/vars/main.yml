@@ -1,4 +1,3 @@
 ---
-
+logrotate_package_name: "logrotate"
 logrotate_conf_file: "/etc/logrotate.conf"
-logrotate_conf_d_dir: "/etc/logrotate.d"
