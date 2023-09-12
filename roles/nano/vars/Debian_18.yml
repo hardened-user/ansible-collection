@@ -1,4 +1,0 @@
----
-# vars file specific for Debian family systems
-
-nano_package_name: "nano"

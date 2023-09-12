@@ -1,13 +1,6 @@
 ---
-
-- name: "Include OS family specific variables"
-  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
-  tags:
-    - nano
-
-
 - name: "Install package: {{ nano_package_name }}"
-  package:
+  ansible.builtin.package:
     name: "{{ nano_package_name }}"
     state: present
   tags:
@@ -16,13 +9,12 @@
 
 
 - name: "Copy file from template: {{ nano_conf_file }}"
-  template:
-    src: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.nanorc.j2"
+  ansible.builtin.template:
+    src: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.nanorc.j2"
     dest: "{{ nano_conf_file }}"
     owner: root
     group: root
-    mode: 0644
-    force: yes
+    mode: '0644'
   tags:
     - nano
     - config
