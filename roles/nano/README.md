@@ -1,7 +1,6 @@
 # Nano
 
 The role sets the parameters and enable all the existing definitions of syntax.
-
 ```
 set historylog
 set locking
@@ -15,5 +14,5 @@ set noconvert
   hosts: locahost
   become: yes
   roles:
-    - journald
+    - nano
 ```
