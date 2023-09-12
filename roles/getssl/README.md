@@ -15,8 +15,7 @@ sudo su - getssl
 ```
 
 
-## Example
-### Variables
+## Variables
 #### getssl_production_enabled
 **Let's Encrypt** устанавливает лимит на количество обращений на генерацию сертификата, поэтому для начала предлагается использовать тестовый сервис.<br/>
 После проверки работоспособности конфигурации и процедуры получения сертификатов, нужно переключить в **production** режим.
@@ -32,6 +31,7 @@ getssl_renewal_period: 30
 ```
 
 
+## Example
 ### Playbook
 ```
 - name: "Setup GetSSL"
