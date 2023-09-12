@@ -35,8 +35,8 @@
 
 - name: "Create directories: ..."
   ansible.builtin.file:
-    state: directory
     path: "{{ item.path }}"
+    state: directory
     owner: "{{ item.owner | default(getssl_user_name) }}"
     group: "{{ item.group | default(getssl_user_name) }}"
     mode: "{{ item.mode | default('0750') }}"
@@ -77,8 +77,8 @@
 
 - name: "Create directories: ..."
   ansible.builtin.file:
-    state: directory
     path: "{{ getssl_conf_dir }}/{{ item.name }}"
+    state: directory
     owner: "{{ getssl_user_name }}"
     group: "{{ getssl_user_name }}"
     mode: '0750'
