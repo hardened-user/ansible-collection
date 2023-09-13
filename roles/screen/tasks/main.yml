@@ -43,7 +43,7 @@
     line: "{{ item.key }} {{ item.value }}"
     insertafter: "^#+ Ansible >>> #+$"
   with_items:
-    - "{{ lookup('dict', screen_conf_system_rc_runtime) | rejectattr('value', 'none') | list }}"
+    - "{{ lookup('dict', screen_system_rc_conf_runtime) | rejectattr('value', 'none') | list }}"
   tags:
     - screen
     - config
@@ -55,7 +55,7 @@
     state: absent
     regexp: '^\s*{{ item.key }}(\s|$)'
   with_items:
-    - "{{ lookup('dict', screen_conf_system_rc_runtime) | selectattr('value', 'none') | list }}"
+    - "{{ lookup('dict', screen_system_rc_conf_runtime) | selectattr('value', 'none') | list }}"
   tags:
     - screen
     - config
