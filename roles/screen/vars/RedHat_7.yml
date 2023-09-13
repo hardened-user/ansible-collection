@@ -1,5 +1,0 @@
----
-# vars file specific for RedHat family systems
-
-screen_package_name: "screen"
-screen_system_rc_file: "/etc/screenrc"

@@ -1,13 +1,6 @@
 ---
-
-- name: "Include OS family specific variables"
-  include_vars: "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
-  tags:
-    - screen
-
-
 - name: "Install package: {{ screen_package_name }}"
-  package:
+  ansible.builtin.package:
     name: "{{ screen_package_name }}"
     state: present
   tags:
@@ -16,19 +9,19 @@
 
 
 - name: "Ansible opening tag: {{ screen_system_rc_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ screen_system_rc_file }}"
     line: "##### Ansible >>> #####"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   tags:
     - screen
     - config
 
 
 - name: "Ansible closing tag: {{ screen_system_rc_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ screen_system_rc_file }}"
     line: "##### <<< Ansible #####"
   tags:
@@ -37,7 +30,7 @@
 
 
 - name: "Configuring screen: {{ screen_system_rc_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ screen_system_rc_file }}"
     regexp: '^\s*{{ item.key }}\s'
     line: "{{ item.key }} {{ item.value }}"
@@ -50,7 +43,7 @@
 
 
 - name: "Configuring screen: {{ screen_system_rc_file }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ screen_system_rc_file }}"
     state: absent
     regexp: '^\s*{{ item.key }}(\s|$)'
