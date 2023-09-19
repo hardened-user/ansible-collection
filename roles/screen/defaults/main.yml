@@ -1,8 +1,8 @@
 ---
 screen_system_rc_conf_dict: {}
 screen_system_rc_conf_default:
-  - startup_message: "off"
-  - hardstatus alwaysignore:
-  - hardstatus alwayslastline: ""
-  - hardstatus string: "'%{rk}[ %{G}%H %{rk}] %{gk}[ %{wk}%{= kw}%-w%{= bW}%n %t%{-}%+w%{-} %{gk}]%{-}'"
+  startup_message: "off"
+  hardstatus alwaysignore:
+  hardstatus alwayslastline: ""
+  hardstatus string: "'%{rk}[ %{G}%H %{rk}] %{gk}[ %{wk}%{= kw}%-w%{= bW}%n %t%{-}%+w%{-} %{gk}]%{-}'"
 screen_system_rc_conf_runtime: "{{ screen_system_rc_conf_default | combine(screen_system_rc_conf_dict) }}"
