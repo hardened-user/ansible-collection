@@ -1,0 +1,11 @@
+---
+# vars file specific for RedOS distribution systems
+
+docker_compose_install_packages:
+  - docker-compose
+  - python3-docker
+  - python3-dockerpty
+  - python3-docopt
+  - python3-dotenv
+  - python3-paramiko
+  - python3-texttable

@@ -1,0 +1,18 @@
+---
+# tasks file specific for RedOS distribution systems
+
+- name: "Install packages: {{ docker_compose_install_packages | sort | join(' ') }}"
+  ansible.builtin.package:
+    name: "{{ docker_compose_install_packages }}"
+    state: present
+  tags:
+    - docker-compose
+    - package
+
+- name: "Install pip package: docker-compose"
+  ansible.builtin.pip:
+    name: docker-compose
+    state: present
+  tags:
+    - docker-compose
+    - pip
