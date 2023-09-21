@@ -91,6 +91,9 @@ postgresql_pg_hba_conf_list:
 - name: "Setup PostgreSQL in Docker"
   hosts: locahost
   become: yes
+  vars:
+    postgresql_conf_dict:
+      shared_buffers: 2GB
   roles:
     - postgresql-docker
 ```
