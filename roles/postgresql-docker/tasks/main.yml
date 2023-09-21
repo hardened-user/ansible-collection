@@ -63,7 +63,7 @@
 
 - name: "Create files: {{ postgresql_docker_conf_dir }}/"
   ansible.builtin.copy:
-    dest: "{{ item.dest }}"
+    dest: "{{ postgresql_docker_conf_dir }}/{{ item.filename }}"
     content: "{{ item.content }}"
     owner: "{{ postgresql_docker_uid }}"
     group: "{{ postgresql_docker_gid }}"
@@ -71,10 +71,13 @@
   notify: restart postgresql-docker
   when: postgresql_tls_enabled
   loop:
-    - { dest: "{{ postgresql_docker_tls_cert_crt_file }}", content: "{{ postgresql_tls_cert_crt }}" }
-    - { dest: "{{ postgresql_docker_tls_cert_key_file }}", content: "{{ postgresql_tls_cert_key }}" }
+    - { filename: "server.crt", content: "{{ postgresql_tls_cert_crt }}" }
+    - { filename: "server.key", content: "{{ postgresql_tls_cert_key }}" }
   loop_control:
-    label: "{{ item.dest | basename }}"
+    label: "{{ item.filename }}"
+  tags:
+    - postgresql
+    - config
 
 
 - name: "Copy file from template: {{ postgresql_docker_compose_dir }}/psql.sh"

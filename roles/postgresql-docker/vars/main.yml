@@ -2,8 +2,6 @@
 postgresql_major_version: "{{ postgresql_version.split('.') | first }}"
 postgresql_docker_compose_dir: "/srv/postgresql-{{ postgresql_major_version }}"
 postgresql_docker_conf_dir: "{{ postgresql_docker_compose_dir }}/conf"
-postgresql_docker_tls_cert_crt_file: "{{ postgresql_docker_conf_dir }}/server.crt"
-postgresql_docker_tls_cert_key_file: "{{ postgresql_docker_conf_dir }}/server.key"
 postgresql_docker_container_name: "postgresql-{{ postgresql_major_version }}"
 
 postgresql_conf_default:
