@@ -7,6 +7,7 @@
   loop:
     - logrotate_interval
 
+
 - name: Validate | Ensure that variable is integer
   ansible.builtin.assert:
     that: vars[item] | string | regex_search("^[0-9]+$")
@@ -14,6 +15,7 @@
     fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
   loop:
     - logrotate_rotate
+
 
 - name: Validate | Ensure that variable is boolean
   ansible.builtin.assert:
