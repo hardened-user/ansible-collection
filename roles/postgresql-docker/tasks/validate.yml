@@ -1,0 +1,55 @@
+---
+- name: Validate | Ensure that variable is string
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - postgresql_docker_network
+    - postgresql_docker_timezone
+
+
+- name: Validate | Ensure that variable is integer
+  ansible.builtin.assert:
+    that: vars[item] | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - postgresql_docker_uid
+    - postgresql_docker_gid
+    - postgresql_listen_port
+
+
+- name: Validate | Ensure that variable is boolean
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - postgresql_docker_bind_mount_volumes
+
+
+- name: Validate | Ensure that variable is list
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - postgresql_docker_extra_volumes
+    - postgresql_pg_hba_conf_list
+
+
+- name: Validate | Ensure that variable is dict
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - postgresql_conf_dict
+
+
+- name: Validate | Ensure password_encryption is valid
+  ansible.builtin.assert:
+    that: postgresql_conf_runtime.password_encryption in ["scram-sha-256", "md5"]
+    fail_msg: "unexpected value: {{ postgresql_conf_runtime.password_encryption }}"
+    quiet: true

@@ -1,4 +1,8 @@
 ---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+
+
 - name: "Create directories: ..."
   ansible.builtin.file:
     path: "{{ item.path }}"
