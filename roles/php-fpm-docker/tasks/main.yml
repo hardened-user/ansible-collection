@@ -44,8 +44,7 @@
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
       - "--exclude=.*"
-  notify:
-    - reload php-fpm-docker
+  notify: reload php-fpm-docker
   tags:
     - php-fpm
     - config
@@ -66,8 +65,7 @@
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
       - "--exclude=.*"
-  notify:
-    - reload php-fpm-docker
+  notify: reload php-fpm-docker
   tags:
     - php-fpm
     - config

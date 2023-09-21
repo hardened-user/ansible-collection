@@ -14,8 +14,7 @@
     groups: "{{ nginx_user_extra_groups }}"
     append: true
   register: r_nginx_add_group
-  notify:
-    - restart nginx
+  notify: restart nginx
   tags:
     - nginx
     - config
@@ -52,8 +51,7 @@
       - "--chown=root:root"
       - "--chmod=D0750,F0644"
       - "--exclude=.*"
-  notify:
-    - reload nginx
+  notify: reload nginx
   tags:
     - nginx
     - config
@@ -67,8 +65,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify:
-    - reload nginx
+  notify: reload nginx
   tags:
     - nginx
     - config
@@ -84,8 +81,7 @@
     mode: '0640'
   with_fileglob:
     - "{{ nginx_cert_source_dir }}/*.*"
-  notify:
-    - reload nginx
+  notify: reload nginx
   tags:
     - nginx
     - config
@@ -106,8 +102,7 @@
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
       - "--exclude=.*"
-  notify:
-    - reload nginx
+  notify: reload nginx
   tags:
     - nginx
     - config

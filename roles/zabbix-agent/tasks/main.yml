@@ -36,8 +36,7 @@
     owner: root
     group: "{{ zabbix_agent_user_group }}"
     mode: '0640'
-  notify:
-    - restart zabbix-agent
+  notify: restart zabbix-agent
   tags:
     - zabbix-agent
     - config
@@ -52,8 +51,7 @@
     mode: '0640'
   with_fileglob:
     - "{{ zabbix_agent_conf_d_src }}/*.conf"
-  notify:
-    - restart zabbix-agent
+  notify: restart zabbix-agent
   tags:
     - zabbix-agent
     - config
