@@ -7,6 +7,8 @@
   loop:
     - postgresql_docker_network
     - postgresql_docker_timezone
+    - postgresql_tls_cert_crt
+    - postgresql_tls_cert_key
 
 
 - name: Validate | Ensure that variable is integer
@@ -27,6 +29,7 @@
     fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
   loop:
     - postgresql_docker_bind_mount_volumes
+    - postgresql_tls_enabled
 
 
 - name: Validate | Ensure that variable is list
@@ -53,3 +56,15 @@
     that: postgresql_conf_runtime.password_encryption in ["scram-sha-256", "md5"]
     fail_msg: "unexpected value: {{ postgresql_conf_runtime.password_encryption }}"
     quiet: true
+
+
+- name: Validate | Check certificate variables length
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | length > 1024
+    quiet: true
+  when: postgresql_tls_enabled
+  loop:
+    - postgresql_tls_cert_crt
+    - postgresql_tls_cert_key
+  loop_control:
+    label: "{{ item }}"

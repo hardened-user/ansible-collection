@@ -94,6 +94,9 @@ postgresql_pg_hba_conf_list:
   vars:
     postgresql_conf_dict:
       shared_buffers: 2GB
+    postgresql_tls_enabled: true
+    postgresql_tls_cert_crt: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.pem') }}"
+    postgresql_tls_cert_key: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.key') }}"
   roles:
     - postgresql-docker
 ```

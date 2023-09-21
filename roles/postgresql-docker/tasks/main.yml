@@ -12,7 +12,7 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
-  with_items:
+  loop:
     - { path: "{{ postgresql_docker_compose_dir }}", mode: '0750' }
     - { path: "{{ postgresql_docker_conf_dir }}" }
   tags:
@@ -52,14 +52,29 @@
     owner: root
     group: root
     mode: '0644'
+  notify: restart postgresql-docker
   loop:
     - "pg_hba.conf.j2"
     - "postgresql.conf.j2"
-  notify:
-    - restart postgresql-docker
   tags:
     - postgresql
     - config
+
+
+- name: "Create files: {{ postgresql_docker_conf_dir }}/"
+  ansible.builtin.copy:
+    dest: "{{ item.dest }}"
+    content: "{{ item.content }}"
+    owner: "{{ postgresql_docker_uid }}"
+    group: "{{ postgresql_docker_gid }}"
+    mode: '0600'
+  notify: restart postgresql-docker
+  when: postgresql_tls_enabled
+  loop:
+    - { dest: "{{ postgresql_docker_tls_cert_crt_file }}", content: "{{ postgresql_tls_cert_crt }}" }
+    - { dest: "{{ postgresql_docker_tls_cert_key_file }}", content: "{{ postgresql_tls_cert_key }}" }
+  loop_control:
+    label: "{{ item.dest | basename }}"
 
 
 - name: "Copy file from template: {{ postgresql_docker_compose_dir }}/psql.sh"
