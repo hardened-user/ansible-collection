@@ -3,3 +3,16 @@ postgresql_major_version: "{{ postgresql_version.split('.') | first }}"
 postgresql_docker_compose_dir: "/srv/postgresql-{{ postgresql_major_version }}"
 postgresql_docker_conf_dir: "{{ postgresql_docker_compose_dir }}/conf"
 postgresql_docker_container_name: "postgresql-{{ postgresql_major_version }}"
+
+postgresql_conf_default:
+  max_connections: 100
+  shared_buffers: 128MB
+  temp_buffers: 8MB
+  work_mem: 4MB
+  maintenance_work_mem: 64MB
+  log_timezone: "Etc/UTC"
+  statement_timeout: 0
+  idle_in_transaction_session_timeout: 0
+  timezone: 'Etc/UTC'
+  password_encryption: "scram-sha-256"
+postgresql_conf_runtime: "{{ postgresql_conf_default | combine(postgresql_conf_dict) }}"

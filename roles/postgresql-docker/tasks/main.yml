@@ -46,8 +46,9 @@
     owner: root
     group: root
     mode: '0644'
-  with_fileglob:
-    - "{{ postgresql_conf_src }}/*.j2"
+  loop:
+    - "pg_hba.conf.j2"
+    - "postgresql.conf.j2"
   notify:
     - restart postgresql-docker
   tags:

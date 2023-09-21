@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+# PostgreSQL Client Authentication Configuration File
+# ===================================================
+
+# TYPE  DATABASE        USER      ADDRESS         METHOD
+{% for x in postgresql_pg_hba_conf_list %}
+{{ x | trim }}
+{% endfor %}

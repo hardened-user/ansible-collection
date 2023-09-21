@@ -9,10 +9,18 @@ postgresql_docker_bind_mount_volumes: true
 postgresql_docker_timezone: "{{ timezone_name }}"
 postgresql_docker_extra_volumes: []
 postgresql_data_dir: "{{ postgresql_docker_compose_dir }}/data"
-postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"
 
 postgresql_listen_addr: "0.0.0.0"
 postgresql_listen_port: 5432
 postgresql_init_user: "postgres"
 postgresql_init_pass: "postgres"
 postgresql_init_base: "postgres"
+
+postgresql_conf_dict: {}
+postgresql_pg_hba_conf_list:
+#    TYPE    DATABASE        USER      ADDRESS         METHOD
+  - "local   replication     all                       trust"
+  - "local   all             all                       trust"
+  - "host    replication     all       127.0.0.1/32    trust"
+  - "host    replication     all       ::1/128         trust"
+  - "host    all             all       all             {{ postgresql_conf_default.password_encryption }}"

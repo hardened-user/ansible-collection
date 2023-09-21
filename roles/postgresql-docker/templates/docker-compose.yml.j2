@@ -19,6 +19,7 @@ services:
       POSTGRES_USER: "{{ postgresql_init_user }}"
       POSTGRES_PASSWORD: "{{ postgresql_init_pass }}"
       POSTGRES_DB: "{{ postgresql_init_base }}"
+      POSTGRES_INITDB_ARGS: "--auth-host={{ postgresql_conf_runtime.password_encryption }}"
     volumes:
       - {{ postgresql_docker_conf_dir }}:/etc/postgresql:ro
 {% if postgresql_docker_bind_mount_volumes is sameas false %}

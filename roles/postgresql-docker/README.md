@@ -65,15 +65,23 @@ postgresql_docker_extra_volumes:
 postgresql_data_dir: "{{ postgresql_docker_compose_dir }}/data"
 ```
 
-#### postgresql_conf_src
-Каталог, откуда будут скопированы шаблоны конфигураций **PostgreSQL**.<br/>
-Соответствующие файлы должны быть подготовлены заранее.
+#### postgresql_conf_dict
+Конфигурация `postgresql.conf`.<br/>
 ```
 # default
-postgresql_conf_src: "{{ role_path }}/files/{{ postgresql_major_version }}"
+postgresql_conf_dict: {}
+```
 
-# example
-postgresql_conf_src: "files/postgresql/{{ inventory_hostname }}/{{ postgresql_major_version }}"
+#### postgresql_pg_hba_conf_list
+Конфигурация `pg_hba.conf`.<br/>
+```
+# default
+postgresql_pg_hba_conf_list:
+  - "local   replication     all                       trust"
+  - "local   all             all                       trust"
+  - "host    replication     all       127.0.0.1/32    trust"
+  - "host    replication     all       ::1/128         trust"
+  - "host    all             all       all             {{ postgresql_conf_default.password_encryption }}"
 ```
 
 
