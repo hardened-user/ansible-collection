@@ -79,9 +79,9 @@
     owner: root
     group: root
     mode: '0640'
+  notify: reload nginx
   with_fileglob:
     - "{{ nginx_cert_source_dir }}/*.*"
-  notify: reload nginx
   tags:
     - nginx
     - config
