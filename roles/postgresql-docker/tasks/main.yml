@@ -1,6 +1,8 @@
 ---
 - name: "Validate"
   ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - validate
 
 
 - name: "Create directories: ..."
