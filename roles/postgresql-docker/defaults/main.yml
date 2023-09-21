@@ -23,7 +23,7 @@ postgresql_pg_hba_conf_list:
   - "local   all             all                       trust"
   - "host    replication     all       127.0.0.1/32    trust"
   - "host    replication     all       ::1/128         trust"
-  - "host    all             all       all             {{ postgresql_conf_default.password_encryption }}"
+  - "host    all             all       all             {{ postgresql_conf_runtime.password_encryption }}"
 
 postgresql_tls_enabled: false
 postgresql_tls_cert_crt: |-
