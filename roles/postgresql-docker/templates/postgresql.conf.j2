@@ -532,6 +532,7 @@ default_text_search_config = 'pg_catalog.english'
 
 password_encryption = '{{ postgresql_conf_runtime.password_encryption }}'
 {% if postgresql_tls_enabled %}
+ssl = on
 ssl_cert_file = '{{ postgresql_docker_tls_cert_crt_file }}'
 ssl_key_file = '{{ postgresql_docker_tls_cert_key_file }}'
 {% endif %}
