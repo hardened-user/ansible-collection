@@ -1,3 +1,5 @@
 ---
 screen_package_name: "screen"
 screen_system_rc_file: "/etc/screenrc"
+
+screen_system_rc_conf_runtime: "{{ screen_system_rc_conf_default | combine(screen_system_rc_conf_dict) }}"

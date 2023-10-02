@@ -14,9 +14,11 @@ opensearch_logs_dir: "{{ opensearch_docker_compose_dir }}/logs"
 opensearch_listen_addr: "0.0.0.0"
 opensearch_listen_port: 9200
 
+### opensearch.yml -----------------------------------------------------------------------------------------------------
 opensearch_discovery_type: "single-node"
 opensearch_cluster_name: "docker-cluster"
 opensearch_node_name: "{{ ansible_hostname }}"
 opensearch_plugins_security_enabled: true
 opensearch_plugins_security_ssl_http_enabled: false
 opensearch_conf_dict: {}
+opensearch_conf_default: {}

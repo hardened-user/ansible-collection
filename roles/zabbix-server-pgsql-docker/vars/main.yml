@@ -3,3 +3,5 @@ zabbix_server_pgsql_docker_compose_dir: "/srv/zabbix-server-pgsql-{{ zabbix_serv
 zabbix_server_pgsql_docker_alertscripts_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/alertscripts"
 zabbix_server_pgsql_docker_externalscripts_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/externalscripts"
 zabbix_server_pgsql_docker_container_name: "zabbix-server-pgsql-{{ zabbix_server_pgsql_version }}"
+
+zabbix_server_pgsql_docker_env_runtime: "{{ zabbix_server_pgsql_docker_env_default | combine(zabbix_server_pgsql_docker_env_dict) }}"

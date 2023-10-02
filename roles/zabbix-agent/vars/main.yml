@@ -7,3 +7,5 @@ zabbix_agent_user_group: "zabbix"
 zabbix_agent_conf_dir: "/etc/zabbix"
 zabbix_agent_agentscripts_dir: "{{ zabbix_agent_conf_dir }}/agentscripts"
 zabbix_agent_logrotate_file: "/etc/logrotate.d/zabbix-agent"
+
+zabbix_agent_conf_runtime: "{{ zabbix_agent_conf_default | combine(zabbix_agent_conf_dict) }}"

@@ -18,4 +18,3 @@ zabbix_web_nginx_pgsql_docker_env_dict: {}
 zabbix_web_nginx_pgsql_docker_env_default:
   PHP_TZ: "{{ timezone_name }}"
   ZBX_SERVER_NAME: "Zabbix Web"
-zabbix_web_nginx_pgsql_docker_env_runtime: "{{ zabbix_web_nginx_pgsql_docker_env_default | combine(zabbix_web_nginx_pgsql_docker_env_dict) }}"
