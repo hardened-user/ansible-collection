@@ -66,14 +66,14 @@ postgresql_data_dir: "{{ postgresql_docker_compose_dir }}/data"
 ```
 
 #### postgresql_conf_dict
-Конфигурация `postgresql.conf`.<br/>
+Произвольная конфигурация `postgresql.conf`.<br/>
 ```
 # default
 postgresql_conf_dict: {}
 ```
 
 #### postgresql_pg_hba_conf_list
-Конфигурация `pg_hba.conf`.<br/>
+Произвольная конфигурация `pg_hba.conf`.<br/>
 ```
 # default
 postgresql_pg_hba_conf_list:

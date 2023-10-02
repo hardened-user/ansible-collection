@@ -5,6 +5,7 @@
     quiet: true
     fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
   loop:
+    - postgresql_version
     - postgresql_docker_network
     - postgresql_docker_timezone
     - postgresql_tls_cert_crt

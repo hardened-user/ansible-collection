@@ -1,8 +1,8 @@
 ---
-postgresql_major_version: "{{ postgresql_version.split('.') | first }}"
-postgresql_docker_compose_dir: "/srv/postgresql-{{ postgresql_major_version }}"
+postgresql_short_version: "{{ postgresql_version.split('.') | first }}"
+postgresql_docker_compose_dir: "/srv/postgresql-{{ postgresql_short_version }}"
 postgresql_docker_conf_dir: "{{ postgresql_docker_compose_dir }}/conf"
-postgresql_docker_container_name: "postgresql-{{ postgresql_major_version }}"
+postgresql_docker_container_name: "postgresql-{{ postgresql_short_version }}"
 
 postgresql_conf_default:
   max_connections: 100

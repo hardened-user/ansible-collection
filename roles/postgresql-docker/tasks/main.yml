@@ -2,6 +2,7 @@
 - name: "Validate"
   ansible.builtin.include_tasks: "validate.yml"
   tags:
+    - postgresql
     - validate
 
 
