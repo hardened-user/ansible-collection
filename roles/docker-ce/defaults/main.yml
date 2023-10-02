@@ -1,12 +1,9 @@
 ---
 docker_version: ""
 
-
 ### systemd ------------------------------------------------------------------------------------------------------------
 docker_systemd_env_dict: {}
-
 
 ### daemon.json --------------------------------------------------------------------------------------------------------
 docker_conf_dict: {}
 docker_conf_default: {}
-docker_conf_runtime: "{{ docker_conf_default | combine(docker_conf_dict) }}"
