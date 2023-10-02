@@ -7,7 +7,7 @@
 
 
 - name: "Create directories: ..."
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner | default('root') }}"
