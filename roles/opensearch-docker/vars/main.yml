@@ -1,0 +1,7 @@
+---
+opensearch_short_version: "{{ opensearch_version.split('.')[:-1] | join('.') }}"
+opensearch_docker_compose_dir: "/srv/opensearch-{{ opensearch_short_version }}"
+opensearch_docker_container_name: "opensearch-{{ opensearch_short_version }}"
+
+opensearch_conf_default: {}
+opensearch_conf_runtime: "{{ opensearch_conf_default | combine(opensearch_conf_dict) }}"

@@ -1,0 +1,74 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - opensearch
+    - validate
+
+
+- name: "Create directories: ..."
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0750') }}"
+  loop:
+    - { path: "{{ opensearch_docker_compose_dir }}", mode: '0750' }
+  tags:
+    - opensearch
+    - mkdir
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ opensearch_docker_uid }}"
+    group: "{{ opensearch_docker_gid }}"
+    mode: '0700'
+  when: opensearch_docker_bind_mount_volumes
+  loop:
+    - { path: "{{ opensearch_data_dir }}" }
+    - { path: "{{ opensearch_logs_dir }}" }
+  tags:
+    - opensearch
+    - mkdir
+
+
+- name: "Copy file from template: {{ opensearch_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ opensearch_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - opensearch
+    - config
+
+
+- name: "Configuration sysctl: /etc/sysctl.d/99-opensearch.conf"
+  ansible.posix.sysctl:
+    sysctl_file: "/etc/sysctl.d/99-opensearch.conf"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: true
+    reload: true
+  loop:
+    - { name: vm.max_map_count, value: 262144 }
+  tags:
+    - opensearch
+    - config
+    - sysctl
+
+
+- name: "docker-compose up: {{ opensearch_docker_compose_dir }}"
+  community.docker.docker_compose:
+    project_src: "{{ opensearch_docker_compose_dir }}"
+    pull: true
+  register: r_opensearch_start_result
+  tags:
+    - opensearch
+    - docker-compose

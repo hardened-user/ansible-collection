@@ -1,0 +1,54 @@
+# {{ ansible_managed }}
+
+---
+version: '3.5'
+
+{% if opensearch_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+  logs: {}
+{% endif %}
+
+services:
+  opensearch:
+    image: "{{ opensearch_docker_image }}"
+    container_name: "{{ opensearch_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ opensearch_docker_timezone }}"
+{% if opensearch_docker_network == "host" %}
+      network.host: "{{ opensearch_listen_addr }}"
+      http.port: "{{ opensearch_listen_port }}"
+{% endif %}
+      discovery.type: "{{ opensearch_discovery_type }}"
+      cluster.name: "{{ opensearch_cluster_name }}"
+      node.name: "{{ opensearch_node_name }}"
+{% if opensearch_plugins_security_enabled %}
+      plugins.security.ssl.http.enabled: "{{ opensearch_plugins_security_ssl_http_enabled | lower }}"
+{% else %}
+      plugins.security.disabled: "true"
+{% endif %}
+{% for x in opensearch_conf_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ x.key }}: "{{ x.value }}"
+{% endfor %}
+    volumes:
+{% if opensearch_docker_bind_mount_volumes is sameas false %}
+      - data:/usr/share/opensearch/data
+      - logs:/usr/share/opensearch/logs
+{% else %}
+      - {{ opensearch_data_dir }}:/usr/share/opensearch/data
+      - {{ opensearch_logs_dir }}:/usr/share/opensearch/logs
+{% endif %}
+{% for v in opensearch_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if opensearch_docker_network != "host" %}
+    ports:
+      - {{ opensearch_listen_addr }}:{{ opensearch_listen_port }}:9200
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

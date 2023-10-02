@@ -1,0 +1,41 @@
+---
+- name: Validate | Ensure that variable is string
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - opensearch_version
+    - opensearch_docker_network
+    - opensearch_docker_timezone
+
+
+- name: Validate | Ensure that variable is integer
+  ansible.builtin.assert:
+    that: vars[item] | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - opensearch_docker_uid
+    - opensearch_docker_gid
+    - opensearch_listen_port
+
+
+- name: Validate | Ensure that variable is boolean
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - opensearch_docker_bind_mount_volumes
+    - opensearch_plugins_security_enabled
+    - opensearch_plugins_security_ssl_http_enabled
+
+
+- name: Validate | Ensure that variable is list
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+  loop:
+    - opensearch_docker_extra_volumes
