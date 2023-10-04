@@ -17,6 +17,19 @@ postgresql_init_pass: "postgres"
 postgresql_init_base: "postgres"
 
 postgresql_conf_dict: {}
+postgresql_conf_default:
+  max_connections: 100
+  shared_buffers: 128MB
+  temp_buffers: 8MB
+  work_mem: 4MB
+  maintenance_work_mem: 64MB
+  log_line_prefix: "%m [%p] "
+  log_timezone: "Etc/UTC"
+  statement_timeout: 0
+  idle_in_transaction_session_timeout: 0
+  timezone: 'Etc/UTC'
+  password_encryption: "scram-sha-256"
+
 postgresql_pg_hba_conf_list:
 #    TYPE    DATABASE        USER      ADDRESS         METHOD
   - "local   replication     all                       trust"
