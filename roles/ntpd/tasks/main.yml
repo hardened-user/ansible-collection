@@ -68,7 +68,7 @@
   args:
     executable: /bin/bash
   register: r_ntpd_timedatectl
-  changed_when: '"ansible_changed_sign\n" in r_ntpd_timedatectl.stdout'
+  changed_when: "'ansible_changed_sign\n' in r_ntpd_timedatectl.stdout"
   tags:
     - ntpd
     - config

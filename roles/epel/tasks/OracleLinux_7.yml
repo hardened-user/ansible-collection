@@ -16,6 +16,6 @@
 - name: "Shell command: /usr/bin/ol_yum_configure.sh"
   shell: "/usr/bin/ol_yum_configure.sh"
   register: r_epel_ol_yum_configure
-  changed_when: '"Missing /etc/yum.repos.d/public-yum-ol7.repo" not in r_epel_ol_yum_configure.stdout'
+  changed_when: "'Missing /etc/yum.repos.d/public-yum-ol7.repo' not in r_epel_ol_yum_configure.stdout"
   tags:
     - epel
