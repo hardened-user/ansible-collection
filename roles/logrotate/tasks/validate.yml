@@ -1,27 +1,27 @@
 ---
-- name: Validate | Ensure that variable is string
+- name: "Ensure that variable is string"
   ansible.builtin.assert:
     that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
     quiet: true
-    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+    fail_msg: "The variable must be a string"
   loop:
     - logrotate_interval
 
 
-- name: Validate | Ensure that variable is integer
+- name: "Ensure that variable is integer"
   ansible.builtin.assert:
-    that: vars[item] | string | regex_search("^[0-9]+$")
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
     quiet: true
-    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+    fail_msg: "Variable must be an integer"
   loop:
     - logrotate_rotate
 
 
-- name: Validate | Ensure that variable is boolean
+- name: "Ensure that variable is boolean"
   ansible.builtin.assert:
     that: vars[item] | type_debug == "bool"
     quiet: true
-    fail_msg: "unexpected type: {{ vars[item] | type_debug }}"
+    fail_msg: "The variable must be a boolean"
   loop:
     - logrotate_dateext
     - logrotate_compress
