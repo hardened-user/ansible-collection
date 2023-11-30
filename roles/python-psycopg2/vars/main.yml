@@ -1,0 +1,2 @@
+---
+python_psycopg2_package_name: "{{ 'python3-psycopg2' if ansible_python.version.major | string == '3' else 'python-psycopg2' }}"

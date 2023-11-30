@@ -16,6 +16,7 @@ postgresql_init_user: "postgres"
 postgresql_init_pass: "postgres"
 postgresql_init_base: "postgres"
 
+postgresql_extra_users: []
 postgresql_conf_dict: {}
 postgresql_conf_default:
   max_connections: 100

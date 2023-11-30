@@ -65,6 +65,19 @@ postgresql_docker_extra_volumes:
 postgresql_data_dir: "{{ postgresql_docker_compose_dir }}/data"
 ```
 
+#### postgresql_extra_users
+Список пользователей, который дополнительно будут созданы.<br/>
+Элементом списка является словарь со следующими ключами:
+* name - имя пользователя (обязательно)
+* pass - пароль пользователя (обязательно)
+* base - имя базы данных, которая будет создана (опционально)
+* attr - аттрибуты пользователя. См. [role_attr_flags](https://docs.ansible.com/ansible/latest/collections/community/postgresql/postgresql_user_module.html#parameter-role_attr_flags) (опционально, default: `LOGIN`)
+
+```
+# default
+postgresql_extra_users: []
+```
+
 #### postgresql_conf_dict
 Произвольная конфигурация `postgresql.conf`.<br/>
 ```
@@ -97,6 +110,10 @@ postgresql_pg_hba_conf_list:
     postgresql_tls_enabled: true
     postgresql_tls_cert_crt: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.pem') }}"
     postgresql_tls_cert_key: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.key') }}"
+    postgresql_extra_users:
+      - name: "zabbix"
+        pass: "zabbix"
+        base: "zabbix"
   roles:
     - postgresql-docker
 ```

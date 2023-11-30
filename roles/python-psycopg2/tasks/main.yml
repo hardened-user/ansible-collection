@@ -1,0 +1,8 @@
+---
+- name: "Install package: {{ python_psycopg2_package_name }}"
+  ansible.builtin.package:
+    name: "{{ python_psycopg2_package_name }}"
+    state: present
+  tags:
+    - python-psycopg2
+    - package
