@@ -5,10 +5,20 @@
     - postgresql
     - validate
 
+
 - name: "Install"
   ansible.builtin.include_tasks: "install.yml"
   tags:
     - postgresql
+
+
+- name: "Verify"
+  ansible.builtin.include_tasks: "verify.yml"
+  when: not ansible_check_mode
+  tags:
+    - postgresql
+    - verify
+
 
 - name: "Extra users"
   ansible.builtin.include_tasks: "extra_users.yml"

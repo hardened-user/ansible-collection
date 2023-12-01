@@ -9,6 +9,7 @@
     login_db: "{{ postgresql_init_base }}"
   register: _result
 
+
 - name: "Create users: ..."
   community.postgresql.postgresql_user:
     name: "{{ item.name }}"
