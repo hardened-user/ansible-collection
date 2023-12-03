@@ -1,0 +1,18 @@
+---
+# tasks file specific for Ubuntu distribution systems
+
+- name: "Install package: {{ zabbix_repo_package_url }}"
+  ansible.builtin.apt:
+    deb: "{{ zabbix_repo_package_url }}"
+    # NOTE: present state can update package
+    state: present
+  tags:
+    - zabbix-repo
+    - package
+
+
+- name: "Update package lists"
+  ansible.builtin.apt:
+    update_cache: true
+  tags:
+    - zabbix-repo
