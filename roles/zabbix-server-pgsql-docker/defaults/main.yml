@@ -1,5 +1,5 @@
 ---
-zabbix_server_pgsql_version: "6.0"
+zabbix_server_pgsql_version: "6.4"
 zabbix_server_pgsql_docker_tag: "{{ zabbix_server_pgsql_version }}-alpine-latest"
 zabbix_server_pgsql_docker_image: "zabbix/zabbix-server-pgsql:{{ zabbix_server_pgsql_docker_tag }}"
 zabbix_server_pgsql_docker_uid: 1997

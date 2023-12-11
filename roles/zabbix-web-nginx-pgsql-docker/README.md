@@ -9,7 +9,7 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-zabbix_web_nginx_pgsql_version: "6.0"
+zabbix_web_nginx_pgsql_version: "6.4"
 ```
 
 
