@@ -38,9 +38,8 @@
     - config
 
 
-- name: "apt-get update"
+- name: "Update package lists"
   ansible.builtin.apt:
     update_cache: true
-  changed_when: false
   tags:
     - docker-repo

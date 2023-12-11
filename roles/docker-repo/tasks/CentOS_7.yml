@@ -13,11 +13,9 @@
     - config
 
 
-- name: "Shell command: yum makecache fast"
-  ansible.builtin.shell: "yum makecache fast"
-  args:
-    executable: /bin/bash
-    warn: false
+- name: "Update package lists"
+  ansible.builtin.shell: |-
+     yum clean metadata && yum makecache fast
   changed_when: false
   tags:
     - docker-repo
