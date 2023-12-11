@@ -1,4 +1,5 @@
 ---
 # vars file specific for Ubuntu distribution systems
 
-zabbix_repo_package_url: "https://repo.zabbix.com/zabbix/{{ zabbix_repo_version }}/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest%2Bubuntu{{ ansible_distribution_version }}_all.deb"
+zabbix_repo_package_url: "https://repo.zabbix.com/zabbix/{{ zabbix_repo_version }}/ubuntu/pool/main/z/zabbix-release/\
+                          zabbix-release_latest%2Bubuntu{{ ansible_distribution_version }}_all.deb"
