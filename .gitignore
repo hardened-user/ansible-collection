@@ -1,5 +1,6 @@
 .vault
 .directory
 .idea
+__pycache__
 /cache/*/*/*.*
 !/cache/*/*/.links
