@@ -1,8 +1,4 @@
 ---
-- name: "Include OS distribution specific variables"
-  ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
-
-
 - name: "Install package: {{ zabbix_agent_package_name }}"
   ansible.builtin.package:
     name: "{{ zabbix_agent_package_name }}"
