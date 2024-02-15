@@ -1,0 +1,4 @@
+---
+nexus_short_version: "{{ nexus_version.split('.') | first }}"
+nexus_docker_compose_dir: "/srv/nexus-{{ nexus_short_version }}"
+nexus_docker_container_name: "nexus-{{ nexus_short_version }}"

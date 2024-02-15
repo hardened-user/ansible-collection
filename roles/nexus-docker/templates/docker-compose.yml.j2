@@ -1,0 +1,33 @@
+# {{ ansible_managed }}
+
+---
+version: '3.5'
+
+{% if nexus_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+{% endif %}
+
+services:
+  nexus:
+    image: "{{ nexus_docker_image }}"
+    container_name: "{{ nexus_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ nexus_docker_timezone }}"
+      INSTALL4J_ADD_VM_PARAMS: "-Xms{{ nexus_jvm_heap_size_mb }}m -Xmx{{ nexus_jvm_heap_size_mb }}m -XX:MaxDirectMemorySize={{ nexus_jvm_max_direct_memory_size_mb }}m -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
+    volumes:
+{% if nexus_docker_bind_mount_volumes is sameas false %}
+      - data:/nexus-data
+{% else %}
+      - {{ nexus_data_dir }}:/nexus-data
+{% endif %}
+{% for v in nexus_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+    ports:
+      - {{ nexus_listen_addr }}:{{ nexus_listen_port }}:8081
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

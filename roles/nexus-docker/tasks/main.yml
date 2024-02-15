@@ -1,0 +1,57 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - nexus
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0750') }}"
+  loop:
+    - { path: "{{ nexus_docker_compose_dir }}", mode: '0750' }
+  tags:
+    - nexus
+    - mkdir
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ nexus_docker_uid }}"
+    group: "{{ nexus_docker_gid }}"
+    mode: '0700'
+  when: nexus_docker_bind_mount_volumes
+  loop:
+    - { path: "{{ nexus_data_dir }}" }
+  tags:
+    - nexus
+    - mkdir
+
+
+- name: "Copy file from template: {{ nexus_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ nexus_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - nexus
+    - config
+
+
+- name: "docker-compose up: {{ nexus_docker_compose_dir }}"
+  community.docker.docker_compose:
+    project_src: "{{ nexus_docker_compose_dir }}"
+    pull: true
+  register: r_nexus_start_result
+  tags:
+    - nexus
+    - docker-compose

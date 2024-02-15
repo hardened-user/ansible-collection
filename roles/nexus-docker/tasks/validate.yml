@@ -1,0 +1,40 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - nexus_version
+    - nexus_docker_timezone
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - nexus_docker_uid
+    - nexus_docker_gid
+    - nexus_listen_port
+    - nexus_jvm_heap_size_mb
+    - nexus_jvm_max_direct_memory_size_mb
+
+
+- name: "Ensure that variable is boolean"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "The variable must be a boolean"
+  loop:
+    - nexus_docker_bind_mount_volumes
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - nexus_docker_extra_volumes

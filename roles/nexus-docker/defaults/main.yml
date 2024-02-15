@@ -1,0 +1,16 @@
+---
+nexus_version: "3.65.0"
+nexus_docker_tag: "{{ nexus_version }}"
+nexus_docker_image: "sonatype/nexus3:{{ nexus_docker_tag }}"
+nexus_docker_uid: 200
+nexus_docker_gid: 200
+nexus_docker_bind_mount_volumes: true
+nexus_docker_timezone: "{{ timezone_name }}"
+nexus_docker_extra_volumes: []
+nexus_data_dir: "{{ nexus_docker_compose_dir }}/data"
+
+nexus_listen_addr: "0.0.0.0"
+nexus_listen_port: 8081
+
+nexus_jvm_heap_size_mb: 2703
+nexus_jvm_max_direct_memory_size_mb: 2703
