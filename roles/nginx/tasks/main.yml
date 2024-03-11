@@ -1,4 +1,12 @@
 ---
+- name: "Include OS family specific roles"
+  ansible.builtin.include_role:
+    name: epel
+  when: ansible_os_family == "RedHat"
+  tags:
+    - nginx
+
+
 - name: "Install package: {{ nginx_package_name }}"
   ansible.builtin.package:
     name: "{{ nginx_package_name }}"
