@@ -23,6 +23,7 @@
     append: true
   register: r_nginx_add_group
   notify: restart nginx
+  when: nginx_user_extra_groups
   tags:
     - nginx
     - config
