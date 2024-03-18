@@ -1,4 +1,6 @@
 ---
+zabbix_agent_user_extra_groups: []
+
 zabbix_agent_conf_d_src: "{{ role_path }}/files/conf.d"
 zabbix_agent_scripts_src: "{{ role_path }}/files/agentscripts"
 

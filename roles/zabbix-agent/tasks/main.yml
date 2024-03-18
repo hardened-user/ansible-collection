@@ -8,6 +8,19 @@
     - package
 
 
+- name: "Add user '{{ zabbix_agent_user_name }}' to groups: {{ zabbix_agent_user_extra_groups }}"
+  ansible.builtin.user:
+    name: "{{ zabbix_agent_user_name }}"
+    groups: "{{ zabbix_agent_user_extra_groups }}"
+    append: true
+  notify: restart zabbix-agent
+  when: zabbix_agent_user_extra_groups
+  tags:
+    - zabbix-agent
+    - config
+    - user
+
+
 - name: "Create directories: ..."
   ansible.builtin.file:
     path: "{{ item.path }}"
