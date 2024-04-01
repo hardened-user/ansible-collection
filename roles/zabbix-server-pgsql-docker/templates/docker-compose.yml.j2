@@ -31,6 +31,8 @@ services:
       {{ e.key }}: "{{ e.value }}"
 {% endfor %}
     volumes:
+      - {{ zabbix_server_pgsql_docker_alertscripts_dir }}:/usr/lib/zabbix/alertscripts
+      - {{ zabbix_server_pgsql_docker_externalscripts_dir }}:/usr/lib/zabbix/externalscripts
 {% if not zabbix_server_pgsql_docker_bind_mount_volumes %}
       - export:/var/lib/zabbix/export
       - snmptraps:/var/lib/zabbix/snmptraps
