@@ -1,5 +1,5 @@
 ---
-postgresql_version: "14"
+postgresql_version: "15"
 postgresql_docker_tag: "{{ postgresql_version }}"
 postgresql_docker_image: "postgres:{{ postgresql_docker_tag }}"
 postgresql_docker_uid: 999
@@ -24,11 +24,17 @@ postgresql_conf_default:
   temp_buffers: 8MB
   work_mem: 4MB
   maintenance_work_mem: 64MB
-  log_line_prefix: "%m [%p] "
+  dynamic_shared_memory_type: "posix"
+  max_wal_size: 1GB
+  min_wal_size: 80MB
   log_timezone: "Etc/UTC"
-  statement_timeout: 0
-  idle_in_transaction_session_timeout: 0
-  timezone: 'Etc/UTC'
+  datestyle: "iso, mdy"
+  timezone: "Etc/UTC"
+  lc_messages: "en_US.utf8"
+  lc_monetary: "en_US.utf8"
+  lc_numeric: "en_US.utf8"
+  lc_time: "en_US.utf8"
+  default_text_search_config: "pg_catalog.english"
   password_encryption: "scram-sha-256"
 
 postgresql_pg_hba_conf_list:
