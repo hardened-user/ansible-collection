@@ -1,5 +1,4 @@
 ---
-
 - name: "Install packages: {{ epel_packages | join(' ') }}"
   package:
     name: "{{ epel_packages }}"
