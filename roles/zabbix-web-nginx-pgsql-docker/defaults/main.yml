@@ -1,5 +1,5 @@
 ---
-zabbix_web_nginx_pgsql_version: "6.4"
+zabbix_web_nginx_pgsql_version: "7.0"
 zabbix_web_nginx_pgsql_docker_tag: "{{ zabbix_web_nginx_pgsql_version }}-alpine-latest"
 zabbix_web_nginx_pgsql_docker_image: "zabbix/zabbix-web-nginx-pgsql:{{ zabbix_web_nginx_pgsql_docker_tag }}"
 zabbix_web_nginx_pgsql_docker_timezone: "{{ timezone_name }}"
