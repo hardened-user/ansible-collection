@@ -9,10 +9,20 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-postgresql_version: "14"
+postgresql_version: "15"
 
 # example
-postgresql_version: "14.8"
+postgresql_version: "15.7"
+```
+
+#### postgresql_docker_build_dockerfile_src
+Если указан шаблон **Dockerfile**, то он будет использован для сборки образа.<br/>
+```
+# default
+postgresql_docker_build_dockerfile_src: ""
+
+# example
+postgresql_docker_build_dockerfile_src: "{{ role_path }}/templates/build/pg_probackup.j2"
 ```
 
 #### postgresql_docker_uid
@@ -54,7 +64,7 @@ postgresql_docker_extra_volumes: []
 
 # example
 postgresql_docker_extra_volumes:
-  - "/mnt/data0:/mnt/tablespace"
+  - "/mnt/data0:/pg_probackup"
 ```
 
 #### postgresql_data_dir

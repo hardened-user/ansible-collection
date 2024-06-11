@@ -6,6 +6,12 @@
     - validate
 
 
+- name: "Set facts"
+  ansible.builtin.include_tasks: "set_facts.yml"
+  tags:
+    - postgresql
+
+
 - name: "Install"
   ansible.builtin.include_tasks: "install.yml"
   tags:

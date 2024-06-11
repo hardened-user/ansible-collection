@@ -1,16 +1,18 @@
 # {{ ansible_managed }}
 
 ---
-version: '3.5'
-
 {% if postgresql_docker_bind_mount_volumes is sameas false %}
 volumes:
   data: {}
-{% endif %}
 
+{% endif %}
 services:
   postgresql:
+{% if _postgresql_docker_build_enabled %}
+    build: ./build
+{% else %}
     image: "{{ postgresql_docker_image }}"
+{% endif %}
     container_name: "{{ postgresql_docker_container_name }}"
     restart: unless-stopped
     environment:

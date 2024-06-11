@@ -6,6 +6,7 @@
     fail_msg: "The variable must be a string"
   loop:
     - postgresql_version
+    - postgresql_docker_build_dockerfile_src
     - postgresql_docker_network
     - postgresql_docker_timezone
     - postgresql_tls_cert_crt

@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+# PostgreSQL image with pg_probackup utility.
+FROM postgres:{{ postgresql_version }}
+
+RUN apt-get update && \
+    apt-get install -y ca-certificates wget && \
+    wget -qO - https://repo.postgrespro.ru/pg_probackup/keys/GPG-KEY-PG-PROBACKUP > \
+        /etc/apt/trusted.gpg.d/pg_probackup.asc && \
+    . /etc/os-release && \
+    echo "deb [arch=amd64] https://repo.postgrespro.ru/pg_probackup/deb $VERSION_CODENAME main-$VERSION_CODENAME" > \
+        /etc/apt/sources.list.d/pg_probackup.list && \
+    apt-get update && \
+    apt-get install pg-probackup-{{ postgresql_version }} pg-probackup-{{ postgresql_version }}-dbg && \
+    apt-get autoremove --purge -y ca-certificates wget && \
+    rm -rf /var/cache/apt/* /var/lib/apt/*

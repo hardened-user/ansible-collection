@@ -8,7 +8,9 @@
     mode: "{{ item.mode | default('0755') }}"
   loop:
     - { path: "{{ postgresql_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ postgresql_docker_build_dir }}", enabled: "{{ _postgresql_docker_build_enabled }}" }
     - { path: "{{ postgresql_docker_conf_dir }}" }
+  when: item.enabled | default(true)
   tags:
     - postgresql
     - mkdir
@@ -34,6 +36,19 @@
     owner: root
     group: root
     mode: '0600'
+  tags:
+    - postgresql
+    - config
+
+
+- name: "Copy file from template: {{ postgresql_docker_build_dir }}/Dockerfile"
+  ansible.builtin.template:
+    src: "{{ postgresql_docker_build_dockerfile_src }}"
+    dest: "{{ postgresql_docker_build_dir }}/Dockerfile"
+    owner: root
+    group: root
+    mode: '0600'
+  when: _postgresql_docker_build_enabled
   tags:
     - postgresql
     - config
@@ -87,9 +102,10 @@
 
 
 - name: "docker-compose up: {{ postgresql_docker_compose_dir }}"
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ postgresql_docker_compose_dir }}"
-    pull: true
+    pull: always
+    build: always
   register: r_postgresql_start_result
   tags:
     - postgresql
