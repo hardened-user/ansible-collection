@@ -3,4 +3,4 @@ Collection of Ansible Roles.
 
 Recommended:
 
-* ansible >= 7.x (ansible-core >= 2.12)
+* ansible >= 9.x (ansible-core >= 2.16)
