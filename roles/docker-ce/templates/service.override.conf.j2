@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
-{% if docker_systemd_env_dict %}
+{% if docker_ce_systemd_env_dict %}
 
 [Service]
-{% for x in docker_systemd_env_dict | dict2items %}
+{% for x in docker_ce_systemd_env_dict | dict2items %}
 Environment={{ x.key }}={{ x.value }}
 {% endfor %}
 {% endif %}

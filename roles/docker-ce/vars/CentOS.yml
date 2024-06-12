@@ -1,7 +1,5 @@
 ---
-# vars file specific for OracleLinux distribution systems
-
-docker_remove_packages:
+docker_ce_remove_packages:
   - "docker"
   - "docker-client"
   - "docker-client-latest"
@@ -10,3 +8,7 @@ docker_remove_packages:
   - "docker-latest-logrotate"
   - "docker-logrotate"
   - "docker-engine"
+
+docker_ce_install_packages:
+  - "{{ 'docker-ce-' + docker_ce_version if docker_ce_version else 'docker-ce' }}"
+  - "docker-compose-plugin"

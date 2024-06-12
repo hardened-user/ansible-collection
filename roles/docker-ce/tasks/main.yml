@@ -1,20 +1,33 @@
 ---
 - name: "Include OS distribution specific variables"
-  ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
-
-
-- name: "Remove packages: {{ docker_remove_packages | join(' ') }}"
-  ansible.builtin.package:
-    name: "{{ docker_remove_packages }}"
-    state: absent
-  when: docker_remove_packages
+  ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags:
     - docker-ce
-    - package
 
 
 - name: "Include OS distribution specific tasks"
-  ansible.builtin.include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
+  tags:
+    - docker-ce
+
+
+- name: "Remove packages: {{ docker_ce_remove_packages | sort | join(' ') }}"
+  ansible.builtin.package:
+    name: "{{ docker_ce_remove_packages }}"
+    state: absent
+  when: docker_ce_remove_packages
+  tags:
+    - docker-ce
+    - packages
+
+
+- name: "Install packages: {{ docker_ce_install_packages | sort | join(' ') }}"
+  ansible.builtin.package:
+    name: "{{ docker_ce_install_packages }}"
+    state: present
+  tags:
+    - docker-ce
+    - packages
 
 
 - name: "Create directories: ..."
@@ -25,47 +38,43 @@
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
   with_items:
-    - { path: "{{ docker_conf_dir }}" }
-    - { path: "{{ docker_systemd_override_dir }}" }
+    - { path: "{{ docker_ce_conf_dir }}" }
+    - { path: "{{ docker_ce_systemd_override_dir }}" }
   tags:
     - docker-ce
-    - mkdir
 
 
-- name: "Copy file from template: {{ docker_conf_file }}"
-  ansible.builtin.template:
-    src: "daemon.json.j2"
-    dest: "{{ docker_conf_file }}"
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart docker
-  tags:
-    - docker-ce
-    - config
-
-
-- name: "Copy file from template: {{ docker_systemd_override_file }}"
+- name: "Copy file from template: {{ docker_ce_systemd_override_file }}"
   ansible.builtin.template:
     src: "service.override.conf.j2"
-    dest: "{{ docker_systemd_override_file }}"
+    dest: "{{ docker_ce_systemd_override_file }}"
     owner: root
     group: root
     mode: '0644'
   notify:
     - systemd daemon reload
-    - restart docker
+    - restart docker-ce
   tags:
     - docker-ce
-    - config
 
 
-- name: "Service start: {{ docker_service_name }}"
+- name: "Copy file from template: {{ docker_ce_conf_file }}"
+  ansible.builtin.template:
+    src: "daemon.json.j2"
+    dest: "{{ docker_ce_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart docker-ce
+  tags:
+    - docker-ce
+
+
+- name: "Service start: {{ docker_ce_service_name }}"
   ansible.builtin.service:
-    name: "{{ docker_service_name }}"
+    name: "{{ docker_ce_service_name }}"
     state: started
     enabled: true
-  register: r_docker_start
+  register: r_docker_ce_start
   tags:
     - docker-ce
-    - service

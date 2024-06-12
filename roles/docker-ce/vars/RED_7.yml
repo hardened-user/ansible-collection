@@ -1,4 +1,0 @@
----
-# vars file specific for RedOS distribution systems
-
-docker_remove_packages: []

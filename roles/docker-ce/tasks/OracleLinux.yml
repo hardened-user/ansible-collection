@@ -1,6 +1,4 @@
 ---
-# tasks file specific for OracleLinux distribution systems
-
 # Package: docker-ce-rootless-extras-20.10.7-3.el7.x86_64 (docker-ce-stable)
 #   Requires: fuse-overlayfs >= 0.7
 # Package: containerd.io-1.4.6-3.1.el7.x86_64 (docker-ce-stable)
@@ -31,17 +29,8 @@
   args:
     executable: /bin/bash
     warn: false
-  register: r_docker_yum_config_manager
-  changed_when: "'ansible_changed_sign' in r_docker_yum_config_manager.stdout"
+  register: _result
+  changed_when: "'ansible_changed_sign' in _result.stdout"
+  when: ansible_distribution_major_version == '7'
   tags:
     - docker-ce
-    - config
-
-
-- name: "Install package: {{ docker_package_name + '-' + docker_version if docker_version else docker_package_name }}"
-  ansible.builtin.package:
-    name: "{{ docker_package_name + '-' + docker_version if docker_version else docker_package_name }}"
-    state: present
-  tags:
-    - docker-ce
-    - package

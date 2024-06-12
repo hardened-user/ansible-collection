@@ -1,9 +1,9 @@
 ---
-docker_version: ""
+docker_ce_version: ""
 
 ### systemd ------------------------------------------------------------------------------------------------------------
-docker_systemd_env_dict: {}
+docker_ce_systemd_env_dict: {}
 
 ### daemon.json --------------------------------------------------------------------------------------------------------
-docker_conf_dict: {}
-docker_conf_default: {}
+docker_ce_conf_dict: {}
+docker_ce_conf_default: {}

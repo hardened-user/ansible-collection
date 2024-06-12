@@ -1,11 +1,9 @@
 ---
-docker_package_name: "docker-ce"
-docker_service_name: "docker"
+docker_ce_conf_dir: "/etc/docker"
+docker_ce_conf_file: "/etc/docker/daemon.json"
 
-docker_conf_dir: "/etc/docker"
-docker_conf_file: "/etc/docker/daemon.json"
+docker_ce_service_name: "docker"
+docker_ce_systemd_override_dir: "/etc/systemd/system/{{ docker_ce_service_name }}.service.d"
+docker_ce_systemd_override_file: "{{ docker_ce_systemd_override_dir }}/override.conf"
 
-docker_systemd_override_dir: "/etc/systemd/system/{{ docker_service_name }}.service.d"
-docker_systemd_override_file: "{{ docker_systemd_override_dir }}/override.conf"
-
-docker_conf_runtime: "{{ docker_conf_default | combine(docker_conf_dict) }}"
+docker_ce_conf_runtime: "{{ docker_ce_conf_default | combine(docker_ce_conf_dict) }}"

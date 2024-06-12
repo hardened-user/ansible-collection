@@ -3,9 +3,9 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: "restart docker"
+- name: "restart docker-ce"
   ansible.builtin.service:
-    name: "{{ docker_service_name }}"
+    name: "{{ docker_ce_service_name }}"
     state: restarted
   when:
-    - not r_docker_start.changed
+    - not r_docker_ce_start.changed
