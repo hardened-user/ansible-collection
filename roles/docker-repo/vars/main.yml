@@ -1,3 +1,1 @@
 ---
-docker_repo_file_name: "docker-ce"
-docker_repo_gpg_file: "/usr/share/keyrings/docker-archive-keyring.gpg"

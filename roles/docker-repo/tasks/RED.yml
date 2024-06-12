@@ -1,0 +1,9 @@
+---
+- name: "Update package lists"
+  ansible.builtin.shell: |-
+    yum clean metadata && yum makecache
+  changed_when: false
+  when: _result.changed
+  tags:
+    - docker-repo
+    - packages

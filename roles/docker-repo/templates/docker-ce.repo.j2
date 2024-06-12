@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+{% if ansible_distribution == "Ubuntu" %}
+deb [arch=amd64 signed-by={{ docker_repo_gpg_key_file }}] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+{% elif ansible_distribution in ["CentOS", "RED"] %}
+[docker-ce-stable]
+name=Docker CE Stable - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/stable
+enabled=1
+gpgcheck=1
+gpgkey=file://{{ docker_repo_gpg_key_file }}
+{% else %}
+{% include "Unhandled ansible_distribution: " + ansible_distribution %}
+{% endif %}

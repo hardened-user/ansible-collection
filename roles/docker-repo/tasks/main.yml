@@ -1,3 +1,35 @@
 ---
+- name: "Include OS distribution specific variables"
+  ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
+  tags:
+    - docker-repo
+
+
+- name: "Download file: {{ docker_repo_gpg_key_src }}"
+  ansible.builtin.get_url:
+    url: "{{ docker_repo_gpg_key_src }}"
+    dest: "{{ docker_repo_gpg_key_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - docker-repo
+    - download
+
+
+- name: "Copy file from template: {{ docker_repo_file }}"
+  ansible.builtin.template:
+    src: "docker-ce.repo.j2"
+    dest: "{{ docker_repo_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  register: _result
+  tags:
+    - docker-repo
+
+
 - name: "Include OS distribution specific tasks"
-  ansible.builtin.include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
+  tags:
+    - docker-repo
