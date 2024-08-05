@@ -5,7 +5,7 @@
     state: present
   tags:
     - nano
-    - package
+    - packages
 
 
 - name: "Copy file from template: {{ nano_conf_file }}"

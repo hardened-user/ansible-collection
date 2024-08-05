@@ -7,7 +7,7 @@
     state: present
   tags:
     - docker-compose
-    - package
+    - packages
 
 - name: "Install pip package: docker-compose"
   ansible.builtin.pip:

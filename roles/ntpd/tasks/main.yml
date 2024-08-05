@@ -6,7 +6,7 @@
     state: absent
   tags:
     - ntpd
-    - package
+    - packages
 
 
 - name: "Install package: {{ ntpd_package_name }}"
@@ -15,7 +15,7 @@
     state: present
   tags:
     - ntpd
-    - package
+    - packages
 
 
 - name: "Copy file from template: {{ ntpd_daemon_opts_file }}"

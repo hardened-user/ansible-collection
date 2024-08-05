@@ -5,7 +5,7 @@
     state: present
   tags:
     - screen
-    - package
+    - packages
 
 
 - name: "Ansible opening tag: {{ screen_system_rc_file }}"

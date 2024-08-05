@@ -5,4 +5,4 @@
     state: present
   tags:
     - python-psycopg2
-    - package
+    - packages

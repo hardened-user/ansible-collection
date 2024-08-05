@@ -11,7 +11,7 @@
     state: present
   tags:
     - logrotate
-    - package
+    - packages
 
 
 - name: "Copy file from template: {{ logrotate_conf_file }}"

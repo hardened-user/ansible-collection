@@ -5,7 +5,7 @@
     state: present
   tags:
     - getssl
-    - package
+    - packages
 
 
 - name: "Create group: {{ getssl_user_name }}"

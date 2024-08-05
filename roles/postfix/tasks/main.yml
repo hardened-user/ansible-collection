@@ -9,7 +9,7 @@
     state: absent
   tags:
     - postfix
-    - package
+    - packages
 
 
 - name: "Install packages: {{ postfix_install_packages | join(' ') }}"
@@ -18,7 +18,7 @@
     state: present
   tags:
     - postfix
-    - package
+    - packages
 
 
 - name: "Install packages (SASL): {{ postfix_sasl_packages | join(' ') }}"
@@ -31,7 +31,7 @@
     - postfix_main_conf_runtime.smtp_sasl_auth_enable == "yes"
   tags:
     - postfix
-    - package
+    - packages
 
 
 - name: "Copy files from template: ..."

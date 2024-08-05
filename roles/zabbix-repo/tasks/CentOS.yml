@@ -10,7 +10,7 @@
     - "{{ zabbix_repo_package_url }}"
   tags:
     - zabbix-repo
-    - package
+    - packages
 
 
 - name: "Update package lists"

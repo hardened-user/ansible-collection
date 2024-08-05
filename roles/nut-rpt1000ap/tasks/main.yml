@@ -5,7 +5,7 @@
     state: present
   tags:
     - nut
-    - package
+    - packages
 
 
 - name: "Copy file from template: {{ nut_conf_file }}"

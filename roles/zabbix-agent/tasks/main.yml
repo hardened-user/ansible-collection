@@ -5,7 +5,7 @@
     state: present
   tags:
     - zabbix-agent
-    - package
+    - packages
 
 
 - name: "Add user '{{ zabbix_agent_user_name }}' to groups: {{ zabbix_agent_user_extra_groups }}"

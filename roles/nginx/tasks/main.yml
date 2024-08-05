@@ -13,7 +13,7 @@
     state: present
   tags:
     - nginx
-    - package
+    - packages
 
 
 - name: "Add user '{{ nginx_user_name }}' to groups: {{ nginx_user_extra_groups }}"
