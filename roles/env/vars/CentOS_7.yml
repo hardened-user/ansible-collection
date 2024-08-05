@@ -1,5 +1,5 @@
 ---
-# vars file specific for RedHat family systems
+# vars file specific for CentOS distribution systems
 
 ### ntpd ---------------------------------------------------------------------------------------------------------------
 ntpd_package_name: "ntp"

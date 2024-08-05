@@ -1,5 +1,5 @@
 ---
-# vars file specific for Debian family systems
+# vars file specific for Ubuntu distribution systems
 
 ### ntpd ---------------------------------------------------------------------------------------------------------------
 ntpd_package_name: "ntp"

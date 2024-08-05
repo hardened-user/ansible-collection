@@ -1,11 +1,11 @@
 ---
-# vars file specific for RedHat family systems
+# vars file specific for Ubuntu distribution systems
 
 ### ntpd ---------------------------------------------------------------------------------------------------------------
 ntpd_package_name: "ntp"
-ntpd_service_name: "ntpd"
+ntpd_service_name: "ntp"
 ntpd_conf_file: "/etc/ntp.conf"
-ntpd_daemon_opts_file: "/etc/sysconfig/ntpd"
+ntpd_daemon_opts_file: "/etc/default/ntp"
 
 
 ### chronyd ------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ chronyd_service_name: "chronyd"
 
 
 ### nginx --------------------------------------------------------------------------------------------------------------
-nginx_user_name: "nginx"
-nginx_user_group: "nginx"
+nginx_user_name: "www-data"
+nginx_user_group: "www-data"
 
 
 ### postgresql ---------------------------------------------------------------------------------------------------------

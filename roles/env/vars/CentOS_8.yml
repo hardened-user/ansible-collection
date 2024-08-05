@@ -1,5 +1,5 @@
 ---
-# vars file specific for RedOS distribution systems
+# vars file specific for CentOS distribution systems
 
 ### ntpd ---------------------------------------------------------------------------------------------------------------
 ntpd_package_name: "ntp"
