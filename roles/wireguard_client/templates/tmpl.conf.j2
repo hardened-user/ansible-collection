@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+# {{ item.name }}
+[Interface]
+{% for x in item.interface | dict2items %}
+{{ x.key }} = {{ x.value }}
+{% endfor %}
+
+[Peer]
+{% for x in item.peer | dict2items %}
+{{ x.key }} = {{ x.value }}
+{% endfor %}

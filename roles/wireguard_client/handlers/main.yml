@@ -1,0 +1,12 @@
+---
+- name: "restart wireguard client"
+  ansible.builtin.service:
+    name: "wg-quick@wgc{{ index }}"
+    state: restarted
+  when:
+    - _wireguard_client_copy_config.results[index].changed
+    - not _wireguard_client_service_start.results[index].changed
+  loop: "{{ wireguard_client_tunnels }}"
+  loop_control:
+    index_var: index
+    label: "wg-quick@wgc{{ index }}"

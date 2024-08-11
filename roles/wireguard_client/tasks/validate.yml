@@ -1,0 +1,15 @@
+---
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - wireguard_client_tunnels
+
+
+- name: "Checking the number of configured tunnels"
+  ansible.builtin.assert:
+    that: wireguard_client_tunnels | length < 11
+    quiet: true
+    fail_msg: "Maximum supported number of configured tunnels: 10"
