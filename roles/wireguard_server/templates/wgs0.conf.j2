@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+[Interface]
+PrivateKey = {{ _wireguard_server_private_key if wireguard_server_private_key == "auto" else wireguard_server_private_key }}
+Address = {{ wireguard_server_network_address }}
+ListenPort = {{ wireguard_server_listen_port }}
+SaveConfig = false
+
+{% for x in wireguard_server_clients %}
+[Peer]
+# {{ x.name }}
+PublicKey = {{ x.key }}
+AllowedIPs = {{ x.ip }}/32
+{% endfor %}
