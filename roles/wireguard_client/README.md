@@ -13,12 +13,22 @@ WireGuard VPN Client configration
     wireguard_client_tunnels:
       - name: work
         interface:
-          PrivateKey: 0NHEAP9DibhgOp9fCCA3RFf1CR17PLCnbv8Srt071lo=
+          PrivateKey: *****
           Address:  10.9.0.3/24
         peer:
-          PublicKey: oA8lsp4gklV6GSuut8X6u5wQIDlahOKuEpVPqWyzfXg=
+          PublicKey: *****
           AllowedIPs: 10.9.0.0/24, 0.0.0.0/0
           Endpoint: wg.server.com:51820
+          PersistentKeepalive: 15
+      - name: work2
+        enabled: false          <----- disabled
+        interface:
+          PrivateKey: *****
+          Address:  192.168.0.10/24
+        peer:
+          PublicKey: *****
+          AllowedIPs: 192.168.0.00/24
+          Endpoint: example.com:51820
           PersistentKeepalive: 15
   roles:
     - wireguard_client

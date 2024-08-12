@@ -6,6 +6,7 @@
   when:
     - _wireguard_client_copy_config.results[index].changed
     - not _wireguard_client_service_start.results[index].changed
+    - index in _wireguard_client_enabled_indices
   loop: "{{ wireguard_client_tunnels }}"
   loop_control:
     index_var: index

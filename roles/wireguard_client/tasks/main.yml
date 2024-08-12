@@ -37,24 +37,45 @@
   ansible.builtin.find:
     paths: "{{ wireguard_conf_dir }}"
     file_type: file
-    patterns: "wgc[{{ wireguard_client_tunnels | length }}-9]\\.conf"
+    patterns: |-
+      {%- if wireguard_client_tunnels | length < 10 -%}
+      wgc[{{ wireguard_client_tunnels | length }}-9]\.conf
+      {%- elif wireguard_client_tunnels | length == 10 -%}
+      wgc-not-exists-dummy.conf
+      {%- else -%}
+      {{ wtf_maximum_supported_number_of_configured_tunnels }}
+      {%- endif -%}
     use_regex: true
   register: _result
-  when: wireguard_client_tunnels | length < 10
   tags:
     - wireguard_client
     - config
 
 
-- name: "Define unmanaged config indices"
+- name: "Define internal variables"
   ansible.builtin.set_fact:
+    _wireguard_client_enabled_indices: |-
+      {% set result = [] %}
+      {% for x in wireguard_client_tunnels %}
+      {% if x.enabled | default(true) %}
+      {% set _ = result.append(loop.index0) %}
+      {% endif %}
+      {% endfor %}
+      {{ result | sort }}
+    _wireguard_client_disabled_indices: |-
+      {% set result = [] %}
+      {% for x in wireguard_client_tunnels %}
+      {% if not x.enabled | default(true) %}
+      {% set _ = result.append(loop.index0) %}
+      {% endif %}
+      {% endfor %}
+      {{ result | sort }}
     _wireguard_client_unmanaged_indices: |-
       {% set result = [] %}
       {% for x in _result.files %}
       {% set _ = result.append(x.path | basename | regex_replace('wgc(\\d)\\.conf', '\\1') | int) %}
       {% endfor %}
       {{ result | sort }}
-  when: wireguard_client_tunnels | length < 10
   tags:
     - wireguard_client
     - config
@@ -65,26 +86,24 @@
     name: "wg-quick@wgc{{ item }}"
     state: stopped
     enabled: false
-  when: wireguard_client_tunnels | length < 10
-  loop: "{{ _wireguard_client_unmanaged_indices }}"
+  loop: "{{ (_wireguard_client_disabled_indices + _wireguard_client_unmanaged_indices) | sort }}"
   loop_control:
     label: "wg-quick@wgc{{ item }}"
   tags:
     - wireguard_client
-    - service
+    - config
 
 
 - name: "Remove files: ..."
   ansible.builtin.file:
     path: "{{ wireguard_conf_dir }}/wgc{{ item }}.conf"
     state: absent
-  when: wireguard_client_tunnels | length < 10
   loop: "{{ _wireguard_client_unmanaged_indices }}"
   loop_control:
     label: "wg-quick@wgc{{ item }}"
   tags:
     - wireguard_client
-    - service
+    - config
 
 
 - name: "Service start: ..."
@@ -93,6 +112,7 @@
     state: started
     enabled: true
   register: _wireguard_client_service_start
+  when: index in _wireguard_client_enabled_indices
   loop: "{{ wireguard_client_tunnels }}"
   loop_control:
     index_var: index
