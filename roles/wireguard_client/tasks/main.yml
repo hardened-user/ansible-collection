@@ -94,7 +94,7 @@
     - config
 
 
-- name: "Deleting files: ..."
+- name: "Delete files: ..."
   ansible.builtin.file:
     path: "{{ wireguard_conf_dir }}/wgc{{ item }}.conf"
     state: absent
