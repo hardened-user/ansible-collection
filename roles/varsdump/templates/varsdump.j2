@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+{% if item == "vars" %}
+{{ vars | to_nice_json }}
+{% elif item == "environment" %}
+{{ environment | to_nice_json }}
+{% elif item == "group_names" %}
+{{ group_names | to_nice_json }}
+{% elif item == "groups" %}
+{{ groups | to_nice_json }}
+{% elif item == "hostvars" %}
+{{ hostvars | to_nice_json }}
+{% else %}
+{% include "Unhandled item: " + item %}
+{% endif %}

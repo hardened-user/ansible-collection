@@ -1,0 +1,18 @@
+---
+- name: "Create files: /tmp/"
+  ansible.builtin.template:
+    src: "varsdump.j2"
+    dest: "/tmp/varsdump_{{ item }}.txt"
+    owner: root
+    group: root
+    mode: '0600'
+  loop:
+    - vars
+    - environment
+    - group_names
+    - groups
+    - hostvars
+  loop_control:
+    label: "varsdump_{{ item }}.txt"
+  tags:
+    - varsdump
