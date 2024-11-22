@@ -1,5 +1,5 @@
 ---
-- name: "Configuring journald: {{ journald_conf_file }}"
+- name: "Configure journald: {{ journald_conf_file }}"
   community.general.ini_file:
     dest: "{{ journald_conf_file }}"
     section: "{{ item.section }}"

@@ -54,7 +54,7 @@
     - config
 
 
-- name: "Configuring aliases: {{ postfix_aliases_file }}"
+- name: "Configure aliases: {{ postfix_aliases_file }}"
   ansible.builtin.lineinfile:
     path: "{{ postfix_aliases_file }}"
     regexp: '^{{ item.key }}:'
@@ -73,7 +73,7 @@
 
 
 ### add/edit
-- name: "Configuring postfix: {{ postfix_main_conf_file }}"
+- name: "Configure postfix: {{ postfix_main_conf_file }}"
   ansible.builtin.lineinfile:
     path: "{{ postfix_main_conf_file }}"
     regexp: '^{{ item.key }}[\s=]'
@@ -92,7 +92,7 @@
 
 
 ### remove
-- name: "Configuring postfix: {{ postfix_main_conf_file }}"
+- name: "Configure postfix: {{ postfix_main_conf_file }}"
   ansible.builtin.lineinfile:
     path: "{{ postfix_main_conf_file }}"
     state: absent

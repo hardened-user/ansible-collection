@@ -153,7 +153,7 @@
     - config
 
 
-- name: "Configuring cron.d env: {{ getssl_user_name }}"
+- name: "Configure cron.d env: {{ getssl_user_name }}"
   community.general.cronvar:
     cron_file: "{{ role_name }}"
     name: "{{ item.name }}"
@@ -166,7 +166,7 @@
     - cron
 
 
-- name: "Configuring cron.d job: {{ getssl_user_name }}"
+- name: "Configure cron.d job: {{ getssl_user_name }}"
   ansible.builtin.cron:
     cron_file: "{{ getssl_user_name }}"
     name: "Check all certificates"

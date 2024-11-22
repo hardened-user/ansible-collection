@@ -69,7 +69,7 @@
     - config
 
 
-- name: "Configuring service: /lib/systemd/system/{{ nut_driver_service_name }}.service"
+- name: "Configure service: /lib/systemd/system/{{ nut_driver_service_name }}.service"
   ansible.builtin.replace:
     path: "/lib/systemd/system/{{ nut_driver_service_name }}.service"
     regexp: '^\s*(Wants=.*)'

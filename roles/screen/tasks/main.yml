@@ -29,7 +29,7 @@
     - config
 
 
-- name: "Configuring screen: {{ screen_system_rc_file }}"
+- name: "Configure screen: {{ screen_system_rc_file }}"
   ansible.builtin.lineinfile:
     path: "{{ screen_system_rc_file }}"
     regexp: '^\s*{{ item.key }}\s'
@@ -42,7 +42,7 @@
     - config
 
 
-- name: "Configuring screen: {{ screen_system_rc_file }}"
+- name: "Configure screen: {{ screen_system_rc_file }}"
   ansible.builtin.lineinfile:
     path: "{{ screen_system_rc_file }}"
     state: absent
