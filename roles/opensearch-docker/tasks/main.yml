@@ -48,7 +48,7 @@
     - config
 
 
-- name: "Configuration sysctl: /etc/sysctl.d/99-opensearch.conf"
+- name: "Configure sysctl: /etc/sysctl.d/99-opensearch.conf"
   ansible.posix.sysctl:
     sysctl_file: "/etc/sysctl.d/99-opensearch.conf"
     name: "{{ item.name }}"
