@@ -1,0 +1,6 @@
+---
+nut_ups_name: "wow1000u"
+nut_ups_description: "UPS PowerCom WOW-1000U"
+nut_ups_driver: "usbhid-ups-0.58"       # see README.md
+nut_ups_override_battery_charge_low: 30 # default 10
+nut_upsmon_password: "pass123"
