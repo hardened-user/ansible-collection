@@ -3,4 +3,4 @@
 
 Проверено на `Ubuntu 22.04`.
 
-См. описание на [wiki](https://wiki.enchtex.info/howto/ubuntu/ubuntu22.04_nut_standalone).
+См. [wiki](https://wiki.enchtex.info/howto/ubuntu/ubuntu22.04_nut_standalone).
