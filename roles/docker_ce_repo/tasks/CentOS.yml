@@ -5,5 +5,5 @@
   changed_when: false
   when: _result.changed
   tags:
-    - docker-repo
+    - docker_ce_repo
     - packages

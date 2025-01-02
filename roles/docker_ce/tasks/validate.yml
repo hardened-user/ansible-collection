@@ -1,0 +1,28 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - docker_ce_version
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - docker_ce_systemd_environment
+    - docker_ce_conf_dict
+    - docker_ce_conf_default
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - docker_ce_systemd_requires

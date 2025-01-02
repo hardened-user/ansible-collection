@@ -2,7 +2,8 @@
 docker_ce_version: ""
 
 ### systemd ------------------------------------------------------------------------------------------------------------
-docker_ce_systemd_env_dict: {}
+docker_ce_systemd_environment: {}
+docker_ce_systemd_requires: []
 
 ### daemon.json --------------------------------------------------------------------------------------------------------
 docker_ce_conf_dict: {}

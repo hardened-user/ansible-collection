@@ -33,5 +33,5 @@ docker_ce_conf_dict:
   hosts: locahost
   become: yes
   roles:
-    - docker-ce
+    - docker_ce
 ```

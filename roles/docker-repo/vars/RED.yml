@@ -1,4 +1,0 @@
----
-docker_repo_gpg_key_src: "https://download.docker.com/linux/centos/gpg"
-docker_repo_gpg_key_file: "/etc/pki/rpm-gpg/RPM-GPG-KEY-DOCKER-CE"
-docker_repo_file: "/etc/yum.repos.d/docker-ce.repo"

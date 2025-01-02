@@ -1,14 +1,21 @@
 ---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - docker_ce
+    - validate
+
+
 - name: "Include OS distribution specific variables"
   ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags:
-    - docker-ce
+    - docker_ce
 
 
 - name: "Include OS distribution specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
   tags:
-    - docker-ce
+    - docker_ce
 
 
 - name: "Remove packages: {{ docker_ce_remove_packages | sort | join(' ') }}"
@@ -17,7 +24,7 @@
     state: absent
   when: docker_ce_remove_packages
   tags:
-    - docker-ce
+    - docker_ce
     - packages
 
 
@@ -26,7 +33,7 @@
     name: "{{ docker_ce_install_packages }}"
     state: present
   tags:
-    - docker-ce
+    - docker_ce
     - packages
 
 
@@ -41,7 +48,7 @@
     - { path: "{{ docker_ce_conf_dir }}" }
     - { path: "{{ docker_ce_systemd_override_dir }}" }
   tags:
-    - docker-ce
+    - docker_ce
 
 
 - name: "Copy file from template: {{ docker_ce_systemd_override_file }}"
@@ -51,11 +58,18 @@
     owner: root
     group: root
     mode: '0644'
+  register: _result
   notify:
-    - systemd daemon reload
     - restart docker-ce
   tags:
-    - docker-ce
+    - docker_ce
+
+
+# NOTE: Right now, without handler!
+- name: "systemd daemon reload"
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: _result.changed
 
 
 - name: "Copy file from template: {{ docker_ce_conf_file }}"
@@ -67,7 +81,7 @@
     mode: '0644'
   notify: restart docker-ce
   tags:
-    - docker-ce
+    - docker_ce
 
 
 - name: "Service start: {{ docker_ce_service_name }}"
@@ -77,4 +91,8 @@
     enabled: true
   register: r_docker_ce_start
   tags:
-    - docker-ce
+    - docker_ce
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers

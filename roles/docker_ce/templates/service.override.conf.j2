@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+{% if docker_ce_systemd_requires %}
+
+[Unit]
+After={{ docker_ce_systemd_requires | join(' ') }}
+Requires={{ docker_ce_systemd_requires | join(' ') }}
+{% endif %}
+{% if docker_ce_systemd_environment %}
+
+[Service]
+{% for x in docker_ce_systemd_environment | dict2items %}
+Environment={{ x.key }}={{ x.value }}
+{% endfor %}
+{% endif %}
