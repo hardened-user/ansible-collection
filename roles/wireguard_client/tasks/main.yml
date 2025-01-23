@@ -81,7 +81,7 @@
     - config
 
 
-- name: "Service stop: ..."
+- name: "Services stop: ..."
   ansible.builtin.service:
     name: "wg-quick@wgc{{ item }}"
     state: stopped
@@ -106,7 +106,7 @@
     - config
 
 
-- name: "Service start: ..."
+- name: "Services start: ..."
   ansible.builtin.service:
     name: "wg-quick@wgc{{ index }}"
     state: started
