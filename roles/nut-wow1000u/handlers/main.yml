@@ -18,9 +18,3 @@
     state: restarted
   when:
     - not r_upsmon_start.changed
-
-
-- name: "restart udev"
-  ansible.builtin.service:
-    name: "udev"
-    state: restarted
