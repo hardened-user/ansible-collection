@@ -59,8 +59,7 @@
     group: root
     mode: '0644'
   register: _result
-  notify:
-    - restart docker-ce
+  notify: restart docker-ce
   tags:
     - docker_ce
 

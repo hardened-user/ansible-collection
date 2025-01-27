@@ -35,7 +35,6 @@
     owner: root
     group: nut
     mode: '0640'
-    force: true
   tags:
     - nut
     - config
@@ -48,7 +47,6 @@
     owner: root
     group: nut
     mode: '0640'
-    force: true
   with_items:
     - { dest: "{{ nut_ups_conf_file }}", src: "ups.conf.j2" }
     - { dest: "{{ nut_upsd_conf_file }}", src: "upsd.conf.j2" }
@@ -68,7 +66,6 @@
     owner: root
     group: nut
     mode: '0640'
-    force: true
   notify: restart upsmon
   tags:
     - nut
