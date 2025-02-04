@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+---
+services:
+  nginx:
+    image: "{{ nginx_docker_image }}"
+    container_name: "{{ nginx_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ nginx_docker_timezone }}"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - {{ nginx_docker_cert_dir }}:/etc/ssl/nginx:ro
+      - {{ nginx_docker_conf_dir }}:/etc/nginx/conf.d:ro
+      - {{ nginx_docker_data_dir }}:/var/www
+      - {{ nginx_docker_logs_dir }}:/var/log/nginx
+{% for v in nginx_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if nginx_docker_network != "host" %}
+    ports:
+{% for p in nginx_docker_listen_port %}
+      - {{ nginx_docker_listen_addr }}:{{ p }}:{{ p }}
+{% endfor %}
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

@@ -1,0 +1,16 @@
+---
+# WARNING: ansible при обновлении заменяет nginx.conf, поэтому необходимо переоткрыть дескриптор файла.
+- name: "restart nginx-docker"
+  community.docker.docker_compose_v2:
+    project_src: "{{ nginx_docker_compose_dir }}"
+    state: restarted
+    timeout: 60
+  when: not r_nginx_docker_start_result.changed
+
+
+- name: "reload nginx-docker"
+  community.docker.docker_compose_v2_exec:
+    project_src: "{{ nginx_docker_compose_dir }}"
+    service: nginx
+    command: nginx -s reload
+  when: not r_nginx_docker_start_result.changed

@@ -1,0 +1,51 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - nginx_version
+    - nginx_docker_tag
+    - nginx_docker_image
+    - nginx_docker_instance
+    - nginx_docker_network
+    - nginx_docker_timezone
+    - nginx_docker_cert_dir
+    - nginx_docker_conf_dir
+    - nginx_docker_data_dir
+    - nginx_docker_logs_dir
+    - nginx_docker_cert_src
+    - nginx_docker_conf_src
+    - nginx_docker_data_src
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - nginx_docker_uid
+    - nginx_docker_gid
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - nginx_docker_extra_volumes
+    - nginx_docker_listen_port
+
+
+- name: "Variable conversion"
+  ansible.builtin.set_fact:
+    nginx_docker_cert_dir: "{{ nginx_docker_cert_dir | regex_replace('\\/+$', '') }}"
+    nginx_docker_conf_dir: "{{ nginx_docker_conf_dir | regex_replace('\\/+$', '') }}"
+    nginx_docker_data_dir: "{{ nginx_docker_data_dir | regex_replace('\\/+$', '') }}"
+    nginx_docker_logs_dir: "{{ nginx_docker_logs_dir | regex_replace('\\/+$', '') }}"
+    nginx_docker_cert_src: "{{ nginx_docker_cert_src | regex_replace('\\/+$', '') }}"
+    nginx_docker_conf_src: "{{ nginx_docker_conf_src | regex_replace('\\/+$', '') }}"
+    nginx_docker_data_src: "{{ nginx_docker_data_src | regex_replace('\\/+$', '') }}"

@@ -1,0 +1,131 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - nginx
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0750') }}"
+  loop:
+    - { path: "{{ nginx_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ nginx_docker_cert_dir }}", mode: '0700' }
+    - { path: "{{ nginx_docker_conf_dir }}", mode: '0750' }
+    - { path: "{{ nginx_docker_data_dir }}", owner: "{{ nginx_docker_uid }}", group: "{{ nginx_docker_gid }}", mode: '0750' }
+    - { path: "{{ nginx_docker_logs_dir }}", owner: "{{ nginx_docker_uid }}", group: "{{ nginx_docker_gid }}", mode: '0700' }
+  tags:
+    - nginx
+    - config
+
+
+- name: "Copy file from template: {{ nginx_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ nginx_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - nginx
+    - config
+
+
+- name: "Copy file from template: {{ nginx_docker_compose_dir }}/nginx.conf"
+  ansible.builtin.template:
+    src: "nginx.conf.j2"
+    dest: "{{ nginx_docker_compose_dir }}/nginx.conf"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx-docker
+  tags:
+    - nginx
+    - config
+
+
+# NOTE: Использовать `copy` т.к. файлы могут быть зашифрованы через ansible-vault encrypt
+- name: "Copy files: {{ nginx_docker_cert_dir }}/"
+  ansible.builtin.copy:
+    src: "{{ nginx_docker_cert_src }}/"
+    dest: "{{ nginx_docker_cert_dir }}/"
+    owner: root
+    group: root
+    mode: '0640'
+  notify: reload nginx-docker
+  tags:
+    - nginx
+    - config
+
+
+- name: "Copy files (rsync delete): {{ nginx_docker_conf_dir }}/"
+  ansible.posix.synchronize:
+    src: "{{ nginx_docker_conf_src }}/"
+    dest: "{{ nginx_docker_conf_dir }}/"
+    archive: false
+    times: false
+    perms: true
+    checksum: true
+    links: true
+    recursive: true
+    delete: true
+    rsync_opts:
+      - "--chown=root:root"
+      - "--chmod=D0750,F0644"
+      - "--exclude=.*"
+  notify: reload nginx-docker
+  tags:
+    - nginx
+    - config
+
+
+- name: "Copy files (rsync): {{ nginx_docker_data_dir }}/"
+  ansible.posix.synchronize:
+    src: "{{ nginx_docker_data_src }}/"
+    dest: "{{ nginx_docker_data_dir }}/"
+    archive: false
+    times: false
+    perms: true
+    checksum: true
+    links: true
+    recursive: true
+    rsync_opts:
+      - "--chown={{ nginx_docker_uid }}:{{ nginx_docker_gid }}"
+      - "--chmod=D0750,F0644"
+      - "--exclude=.*"
+  tags:
+    - nginx
+    - config
+
+
+- name: "Copy file from template: {{ nginx_docker_logrotate_conf_file }}"
+  ansible.builtin.template:
+    src: "logrotate.conf.j2"
+    dest: "{{ nginx_docker_logrotate_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - nginx
+    - config
+
+
+- name: "docker-compose up: {{ nginx_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ nginx_docker_compose_dir }}"
+    pull: always
+  register: r_nginx_docker_start_result
+  tags:
+    - nginx
+    - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - nginx

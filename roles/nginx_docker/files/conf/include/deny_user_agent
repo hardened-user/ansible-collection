@@ -1,0 +1,2 @@
+### Unwelcome crawlers
+#if ($http_user_agent ~* "libwww-perl" ) { return 403; }

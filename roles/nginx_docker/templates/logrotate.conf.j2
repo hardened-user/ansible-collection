@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+{{ nginx_docker_logs_dir }}/*.log {
+    {{ nginx_docker_logrotate_rotate }}
+    rotate {{ nginx_docker_logrotate_interval }}
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+}
