@@ -111,7 +111,6 @@
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
       - "--exclude=.*"
-  notify: reload nginx
   tags:
     - nginx
     - config
