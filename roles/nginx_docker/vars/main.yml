@@ -1,4 +1,4 @@
 ---
 nginx_docker_container_name: "nginx{{ '-' + nginx_docker_instance if nginx_docker_instance }}"
 nginx_docker_compose_dir: "/srv/nginx{{ '-' + nginx_docker_instance if nginx_docker_instance }}"
-nginx_docker_logrotate_conf_file: "/etc/logrotate.d/nginx_docker.conf"
+nginx_docker_logrotate_conf_file: "/etc/logrotate.d/nginx_docker"
