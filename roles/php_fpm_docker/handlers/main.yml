@@ -3,5 +3,5 @@
   community.docker.docker_compose_v2_exec:
     project_src: "{{ php_fpm_docker_compose_dir }}"
     service: php-fpm
-    command: kill -USR2 1
+    command: sh -c "kill -USR2 1"
   when: not r_php_fpm_docker_start_result.changed
