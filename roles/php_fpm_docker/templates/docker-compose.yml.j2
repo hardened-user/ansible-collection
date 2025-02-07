@@ -1,8 +1,6 @@
 # {{ ansible_managed }}
 
 ---
-version: '2.2'
-
 services:
   php-fpm:
     image: "{{ php_fpm_docker_image }}"
@@ -15,15 +13,14 @@ services:
       - {{ php_fpm_docker_php_conf_dir }}:/usr/local/etc/php:ro
       - {{ php_fpm_docker_fpm_conf_dir }}:/usr/local/etc/php-fpm.d:ro
       - {{ php_fpm_docker_fpm_sock_dir }}:/var/run/php-fpm
-      - {{ php_fpm_logs_dir }}:/var/log/php-fpm
-      - {{ php_fpm_sessions_dir }}:/var/lib/php/sessions
-      - /var/www:/var/www
+      - {{ php_fpm_docker_logs_dir }}:/var/log/php-fpm
+      - {{ php_fpm_docker_sessions_dir }}:/var/lib/php/sessions
 {% for v in php_fpm_docker_extra_volumes %}
       - {{ v }}
 {% endfor %}
-{% if php_fpm_tcp_enabled %}
+{% if php_fpm_docker_tcp_enabled %}
     ports:
-      - {{ php_fpm_listen_addr }}:{{ php_fpm_listen_port }}:9000
+      - {{ php_fpm_docker_listen_addr }}:{{ php_fpm_docker_listen_port }}:9000
 {% endif %}
     logging:
       driver: "json-file"

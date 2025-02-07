@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+{{ php_fpm_docker_logs_dir }}/*.log {
+    {{ php_fpm_docker_logrotate_interval }}
+    rotate {{ php_fpm_docker_logrotate_rotate }}
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+}

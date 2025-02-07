@@ -1,21 +1,28 @@
 ---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - php_fpm
+    - validate
+
+
 - name: "Create directories: ..."
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
-    mode: "{{ item.mode | default('0755') }}"
+    mode: "{{ item.mode | default('0750') }}"
   with_items:
     - { path: "{{ php_fpm_docker_compose_dir }}", mode: '0750' }
-    - { path: "{{ php_fpm_docker_php_conf_dir }}" }
-    - { path: "{{ php_fpm_docker_fpm_conf_dir }}" }
-    - { path: "{{ php_fpm_docker_fpm_sock_dir }}" }
-    - { path: "{{ php_fpm_logs_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0750' }
-    - { path: "{{ php_fpm_sessions_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0750' }
+    - { path: "{{ php_fpm_docker_php_conf_dir }}", mode: '0755' }
+    - { path: "{{ php_fpm_docker_fpm_conf_dir }}", mode: '0755' }
+    - { path: "{{ php_fpm_docker_fpm_sock_dir }}", mode: '0755' }
+    - { path: "{{ php_fpm_docker_logs_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0750' }
+    - { path: "{{ php_fpm_docker_sessions_dir }}", owner: "{{ php_fpm_docker_uid }}", group: "{{ php_fpm_docker_gid }}", mode: '0750' }
   tags:
-    - php-fpm
-    - mkdir
+    - php_fpm
+    - config
 
 
 - name: "Copy file from template: {{ php_fpm_docker_compose_dir }}/docker-compose.yml"
@@ -26,13 +33,13 @@
     group: root
     mode: '0600'
   tags:
-    - php-fpm
+    - php_fpm
     - config
 
 
 - name: "Copy files (rsync): {{ php_fpm_docker_php_conf_dir }}/"
   ansible.posix.synchronize:
-    src: "{{ php_fpm_php_conf_src }}/"
+    src: "{{ php_fpm_docker_php_conf_src }}/"
     dest: "{{ php_fpm_docker_php_conf_dir }}/"
     archive: false
     times: false
@@ -46,14 +53,13 @@
       - "--exclude=.*"
   notify: reload php-fpm-docker
   tags:
-    - php-fpm
+    - php_fpm
     - config
-    - copy
 
 
 - name: "Copy files (rsync): {{ php_fpm_docker_fpm_conf_dir }}/"
   ansible.posix.synchronize:
-    src: "{{ php_fpm_fpm_conf_src }}/"
+    src: "{{ php_fpm_docker_fpm_conf_src }}/"
     dest: "{{ php_fpm_docker_fpm_conf_dir }}/"
     archive: false
     times: false
@@ -67,9 +73,8 @@
       - "--exclude=.*"
   notify: reload php-fpm-docker
   tags:
-    - php-fpm
+    - php_fpm
     - config
-    - copy
 
 
 - name: "Copy file from template: {{ php_fpm_logrotate_conf_file }}"
@@ -80,15 +85,21 @@
     group: root
     mode: '0644'
   tags:
-    - php-fpm
+    - php_fpm
     - config
 
 
 - name: "docker-compose up: {{ php_fpm_docker_compose_dir }}"
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ php_fpm_docker_compose_dir }}"
-    pull: true
-  register: r_php_fpm_start_result
+    pull: always
+  register: r_php_fpm_docker_start_result
   tags:
-    - php-fpm
+    - php_fpm
     - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - php_fpm

@@ -1,0 +1,4 @@
+---
+php_fpm_docker_compose_dir: "/srv/php-fpm{{ '-' + php_fpm_docker_instance if php_fpm_docker_instance }}"
+php_fpm_docker_container_name: "php-fpm{{ '-' + php_fpm_docker_instance if php_fpm_docker_instance }}"
+php_fpm_logrotate_conf_file: "/etc/logrotate.d/php_fpm_docker"

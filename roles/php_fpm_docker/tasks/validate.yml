@@ -1,0 +1,62 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - php_fpm_version
+    - php_fpm_docker_tag
+    - php_fpm_docker_image
+    - php_fpm_docker_instance
+    - php_fpm_docker_timezone
+    - php_fpm_docker_php_conf_dir
+    - php_fpm_docker_fpm_conf_dir
+    - php_fpm_docker_fpm_sock_dir
+    - php_fpm_docker_sessions_dir
+    - php_fpm_docker_logs_dir
+    - php_fpm_docker_php_conf_src
+    - php_fpm_docker_fpm_conf_src
+    - php_fpm_docker_logrotate_interval
+    - php_fpm_docker_listen_addr
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - php_fpm_docker_uid
+    - php_fpm_docker_gid
+    - php_fpm_docker_logrotate_rotate
+    - php_fpm_docker_listen_port
+
+
+- name: "Ensure that variable is boolean"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "The variable must be a boolean"
+  loop:
+    - php_fpm_docker_tcp_enabled
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - php_fpm_docker_extra_volumes
+
+
+- name: "Variable conversion"
+  ansible.builtin.set_fact:
+    php_fpm_docker_php_conf_dir: "{{ php_fpm_docker_php_conf_dir | regex_replace('\\/+$', '') }}"
+    php_fpm_docker_fpm_conf_dir: "{{ php_fpm_docker_fpm_conf_dir | regex_replace('\\/+$', '') }}"
+    php_fpm_docker_fpm_sock_dir: "{{ php_fpm_docker_fpm_sock_dir | regex_replace('\\/+$', '') }}"
+    php_fpm_docker_sessions_dir: "{{ php_fpm_docker_sessions_dir | regex_replace('\\/+$', '') }}"
+    php_fpm_docker_logs_dir: "{{ php_fpm_docker_logs_dir | regex_replace('\\/+$', '') }}"
+    php_fpm_docker_php_conf_src: "{{ php_fpm_docker_php_conf_src | regex_replace('\\/+$', '') }}"
+    php_fpm_docker_fpm_conf_src: "{{ php_fpm_docker_fpm_conf_src | regex_replace('\\/+$', '') }}"
