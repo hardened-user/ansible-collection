@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 
 {{ nginx_docker_logs_dir }}/*.log {
-    {{ nginx_docker_logrotate_rotate }}
-    rotate {{ nginx_docker_logrotate_interval }}
+    {{ nginx_docker_logrotate_interval }}
+    rotate {{ nginx_docker_logrotate_rotate }}
     missingok
     notifempty
     compress
