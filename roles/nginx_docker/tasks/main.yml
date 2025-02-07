@@ -17,7 +17,7 @@
     - { path: "{{ nginx_docker_compose_dir }}", mode: '0750' }
     - { path: "{{ nginx_docker_cert_dir }}", mode: '0700' }
     - { path: "{{ nginx_docker_conf_dir }}", mode: '0750' }
-    - { path: "{{ nginx_docker_data_dir }}", owner: "{{ nginx_docker_uid }}", group: "{{ nginx_docker_gid }}", mode: '0750' }
+    - { path: "{{ nginx_docker_data_dir }}", mode: '0755' }
     - { path: "{{ nginx_docker_logs_dir }}", owner: "{{ nginx_docker_uid }}", group: "{{ nginx_docker_gid }}", mode: '0700' }
   tags:
     - nginx
@@ -84,19 +84,18 @@
     - config
 
 
+# NOTE: perms: false
 - name: "Copy files (rsync): {{ nginx_docker_data_dir }}/"
   ansible.posix.synchronize:
     src: "{{ nginx_docker_data_src }}/"
     dest: "{{ nginx_docker_data_dir }}/"
     archive: false
     times: false
-    perms: true
+    perms: false
     checksum: true
     links: true
     recursive: true
     rsync_opts:
-      - "--chown={{ nginx_docker_uid }}:{{ nginx_docker_gid }}"
-      - "--chmod=D0750,F0644"
       - "--exclude=.*"
   tags:
     - nginx
