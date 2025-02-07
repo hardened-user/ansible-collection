@@ -37,7 +37,7 @@
     - config
 
 
-- name: "Copy files (rsync): {{ php_fpm_docker_php_conf_dir }}/"
+- name: "Copy files (rsync delete): {{ php_fpm_docker_php_conf_dir }}/"
   ansible.posix.synchronize:
     src: "{{ php_fpm_docker_php_conf_src }}/"
     dest: "{{ php_fpm_docker_php_conf_dir }}/"
@@ -47,6 +47,7 @@
     checksum: true
     links: true
     recursive: true
+    delete: true
     rsync_opts:
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
@@ -57,7 +58,7 @@
     - config
 
 
-- name: "Copy files (rsync): {{ php_fpm_docker_fpm_conf_dir }}/"
+- name: "Copy files (rsync delete): {{ php_fpm_docker_fpm_conf_dir }}/"
   ansible.posix.synchronize:
     src: "{{ php_fpm_docker_fpm_conf_src }}/"
     dest: "{{ php_fpm_docker_fpm_conf_dir }}/"
@@ -67,6 +68,7 @@
     checksum: true
     links: true
     recursive: true
+    delete: true
     rsync_opts:
       - "--chown=root:root"
       - "--chmod=D0755,F0644"
