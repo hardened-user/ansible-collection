@@ -67,6 +67,9 @@ nginx_docker_conf_dir: "{{ nginx_docker_compose_dir }}/conf"
 ```
 # default
 nginx_docker_data_dir: "{{ nginx_docker_compose_dir }}/data"
+
+# example
+nginx_docker_data_dir: "/var/www"
 ```
 
 #### nginx_docker_logs_dir
@@ -149,6 +152,7 @@ nginx_docker_listen_port: [80, 443]
   hosts: locahost
   become: yes
   vars:
+    nginx_docker_data_dir: "/var/www"
     nginx_docker_conf_src: "files/nginx/{{ inventory_hostname }}/conf"
     nginx_docker_data_src: "files/nginx/{{ inventory_hostname }}/data"
   roles:
