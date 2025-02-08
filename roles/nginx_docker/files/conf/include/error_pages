@@ -1,0 +1,8 @@
+error_page 404 @error_page_404;
+location @error_page_404 {
+    return 404;
+}
+error_page 500 @error_page_500;
+location @error_page_500 {
+    return 500;
+}
