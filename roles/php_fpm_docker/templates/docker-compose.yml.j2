@@ -12,9 +12,13 @@ services:
     volumes:
       - {{ php_fpm_docker_php_conf_dir }}:/usr/local/etc/php:ro
       - {{ php_fpm_docker_fpm_conf_dir }}:/usr/local/etc/php-fpm.d:ro
+{% if php_fpm_docker_fpm_sock_dir | length > 1 %}
       - {{ php_fpm_docker_fpm_sock_dir }}:/run/php-fpm
-      - {{ php_fpm_docker_logs_dir }}:/var/log/php-fpm
+{% endif %}
+{% if php_fpm_docker_sessions_dir | length > 1 %}
       - {{ php_fpm_docker_sessions_dir }}:/var/lib/php/sessions
+{% endif %}
+      - {{ php_fpm_docker_logs_dir }}:/var/log/php-fpm
 {% for v in php_fpm_docker_extra_volumes %}
       - {{ v }}
 {% endfor %}

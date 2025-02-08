@@ -10,8 +10,8 @@ php_fpm_docker_extra_volumes: []
 
 php_fpm_docker_php_conf_dir: "{{ php_fpm_docker_compose_dir }}/php"
 php_fpm_docker_fpm_conf_dir: "{{ php_fpm_docker_compose_dir }}/php-fpm.d"
-php_fpm_docker_fpm_sock_dir: "{{ php_fpm_docker_compose_dir }}/socket"
-php_fpm_docker_sessions_dir: "{{ php_fpm_docker_compose_dir }}/sessions"
+php_fpm_docker_fpm_sock_dir: ""
+php_fpm_docker_sessions_dir: ""
 php_fpm_docker_logs_dir: "{{ php_fpm_docker_compose_dir }}/logs"
 
 php_fpm_docker_php_conf_src: "{{ role_path }}/files/{{ php_fpm_docker_instance }}/php"

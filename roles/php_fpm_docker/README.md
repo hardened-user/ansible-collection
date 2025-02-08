@@ -60,19 +60,24 @@ php_fpm_docker_fpm_conf_dir: "{{ php_fpm_docker_compose_dir }}/php-fpm.d"
 ```
 
 #### php_fpm_docker_fpm_sock_dir
-Каталог для сокетов.
+Каталог для сокетов. Опционально.<br/>
+В `php-fpm.d` указать `listen = /run/php-fpm/$pool.sock`.
 ```
 # default
-php_fpm_docker_fpm_sock_dir: "{{ php_fpm_docker_compose_dir }}/socket"
+php_fpm_docker_fpm_sock_dir: ""
 
 # example
-php_fpm_docker_fpm_sock_dir: "/run/{{ php_fpm_docker_container_name }}"
+php_fpm_docker_fpm_sock_dir: "/run/php-fpm-{{ php_fpm_version.split('.')[0:2] | join('.') }}"
 ```
 
 #### php_fpm_docker_sessions_dir
-Каталог для хранения сессий на диске.
+Каталог для хранения сессий на диске. Опционально.<br/>
+В `php.ini` указать путь внутри контейнера `session.save_path = "/var/lib/php/sessions"`.
 ```
 # default
+php_fpm_docker_sessions_dir: ""
+
+# example
 php_fpm_docker_sessions_dir: "{{ php_fpm_docker_compose_dir }}/sessions"
 ```
 
