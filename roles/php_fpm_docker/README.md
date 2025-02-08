@@ -64,6 +64,9 @@ php_fpm_docker_fpm_conf_dir: "{{ php_fpm_docker_compose_dir }}/php-fpm.d"
 ```
 # default
 php_fpm_docker_fpm_sock_dir: "{{ php_fpm_docker_compose_dir }}/socket"
+
+# example
+php_fpm_docker_fpm_sock_dir: "/run/{{ php_fpm_docker_container_name }}"
 ```
 
 #### php_fpm_docker_sessions_dir
@@ -157,6 +160,7 @@ php_fpm_docker_listen_port: 9000
   hosts: locahost
   become: yes
   vars:
+    php_fpm_docker_fpm_sock_dir: "/run/{{ php_fpm_docker_container_name }}"
     php_fpm_docker_php_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_docker_instance }}/php"
     php_fpm_docker_fpm_conf_src: "files/php-fpm/{{ inventory_hostname }}/{{ php_fpm_docker_instance }}/php-fpm.d"
     php_fpm_docker_extra_volumes:
