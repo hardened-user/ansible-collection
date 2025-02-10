@@ -7,12 +7,11 @@ nginx_docker_uid: 33
 nginx_docker_gid: 33
 nginx_docker_network: bridge # "bridge" or "host" supported
 nginx_docker_timezone: "{{ timezone_name }}"
-nginx_docker_extra_volumes: []
-
 nginx_docker_cert_dir: "{{ nginx_docker_compose_dir }}/cert"
 nginx_docker_conf_dir: "{{ nginx_docker_compose_dir }}/conf"
 nginx_docker_data_dir: "{{ nginx_docker_compose_dir }}/data"
 nginx_docker_logs_dir: "{{ nginx_docker_compose_dir }}/logs"
+nginx_docker_extra_volumes: []
 
 nginx_docker_cert_src: "{{ role_path }}/files/cert"
 nginx_docker_conf_src: "{{ role_path }}/files/conf"

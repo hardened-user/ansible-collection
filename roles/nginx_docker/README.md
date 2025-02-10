@@ -2,6 +2,7 @@
 
 Simple installation compatible with the [official Docker image](https://hub.docker.com/_/nginx)
 
+
 ## Variables
 #### nginx_version
 Версия **nginx**.<br/>
@@ -41,13 +42,6 @@ nginx_docker_gid: 33
 nginx_docker_network: bridge
 ```
 
-#### nginx_docker_extra_volumes
-Дополнительные каталоги для монтирования в контейнер.
-```
-# default
-nginx_docker_extra_volumes: []
-```
-
 #### nginx_docker_cert_dir
 Каталог для хранения сертификатов на диске.
 ```
@@ -77,6 +71,13 @@ nginx_docker_data_dir: "/var/www"
 ```
 # default
 nginx_docker_logs_dir: "{{ nginx_docker_compose_dir }}/logs"
+```
+
+#### nginx_docker_extra_volumes
+Дополнительные каталоги для монтирования в контейнер.
+```
+# default
+nginx_docker_extra_volumes: []
 ```
 
 #### nginx_docker_cert_src
