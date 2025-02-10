@@ -1,0 +1,6 @@
+---
+- name: "Variable transformation"
+  ansible.builtin.set_fact:
+    keycloak_docker_data_dir: "{{ keycloak_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"
+  tags:
+    - keycloak

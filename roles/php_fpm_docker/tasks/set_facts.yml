@@ -1,0 +1,12 @@
+---
+- name: "Variable transformation"
+  ansible.builtin.set_fact:
+    php_fpm_docker_php_conf_dir: "{{ php_fpm_docker_php_conf_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    php_fpm_docker_fpm_conf_dir: "{{ php_fpm_docker_fpm_conf_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    php_fpm_docker_fpm_sock_dir: "{{ php_fpm_docker_fpm_sock_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    php_fpm_docker_sessions_dir: "{{ php_fpm_docker_sessions_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    php_fpm_docker_logs_dir: "{{ php_fpm_docker_logs_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    php_fpm_docker_php_conf_src: "{{ php_fpm_docker_php_conf_src | trim | regex_replace('\\/+$', '') | trim }}"
+    php_fpm_docker_fpm_conf_src: "{{ php_fpm_docker_fpm_conf_src | trim | regex_replace('\\/+$', '') | trim }}"
+  tags:
+    - php_fpm

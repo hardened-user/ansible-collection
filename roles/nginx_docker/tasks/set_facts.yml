@@ -1,0 +1,12 @@
+---
+- name: "Variable transformation"
+  ansible.builtin.set_fact:
+    nginx_docker_cert_dir: "{{ nginx_docker_cert_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    nginx_docker_conf_dir: "{{ nginx_docker_conf_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    nginx_docker_data_dir: "{{ nginx_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    nginx_docker_logs_dir: "{{ nginx_docker_logs_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    nginx_docker_cert_src: "{{ nginx_docker_cert_src | trim | regex_replace('\\/+$', '') | trim }}"
+    nginx_docker_conf_src: "{{ nginx_docker_conf_src | trim | regex_replace('\\/+$', '') | trim }}"
+    nginx_docker_data_src: "{{ nginx_docker_data_src | trim | regex_replace('\\/+$', '') | trim }}"
+  tags:
+    - nginx

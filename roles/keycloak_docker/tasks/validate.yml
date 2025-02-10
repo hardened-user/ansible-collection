@@ -58,8 +58,3 @@
   loop:
     - keycloak_docker_environment
     - keycloak_docker_env_default
-
-
-- name: "Variable conversion"
-  ansible.builtin.set_fact:
-    keycloak_docker_data_dir: "{{ keycloak_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"
