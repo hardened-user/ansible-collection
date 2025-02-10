@@ -6,6 +6,7 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
+  when: item.enabled | default(true)
   loop:
     - { path: "{{ postgresql_docker_compose_dir }}", mode: '0750' }
     - { path: "{{ postgresql_docker_build_dir }}", mode: '0755',
@@ -13,7 +14,6 @@
     - { path: "{{ postgresql_docker_conf_dir }}", mode: '0755' }
     - { path: "{{ postgresql_docker_data_dir }}", owner: "{{ postgresql_docker_uid }}", group: "{{ postgresql_docker_gid }}", mode: '0700',
         enabled: "{{ postgresql_docker_bind_mount_volumes }}" }
-  when: item.enabled | default(true)
   tags:
     - postgresql
     - config

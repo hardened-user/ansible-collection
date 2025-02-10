@@ -19,21 +19,11 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
+  when: item.enabled | default(true)
   loop:
     - { path: "{{ keycloak_docker_compose_dir }}", mode: '0750' }
-  tags:
-    - keycloak
-    - config
-
-
-- name: "Create directory: {{ keycloak_docker_data_dir }}"
-  ansible.builtin.file:
-    path: "{{ keycloak_docker_data_dir }}"
-    state: directory
-    owner: "{{ keycloak_docker_uid }}"
-    group: "{{ keycloak_docker_gid }}"
-    mode: '0700'
-  when: keycloak_docker_bind_mount_volumes
+    - { path: "{{ keycloak_docker_data_dir }}", owner: "{{ keycloak_docker_uid }}", group: "{{ keycloak_docker_gid }}", mode: '0700',
+        enabled: "{{ keycloak_docker_bind_mount_volumes }}" }
   tags:
     - keycloak
     - config
