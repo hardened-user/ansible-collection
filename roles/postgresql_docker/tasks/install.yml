@@ -8,25 +8,15 @@
     mode: "{{ item.mode | default('0755') }}"
   loop:
     - { path: "{{ postgresql_docker_compose_dir }}", mode: '0750' }
-    - { path: "{{ postgresql_docker_build_dir }}", enabled: "{{ _postgresql_docker_build_enabled }}" }
-    - { path: "{{ postgresql_docker_conf_dir }}" }
+    - { path: "{{ postgresql_docker_build_dir }}", mode: '0755',
+        enabled: "{{ _postgresql_docker_build_enabled }}" }
+    - { path: "{{ postgresql_docker_conf_dir }}", mode: '0755' }
+    - { path: "{{ postgresql_docker_data_dir }}", owner: "{{ postgresql_docker_uid }}", group: "{{ postgresql_docker_gid }}", mode: '0700',
+        enabled: "{{ postgresql_docker_bind_mount_volumes }}" }
   when: item.enabled | default(true)
   tags:
     - postgresql
-    - mkdir
-
-
-- name: "Create directory: {{ postgresql_data_dir }}"
-  ansible.builtin.file:
-    path: "{{ postgresql_data_dir }}"
-    state: directory
-    owner: "{{ postgresql_docker_uid }}"
-    group: "{{ postgresql_docker_gid }}"
-    mode: '0700'
-  when: postgresql_docker_bind_mount_volumes
-  tags:
-    - postgresql
-    - mkdir
+    - config
 
 
 - name: "Copy file from template: {{ postgresql_docker_compose_dir }}/docker-compose.yml"
@@ -43,7 +33,7 @@
 
 - name: "Copy file from template: {{ postgresql_docker_build_dir }}/Dockerfile"
   ansible.builtin.template:
-    src: "{{ postgresql_docker_build_dockerfile_src }}"
+    src: "{{ postgresql_docker_build_template }}"
     dest: "{{ postgresql_docker_build_dir }}/Dockerfile"
     owner: root
     group: root
@@ -106,7 +96,13 @@
     project_src: "{{ postgresql_docker_compose_dir }}"
     pull: always
     build: always
-  register: r_postgresql_start_result
+  register: r_postgresql_docker_start_result
   tags:
     - postgresql
     - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - postgresql

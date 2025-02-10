@@ -1,0 +1,15 @@
+---
+- name: "Variable transformation"
+  ansible.builtin.set_fact:
+    postgresql_docker_build_template: "{{ postgresql_docker_build_template | trim }}"
+    postgresql_docker_conf_dir: "{{ postgresql_docker_conf_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    postgresql_docker_data_dir: "{{ postgresql_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"
+  tags:
+    - postgresql
+
+
+- name: "Internal variables"
+  ansible.builtin.set_fact:
+    _postgresql_docker_build_enabled: "{{ postgresql_docker_build_template | length > 1 }}"
+  tags:
+    - postgresql

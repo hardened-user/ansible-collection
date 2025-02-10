@@ -4,9 +4,9 @@
     query: "SELECT pg_is_in_recovery()"
     login_host: "{{ postgresql_listen_addr }}"
     login_port: "{{ postgresql_listen_port }}"
-    login_user: "{{ postgresql_init_user }}"
-    login_password: "{{ postgresql_init_pass }}"
-    login_db: "{{ postgresql_init_base }}"
+    login_user: "{{ postgresql_bootstrap_user }}"
+    login_password: "{{ postgresql_bootstrap_pass }}"
+    login_db: "{{ postgresql_bootstrap_base }}"
   register: _result
 
 
@@ -19,11 +19,11 @@
     encrypted: true
     login_host: "{{ postgresql_listen_addr }}"
     login_port: "{{ postgresql_listen_port }}"
-    login_user: "{{ postgresql_init_user }}"
-    login_password: "{{ postgresql_init_pass }}"
-    login_db: "{{ postgresql_init_base }}"
+    login_user: "{{ postgresql_bootstrap_user }}"
+    login_password: "{{ postgresql_bootstrap_pass }}"
+    login_db: "{{ postgresql_bootstrap_base }}"
   when: not (_result.query_result | first)['pg_is_in_recovery']
-  loop: "{{ postgresql_extra_users | selectattr('name','defined') }}"
+  loop: "{{ postgresql_extra_users | selectattr('name', 'defined') }}"
   loop_control:
     label: "{{ item.name }}"
 
@@ -36,11 +36,11 @@
     state: present
     login_host: "{{ postgresql_listen_addr }}"
     login_port: "{{ postgresql_listen_port }}"
-    login_user: "{{ postgresql_init_user }}"
-    login_password: "{{ postgresql_init_pass }}"
-    maintenance_db: "{{ postgresql_init_base }}"
+    login_user: "{{ postgresql_bootstrap_user }}"
+    login_password: "{{ postgresql_bootstrap_pass }}"
+    maintenance_db: "{{ postgresql_bootstrap_base }}"
   when: not (_result.query_result | first)['pg_is_in_recovery']
-  loop: "{{ postgresql_extra_users | selectattr('name','defined') | selectattr('base','defined') }}"
+  loop: "{{ postgresql_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
   loop_control:
     extended: false
     label: "{{ item.base }} user={{ item.name }}"

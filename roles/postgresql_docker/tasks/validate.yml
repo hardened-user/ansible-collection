@@ -6,9 +6,15 @@
     fail_msg: "The variable must be a string"
   loop:
     - postgresql_version
-    - postgresql_docker_build_dockerfile_src
+    - postgresql_docker_tag
+    - postgresql_docker_image
+    - postgresql_docker_build_template
+    - postgresql_docker_instance
     - postgresql_docker_network
     - postgresql_docker_timezone
+    - postgresql_docker_conf_dir
+    - postgresql_docker_data_dir
+    - postgresql_listen_addr
     - postgresql_tls_cert_crt
     - postgresql_tls_cert_key
 
@@ -19,6 +25,7 @@
     quiet: true
     fail_msg: "Variable must be an integer"
   loop:
+    - postgresql_major_version
     - postgresql_docker_uid
     - postgresql_docker_gid
     - postgresql_listen_port

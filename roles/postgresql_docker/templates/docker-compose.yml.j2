@@ -18,16 +18,16 @@ services:
     environment:
       TZ: "{{ postgresql_docker_timezone }}"
       # credentials for initialization
-      POSTGRES_USER: "{{ postgresql_init_user }}"
-      POSTGRES_PASSWORD: "{{ postgresql_init_pass }}"
-      POSTGRES_DB: "{{ postgresql_init_base }}"
+      POSTGRES_USER: "{{ postgresql_bootstrap_user }}"
+      POSTGRES_PASSWORD: "{{ postgresql_bootstrap_pass }}"
+      POSTGRES_DB: "{{ postgresql_bootstrap_base }}"
       POSTGRES_INITDB_ARGS: "--auth-host={{ postgresql_conf_runtime.password_encryption }}"
     volumes:
       - {{ postgresql_docker_conf_dir }}:/etc/postgresql:ro
 {% if postgresql_docker_bind_mount_volumes is sameas false %}
       - data:/var/lib/postgresql/data
 {% else %}
-      - {{ postgresql_data_dir }}:/var/lib/postgresql/data
+      - {{ postgresql_docker_data_dir }}:/var/lib/postgresql/data
 {% endif %}
 {% for v in postgresql_docker_extra_volumes %}
       - {{ v }}
