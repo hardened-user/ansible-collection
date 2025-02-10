@@ -1,0 +1,5 @@
+---
+keycloak_major_version: "{{ keycloak_version.split('.') | first }}"
+keycloak_docker_compose_dir: "/srv/keycloak{{ '-' + keycloak_docker_instance if keycloak_docker_instance }}"
+keycloak_docker_container_name: "keycloak{{ '-' + keycloak_docker_instance if keycloak_docker_instance }}"
+keycloak_docker_env_runtime: "{{ keycloak_docker_env_default | combine(keycloak_docker_environment) }}"

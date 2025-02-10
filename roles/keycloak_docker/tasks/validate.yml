@@ -1,0 +1,65 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - keycloak_version
+    - keycloak_docker_tag
+    - keycloak_docker_image
+    - keycloak_docker_instance
+    - keycloak_docker_network
+    - keycloak_docker_timezone
+    - keycloak_docker_data_dir
+    - keycloak_docker_listen_addr
+    - keycloak_server_start_mode
+    - keycloak_bootstrap_admin_username
+    - keycloak_bootstrap_admin_password
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - keycloak_major_version
+    - keycloak_docker_uid
+    - keycloak_docker_gid
+    - keycloak_http_port
+    - keycloak_http_management_port
+
+
+- name: "Ensure that variable is boolean"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "The variable must be a boolean"
+  loop:
+    - keycloak_docker_bind_mount_volumes
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - keycloak_docker_extra_volumes
+    - keycloak_docker_listen_port
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - keycloak_docker_environment
+    - keycloak_docker_env_default
+
+
+- name: "Variable conversion"
+  ansible.builtin.set_fact:
+    keycloak_docker_data_dir: "{{ keycloak_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"

@@ -1,0 +1,50 @@
+# {{ ansible_managed }}
+
+---
+{% if keycloak_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+
+{% endif %}
+services:
+  keycloak:
+    image: "{{ keycloak_docker_image }}"
+    container_name: "{{ keycloak_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ keycloak_docker_timezone }}"
+      # credentials for initialization
+{% if keycloak_major_version | int > 25 %}
+      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ keycloak_bootstrap_admin_username }}"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ keycloak_bootstrap_admin_password }}"
+{% else %}
+      KEYCLOAK_ADMIN: "{{ keycloak_bootstrap_admin_username }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_bootstrap_admin_password }}"
+{% endif %}
+      KC_HTTP_PORT: {{ keycloak_http_port }}
+      KC_HTTP_MANAGEMENT_PORT: {{ keycloak_http_management_port }}
+{% for e in keycloak_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ e.key }}: "{{ e.value }}"
+{% endfor %}
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "{{ keycloak_server_start_mode }}"]
+    volumes:
+{% if keycloak_docker_bind_mount_volumes is sameas false %}
+      - data:/opt/keycloak/data
+{% else %}
+      - {{ keycloak_docker_data_dir }}:/opt/keycloak/data
+{% endif %}
+{% for v in keycloak_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if keycloak_docker_network != "host" %}
+    ports:
+{% for p in keycloak_docker_listen_port %}
+      - {{ keycloak_docker_listen_addr }}:{{ p }}:{{ p }}
+{% endfor %}
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"
