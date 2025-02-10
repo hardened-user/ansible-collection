@@ -34,17 +34,6 @@ php_fpm_docker_uid: 33
 php_fpm_docker_gid: 33
 ```
 
-#### php_fpm_docker_extra_volumes
-Дополнительные каталоги для монтирования в контейнер.
-```
-# default
-php_fpm_docker_extra_volumes: []
-
-# example
-php_fpm_docker_extra_volumes:
-  - "/var/www:/var/www"
-```
-
 #### php_fpm_docker_php_conf_dir
 Каталог для хранения конфигурации **php** на диске.
 ```
@@ -86,6 +75,17 @@ php_fpm_docker_sessions_dir: "{{ php_fpm_docker_compose_dir }}/sessions"
 ```
 # default
 php_fpm_docker_logs_dir: "{{ php_fpm_docker_compose_dir }}/logs"
+```
+
+#### php_fpm_docker_extra_volumes
+Дополнительные каталоги для монтирования в контейнер.
+```
+# default
+php_fpm_docker_extra_volumes: []
+
+# example
+php_fpm_docker_extra_volumes:
+  - "/var/www:/var/www"
 ```
 
 #### php_fpm_docker_php_conf_src
