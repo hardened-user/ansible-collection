@@ -183,4 +183,4 @@
   changed_when: false
   tags:
     - getssl
-    - config
+    - update
