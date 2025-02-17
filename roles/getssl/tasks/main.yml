@@ -15,7 +15,6 @@
   tags:
     - getssl
     - config
-    - user
 
 
 - name: "Create user: {{ getssl_user_name }}"
@@ -30,33 +29,32 @@
   tags:
     - getssl
     - config
-    - user
 
 
 - name: "Create directories: ..."
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
-    owner: "{{ item.owner | default(getssl_user_name) }}"
-    group: "{{ item.group | default(getssl_user_name) }}"
-    mode: "{{ item.mode | default('0750') }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
   with_items:
-    - { path: "{{ getssl_user_home }}" }
-    - { path: "{{ getssl_user_home }}/bin", owner: "root" }
-    - { path: "{{ getssl_conf_dir }}", mode: '0700' }
-    - { path: "{{ getssl_cert_dir }}" }
-    - { path: "{{ getssl_acme_challenge_dir }}" }
-  loop_control:
-    label: "{{ item.path }}"
+    - { path: "{{ getssl_user_home }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0750' }
+    - { path: "{{ getssl_bin_dir }}" }
+    - { path: "{{ getssl_conf_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0700' }
+    - { path: "{{ getssl_cert_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0750' }
+    - { path: "{{ getssl_acme_challenge_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0750' }
   tags:
     - getssl
-    - mkdir
+    - config
 
 
-- name: "Download file: {{ getssl_user_home }}/bin/getssl"
+- name: "Download file: {{ getssl_bin_file }}"
   ansible.builtin.get_url:
     url: "{{ getssl_download_url }}"
-    dest: "{{ getssl_user_home }}/bin/getssl"
+    dest: "{{ getssl_bin_file }}"
+    owner: root
+    group: root
     mode: '0755'
   tags:
     - getssl
@@ -163,7 +161,6 @@
   tags:
     - getssl
     - config
-    - cron
 
 
 - name: "Configure cron.d job: {{ getssl_user_name }}"
@@ -174,15 +171,16 @@
     hour: 12
     weekday: 2
     user: "{{ getssl_user_name }}"
-    job: "{{ getssl_user_home }}/bin/getssl -a -U -q"
+    job: "{{ getssl_bin_file }} -a -U -q"
   tags:
     - getssl
     - config
-    - cron
 
 
 - name: "execute getssl"
   become_user: "{{ getssl_user_name }}"
-  ansible.builtin.command: |-
-    {{ getssl_user_home }}/bin/getssl -a -U
+  ansible.builtin.command: "{{ getssl_bin_file }} -a -U"
   changed_when: false
+  tags:
+    - getssl
+    - config
