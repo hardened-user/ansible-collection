@@ -154,6 +154,10 @@ nginx_docker_listen_port: [80, 443]
   become: yes
   vars:
     nginx_docker_data_dir: "/var/www"
+    nginx_docker_extra_volumes:
+      - "{{ php_fpm_docker_fpm_sock_dir }}:{{ php_fpm_docker_fpm_sock_dir }}"
+      - "{{ getssl_cert_dir }}:{{ getssl_cert_dir }}:ro"
+      - "{{ getssl_acme_challenge_dir }}:/.well-known/acme-challenge:ro"
     nginx_docker_conf_src: "files/nginx/{{ inventory_hostname }}/conf"
     nginx_docker_data_src: "files/nginx/{{ inventory_hostname }}/data"
   roles:
