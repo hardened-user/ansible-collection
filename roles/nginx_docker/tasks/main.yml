@@ -108,6 +108,18 @@
     - config
 
 
+- name: "Copy file from template: {{ nginx_docker_compose_dir }}/reload.sh"
+  ansible.builtin.template:
+    src: "reload.sh.j2"
+    dest: "{{ nginx_docker_compose_dir }}/reload.sh"
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - nginx
+    - config
+
+
 - name: "Copy file from template: {{ nginx_docker_logrotate_conf_file }}"
   ansible.builtin.template:
     src: "logrotate.conf.j2"
