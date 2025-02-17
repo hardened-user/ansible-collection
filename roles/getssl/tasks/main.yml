@@ -43,7 +43,7 @@
     - { path: "{{ getssl_bin_dir }}" }
     - { path: "{{ getssl_conf_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0700' }
     - { path: "{{ getssl_cert_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0750' }
-    - { path: "{{ getssl_acme_challenge_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}", mode: '0750' }
+    - { path: "{{ getssl_acme_challenge_dir }}", owner: "{{ getssl_user_name }}", group: "{{ getssl_user_name }}" }
   tags:
     - getssl
     - config
