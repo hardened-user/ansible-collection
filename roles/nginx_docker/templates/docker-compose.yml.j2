@@ -8,6 +8,12 @@ services:
     restart: unless-stopped
     environment:
       TZ: "{{ nginx_docker_timezone }}"
+{% if nginx_docker_tmpfs_volumes %}
+    tmpfs:
+{% for v in nginx_docker_tmpfs_volumes %}
+      - {{ v }}
+{% endfor %}
+{% endif %}
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - {{ nginx_docker_cert_dir }}:/etc/ssl/nginx:ro

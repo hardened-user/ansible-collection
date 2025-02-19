@@ -80,6 +80,17 @@ nginx_docker_logs_dir: "{{ nginx_docker_compose_dir }}/logs"
 nginx_docker_extra_volumes: []
 ```
 
+#### nginx_docker_tmpfs_volumes
+Список `tmpfs` разделов в контейнере.
+```
+# default
+nginx_docker_tmpfs_volumes: []
+
+# example
+nginx_docker_tmpfs_volumes:
+  - "/var/cache/nginx:noatime,nodiratime,nodev,nosuid,noexec,uid=0,gid=0,mode=755,size=32m"
+```
+
 #### nginx_docker_cert_src
 Каталог, откуда будут скопированы сертификаты.<br/>
 Соответствующие файлы должны быть подготовлены заранее.

@@ -37,4 +37,5 @@
     fail_msg: "The variable must be a list"
   loop:
     - nginx_docker_extra_volumes
+    - nginx_docker_tmpfs_volumes
     - nginx_docker_listen_port
