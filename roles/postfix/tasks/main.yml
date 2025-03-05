@@ -1,6 +1,8 @@
 ---
 - name: "Include OS distribution specific variables"
   ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - postfix
 
 
 - name: "Remove packages: {{ postfix_remove_packages | join(' ') }}"
@@ -116,3 +118,9 @@
   tags:
     - postfix
     - service
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - postfix

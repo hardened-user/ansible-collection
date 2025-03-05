@@ -1,7 +1,6 @@
 ---
 - name: "execute postmap"
-  ansible.builtin.shell: |
-    postmap "{{ item }}"
+  ansible.builtin.command: "postmap '{{ item }}'"
   with_items:
     - "{{ postfix_smtp_generic_maps_file }}"
     - "{{ postfix_sasl_password_maps_file }}"
@@ -10,8 +9,7 @@
 
 
 - name: "execute newaliases"
-  ansible.builtin.shell: |
-    newaliases
+  ansible.builtin.command: "newaliases"
 
 
 - name: "restart postfix"
