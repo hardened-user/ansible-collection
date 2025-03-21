@@ -4,12 +4,12 @@
 - name: "Install packages: ..."
   ansible.builtin.apt:
     deb: "{{ item }}"
-    # NOTE: present state can update package
+    # NOTE: present state can update package from url
     state: present
   loop:
     - "{{ zabbix_repo_package_url }}"
   tags:
-    - zabbix-repo
+    - zabbix_repo
     - packages
 
 
@@ -18,4 +18,4 @@
     update_cache: true
   changed_when: false
   tags:
-    - zabbix-repo
+    - zabbix_repo

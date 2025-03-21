@@ -20,5 +20,5 @@ zabbix_repo_version: "7.0"
   hosts: locahost
   become: yes
   roles:
-    - zabbix-repo
+    - zabbix_repo
 ```

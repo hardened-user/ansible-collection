@@ -4,12 +4,12 @@
 - name: "Install packages: ..."
   ansible.builtin.yum:
     name: "{{ item }}"
-    # NOTE: latest state for update package
+    # NOTE: latest state for update package from url
     state: latest
   loop:
     - "{{ zabbix_repo_package_url }}"
   tags:
-    - zabbix-repo
+    - zabbix_repo
     - packages
 
 
@@ -18,4 +18,4 @@
     yum clean metadata && yum makecache{{ ' fast' if ansible_distribution_major_version == '7' else '' }}
   changed_when: false
   tags:
-    - zabbix-repo
+    - zabbix_repo

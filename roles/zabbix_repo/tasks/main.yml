@@ -1,7 +1,11 @@
 ---
 - name: "Include OS distribution specific variables"
   ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
+  tags:
+    - zabbix_repo
 
 
 - name: "Include OS distribution specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
+  tags:
+    - zabbix_repo
