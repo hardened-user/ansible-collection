@@ -1,4 +1,4 @@
 ---
 dependencies:
   - env
-  - zabbix-repo
+  - zabbix_repo
