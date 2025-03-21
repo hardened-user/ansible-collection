@@ -1,10 +1,12 @@
 ---
-- name: "Install package: {{ zabbix_agent_package_name }}"
+- name: "Install packages: ..."
   ansible.builtin.package:
-    name: "{{ zabbix_agent_package_name }}"
+    name: "{{ item }}"
     state: present
+  loop:
+    - "{{ zabbix_agent_package_name }}"
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - packages
 
 
@@ -16,9 +18,8 @@
   notify: restart zabbix-agent
   when: zabbix_agent_user_extra_groups
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - config
-    - user
 
 
 - name: "Create directories: ..."
@@ -28,14 +29,14 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
-  with_items:
+  loop:
     - { path: "{{ zabbix_agent_conf_dir }}" }
     - { path: "{{ zabbix_agent_conf_d_dir }}", owner: "{{ zabbix_agent_user_name }}", group: "{{ zabbix_agent_user_group }}", mode: '0750' }
     - { path: "{{ zabbix_agent_agentscripts_dir }}", owner: "{{ zabbix_agent_user_name }}", group: "{{ zabbix_agent_user_group }}", mode: '0750' }
     - { path: "{{ zabbix_agent_logs_dir }}", owner: "{{ zabbix_agent_user_name }}", group: "{{ zabbix_agent_user_group }}", mode: '0750' }
   tags:
-    - zabbix-agent
-    - mkdir
+    - zabbix_agent
+    - config
 
 
 - name: "Copy file from template: {{ zabbix_agent_conf_file }}"
@@ -47,7 +48,7 @@
     mode: '0640'
   notify: restart zabbix-agent
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - config
 
 
@@ -62,9 +63,8 @@
     - "{{ zabbix_agent_conf_d_src }}/*.conf"
   notify: restart zabbix-agent
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - config
-    - copy
 
 
 - name: "Copy files: {{ zabbix_agent_agentscripts_dir }}/"
@@ -77,9 +77,8 @@
   with_fileglob:
     - "{{ zabbix_agent_scripts_src }}/*"
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - config
-    - copy
 
 
 - name: "Copy file from template: {{ zabbix_agent_logrotate_file }}"
@@ -90,8 +89,9 @@
     group: root
     mode: '0644'
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - config
+
 
 - name: "SELinux seboolean on: ..."
   ansible.posix.seboolean:
@@ -99,13 +99,14 @@
     state: true
     persistent: true
   when: ansible_selinux.status == "enabled"
-  with_items:
+  loop:
     - "zabbix_can_network"
     - "zabbix_run_sudo"
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - config
     - selinux
+
 
 - name: "Service start: {{ zabbix_agent_service_name }}"
   ansible.builtin.service:
@@ -114,5 +115,5 @@
     enabled: true
   register: r_zabbix_agent_start
   tags:
-    - zabbix-agent
+    - zabbix_agent
     - service

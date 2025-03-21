@@ -17,5 +17,5 @@ zabbix_agent_user_extra_groups: []
   hosts: locahost
   become: yes
   roles:
-    - zabbix-agent
+    - zabbix_agent
 ```
