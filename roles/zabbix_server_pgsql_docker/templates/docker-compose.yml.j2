@@ -1,14 +1,12 @@
 # {{ ansible_managed }}
 
 ---
-version: '3.5'
-
 {% if not zabbix_server_pgsql_docker_bind_mount_volumes %}
 volumes:
   export: {}
   snmptraps: {}
-{% endif %}
 
+{% endif %}
 services:
   zabbix-server-pgsql:
     image: "{{ zabbix_server_pgsql_docker_image }}"
@@ -16,16 +14,9 @@ services:
     restart: unless-stopped
     environment:
       TZ: "{{ zabbix_server_pgsql_docker_timezone }}"
-      #
-      DB_SERVER_HOST: "{{ zabbix_server_pgsql_db_host }}"
-      DB_SERVER_PORT: "{{ zabbix_server_pgsql_db_port }}"
-      POSTGRES_DB: "{{ zabbix_server_pgsql_db_name }}"
-      POSTGRES_USER: "{{ zabbix_server_pgsql_db_user }}"
-      POSTGRES_PASSWORD: "{{ zabbix_server_pgsql_db_pass }}"
-      #
 {% if zabbix_server_pgsql_docker_network == "host" %}
-      ZBX_LISTENIP: "{{ zabbix_server_pgsql_listen_addr }}"
-      ZBX_LISTENPORT: "{{ zabbix_server_pgsql_listen_port }}"
+      ZBX_LISTENIP: "{{ zabbix_server_pgsql_docker_listen_addr }}"
+      ZBX_LISTENPORT: "{{ zabbix_server_pgsql_docker_listen_port }}"
 {% endif %}
 {% for e in zabbix_server_pgsql_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
       {{ e.key }}: "{{ e.value }}"
@@ -37,15 +28,15 @@ services:
       - export:/var/lib/zabbix/export
       - snmptraps:/var/lib/zabbix/snmptraps
 {% else %}
-      - {{ zabbix_server_pgsql_export_dir }}:/var/lib/zabbix/export
-      - {{ zabbix_server_pgsql_snmptraps_dir }}:/var/lib/zabbix/snmptraps
+      - {{ zabbix_server_pgsql_docker_export_dir }}:/var/lib/zabbix/export
+      - {{ zabbix_server_pgsql_docker_snmptraps_dir }}:/var/lib/zabbix/snmptraps
 {% endif %}
 {% for v in zabbix_server_pgsql_docker_extra_volumes %}
       - {{ v }}
 {% endfor %}
 {% if zabbix_server_pgsql_docker_network != "host" %}
     ports:
-      - {{ zabbix_server_pgsql_listen_addr }}:{{ zabbix_server_pgsql_listen_port }}:10051
+      - {{ zabbix_server_pgsql_docker_listen_addr }}:{{ zabbix_server_pgsql_docker_listen_port }}:10051
 {% else %}
     network_mode: host
 {% endif %}

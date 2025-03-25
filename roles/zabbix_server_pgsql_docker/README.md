@@ -50,50 +50,69 @@ zabbix_server_pgsql_docker_bind_mount_volumes: true
 zabbix_server_pgsql_docker_extra_volumes: []
 ```
 
-#### zabbix_server_pgsql_export_dir
+#### zabbix_server_pgsql_docker_export_dir
 Каталог для хранения данных [real_time_export](https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/real_time_export) на диске.<br/>
 Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: false`
 ```
 # default
-zabbix_server_pgsql_export_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/export"
+zabbix_server_pgsql_docker_export_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/export"
 ```
 
-#### zabbix_server_pgsql_snmptraps_dir
+#### zabbix_server_pgsql_docker_snmptraps_dir
 Каталог для хранения данных [snmptrap](https://www.zabbix.com/documentation/6.0/en/manual/config/items/itemtypes/snmptrap) на диске.<br/>
 Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: false`
 ```
 # default
-zabbix_server_pgsql_snmptraps_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/snmptraps"
+zabbix_server_pgsql_docker_snmptraps_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/snmptraps"
 ```
 
-#### zabbix_server_pgsql_alertscripts_src
+#### zabbix_server_pgsql_docker_alertscripts_src
 Каталог, откуда будут скопированы пользовательские скрипты [Custom alert scripts](https://www.zabbix.com/documentation/6.0/en/manual/config/notifications/media/script).
 ```
 # default
-zabbix_server_pgsql_alertscripts_src: "{{ role_path }}/files/alertscripts"
+zabbix_server_pgsql_docker_alertscripts_src: "{{ role_path }}/files/alertscripts"
 
 # example
-zabbix_server_pgsql_alertscripts_src: "files/zabbix-server-pgsql/{{ inventory_hostname }}/alertscripts"
+zabbix_server_pgsql_docker_alertscripts_src: "files/zabbix-server-pgsql/{{ inventory_hostname }}/alertscripts"
 ```
 
-#### zabbix_server_pgsql_externalscripts_src
+#### zabbix_server_pgsql_docker_externalscripts_src
 Каталог, откуда будут скопированы пользовательские скрипты [External checks](https://www.zabbix.com/documentation/6.0/en/manual/config/items/itemtypes/external).
 ```
 # default
-zabbix_server_pgsql_externalscripts_src: "{{ role_path }}/files/externalscripts"
+zabbix_server_pgsql_docker_externalscripts_src: "{{ role_path }}/files/externalscripts"
 
 # example
-zabbix_server_pgsql_externalscripts_src: "files/zabbix-server-pgsql/{{ inventory_hostname }}/externalscripts"
+zabbix_server_pgsql_docker_externalscripts_src: "files/zabbix-server-pgsql/{{ inventory_hostname }}/externalscripts"
 ```
 
-#### zabbix_server_pgsql_docker_env_dict
-Переменные окружения docker контейнера.<br/>
+#### zabbix_server_pgsql_docker_listen_addr
+IP адрес, на который будут приниматься подключения.<br/>
+Специальная запись `0.0.0.0` означает, что будут использоваться все адреса.
 ```
 # default
-zabbix_server_pgsql_docker_env_dict: {}
+zabbix_server_pgsql_docker_listen_addr: "0.0.0.0"
 
 # example
-zabbix_server_pgsql_docker_env_dict:
+zabbix_server_pgsql_docker_listen_addr: "127.0.0.1"
+```
+
+#### zabbix_server_pgsql_docker_listen_port
+Номер порта, который будет перенаправлен в контейнер.
+```
+# default
+zabbix_server_pgsql_docker_listen_port: 10051
+```
+
+#### zabbix_server_pgsql_docker_environment
+Переменные окружения docker контейнера.
+```
+# default
+zabbix_server_pgsql_docker_environment: {}
+
+# example
+zabbix_server_pgsql_docker_environment:
+  POSTGRES_PASSWORD: "Pas$w0rd"
   ZBX_TIMEOUT: 5
 ```
 
@@ -188,6 +207,10 @@ ZBX_WEBSERVICEURL - WebServiceURL
 - name: "Setup Zabbix Server in Docker"
   hosts: locahost
   become: yes
+  vars:
+    zabbix_server_pgsql_docker_environment:
+      POSTGRES_PASSWORD: "Pas$w0rd"
+      ZBX_TIMEOUT: 5
   roles:
-    - zabbix-server-pgsql-docker
+    - zabbix_server_pgsql_docker
 ```

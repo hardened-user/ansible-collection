@@ -1,0 +1,27 @@
+---
+zabbix_server_pgsql_version: "7.0"
+zabbix_server_pgsql_docker_tag: "{{ zabbix_server_pgsql_version }}-alpine-latest"
+zabbix_server_pgsql_docker_image: "zabbix/zabbix-server-pgsql:{{ zabbix_server_pgsql_docker_tag }}"
+zabbix_server_pgsql_docker_uid: 1997
+zabbix_server_pgsql_docker_gid: 1995
+zabbix_server_pgsql_docker_network: bridge # "bridge" or "host" supported
+zabbix_server_pgsql_docker_bind_mount_volumes: true
+zabbix_server_pgsql_docker_timezone: "{{ timezone_name }}"
+zabbix_server_pgsql_docker_extra_volumes: []
+zabbix_server_pgsql_docker_export_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/export"
+zabbix_server_pgsql_docker_snmptraps_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/snmptraps"
+zabbix_server_pgsql_docker_alertscripts_src: "{{ role_path }}/files/alertscripts"
+zabbix_server_pgsql_docker_externalscripts_src: "{{ role_path }}/files/externalscripts"
+
+zabbix_server_pgsql_docker_listen_addr: "0.0.0.0"
+zabbix_server_pgsql_docker_listen_port: 10051
+
+zabbix_server_pgsql_docker_environment: {}
+zabbix_server_pgsql_docker_env_default:
+  DB_SERVER_HOST: "172.17.0.1"
+  DB_SERVER_PORT: 5432
+  POSTGRES_DB: "zabbix"
+  POSTGRES_USER: "zabbix"
+  POSTGRES_PASSWORD: "zabbix"
+  ZBX_TIMEOUT: 30
+  ZBX_TRAPPERTIMEOUT: 30

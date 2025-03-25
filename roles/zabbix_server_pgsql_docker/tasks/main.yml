@@ -6,13 +6,13 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
-  with_items:
+  loop:
     - { path: "{{ zabbix_server_pgsql_docker_compose_dir }}", mode: '0750' }
     - { path: "{{ zabbix_server_pgsql_docker_alertscripts_dir }}" }
     - { path: "{{ zabbix_server_pgsql_docker_externalscripts_dir }}" }
   tags:
-    - zabbix-server-pgsql
-    - mkdir
+    - zabbix_server_pgsql
+    - config
 
 
 - name: "Create directories: ..."
@@ -22,13 +22,13 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
-  with_items:
-    - { path: "{{ zabbix_server_pgsql_export_dir }}", owner: "{{ zabbix_server_pgsql_docker_uid }}", mode: '0750' }
-    - { path: "{{ zabbix_server_pgsql_snmptraps_dir }}", owner: "{{ zabbix_server_pgsql_docker_uid }}", mode: '0750' }
+  loop:
+    - { path: "{{ zabbix_server_pgsql_docker_export_dir }}", owner: "{{ zabbix_server_pgsql_docker_uid }}", mode: '0750' }
+    - { path: "{{ zabbix_server_pgsql_docker_snmptraps_dir }}", owner: "{{ zabbix_server_pgsql_docker_uid }}", mode: '0750' }
   when: zabbix_server_pgsql_docker_bind_mount_volumes
   tags:
-    - zabbix-server-pgsql
-    - mkdir
+    - zabbix_server_pgsql
+    - config
 
 
 - name: "Copy file from template: {{ zabbix_server_pgsql_docker_compose_dir }}/docker-compose.yml"
@@ -39,7 +39,7 @@
     group: root
     mode: '0600'
   tags:
-    - zabbix-server-pgsql
+    - zabbix_server_pgsql
     - config
 
 
@@ -51,11 +51,10 @@
     group: "{{ zabbix_server_pgsql_docker_gid }}"
     mode: '0750'
   with_fileglob:
-    - "{{ zabbix_server_pgsql_alertscripts_src }}/*"
+    - "{{ zabbix_server_pgsql_docker_alertscripts_src }}/*"
   tags:
-    - zabbix-server-pgsql
+    - zabbix_server_pgsql
     - config
-    - copy
 
 
 - name: "Copy files: {{ zabbix_server_pgsql_docker_externalscripts_dir }}/"
@@ -66,17 +65,16 @@
     group: "{{ zabbix_server_pgsql_docker_gid }}"
     mode: '0750'
   with_fileglob:
-    - "{{ zabbix_server_pgsql_externalscripts_src }}/*"
+    - "{{ zabbix_server_pgsql_docker_externalscripts_src }}/*"
   tags:
-    - zabbix-server-pgsql
+    - zabbix_server_pgsql
     - config
-    - copy
 
 
 - name: "docker-compose up: {{ zabbix_server_pgsql_docker_compose_dir }}"
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ zabbix_server_pgsql_docker_compose_dir }}"
-    pull: true
+    pull: always
   tags:
-    - zabbix-server-pgsql
+    - zabbix_server_pgsql
     - docker-compose
