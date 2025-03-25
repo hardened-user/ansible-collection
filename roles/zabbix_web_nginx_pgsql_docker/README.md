@@ -13,14 +13,14 @@ zabbix_web_nginx_pgsql_version: "7.0"
 ```
 
 
-#### zabbix_web_nginx_pgsql_docker_env_dict
-Переменные окружения docker контейнера.<br/>
+#### zabbix_server_pgsql_docker_environment
+Переменные окружения docker контейнера.
 ```
 # default
-zabbix_web_nginx_pgsql_docker_env_dict: {}
+zabbix_server_pgsql_docker_environment: {}
 
 # example
-zabbix_web_nginx_pgsql_docker_env_dict:
+zabbix_server_pgsql_docker_environment:
   ZBX_MEMORYLIMIT: 128M
 ```
 
@@ -32,8 +32,8 @@ zabbix_web_nginx_pgsql_docker_env_dict:
   hosts: locahost
   become: yes
   vars:
-    zabbix_web_nginx_pgsql_docker_env_dict:
+    zabbix_server_pgsql_docker_environment:
       ENABLE_WEB_ACCESS_LOG: "false"
   roles:
-    - zabbix-web-nginx-pgsql-docker
+    - zabbix_web_nginx_pgsql_docker
 ```

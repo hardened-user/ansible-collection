@@ -6,11 +6,11 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0755') }}"
-  with_items:
+  loop:
     - { path: "{{ zabbix_web_nginx_pgsql_docker_compose_dir }}", mode: '0750' }
   tags:
-    - zabbix-web-nginx-pgsql
-    - mkdir
+    - zabbix_web_nginx_pgsql
+    - config
 
 
 - name: "Copy file from template: {{ zabbix_web_nginx_pgsql_docker_compose_dir }}/docker-compose.yml"
@@ -21,14 +21,14 @@
     group: root
     mode: '0600'
   tags:
-    - zabbix-web-nginx-pgsql
+    - zabbix_web_nginx_pgsql
     - config
 
 
 - name: "docker-compose up: {{ zabbix_web_nginx_pgsql_docker_compose_dir }}"
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ zabbix_web_nginx_pgsql_docker_compose_dir }}"
-    pull: true
+    pull: always
   tags:
-    - zabbix-web-nginx-pgsql
+    - zabbix_web_nginx_pgsql
     - docker-compose

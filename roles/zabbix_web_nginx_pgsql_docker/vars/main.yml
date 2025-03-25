@@ -2,4 +2,4 @@
 zabbix_web_nginx_pgsql_docker_compose_dir: "/srv/zabbix-web-nginx-pgsql-{{ zabbix_web_nginx_pgsql_version }}"
 zabbix_web_nginx_pgsql_docker_container_name: "zabbix-web-nginx-pgsql-{{ zabbix_web_nginx_pgsql_version }}"
 
-zabbix_web_nginx_pgsql_docker_env_runtime: "{{ zabbix_web_nginx_pgsql_docker_env_default | combine(zabbix_web_nginx_pgsql_docker_env_dict) }}"
+zabbix_web_nginx_pgsql_docker_env_runtime: "{{ zabbix_web_nginx_pgsql_docker_env_default | combine(zabbix_server_pgsql_docker_environment) }}"

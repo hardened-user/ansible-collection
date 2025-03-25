@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+---
+services:
+  zabbix-web-nginx-pgsql:
+    image: "{{ zabbix_web_nginx_pgsql_docker_image }}"
+    container_name: "{{ zabbix_web_nginx_pgsql_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ zabbix_web_nginx_pgsql_docker_timezone }}"
+{% for e in zabbix_web_nginx_pgsql_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ e.key }}: "{{ e.value }}"
+{% endfor %}
+    ports:
+      - {{ zabbix_web_nginx_pgsql_docker_listen_addr }}:{{ zabbix_web_nginx_pgsql_listen_http_port }}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"
