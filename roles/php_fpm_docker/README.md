@@ -145,7 +145,7 @@ php_fpm_docker_listen_addr: "127.0.0.1"
 ```
 
 #### php_fpm_docker_listen_port
-Номера портов, которые будут перенаправлены в контейнер.<br/>
+Номер порта, который будет перенаправлен в контейнер.<br/>
 Используется если `php_fpm_docker_tcp_enabled == true`.
 ```
 # default
