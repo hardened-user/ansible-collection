@@ -89,7 +89,7 @@ keycloak_docker_listen_port: ["{{ keycloak_http_port }}", "{{ keycloak_http_mana
 
 #### keycloak_docker_environment
 Пользовательская конфигурация переменных окружения.<br/>
-Перезаписывает `keycloak_docker_env_default`, значение `null` удалит перемнную.
+Перезаписывает `keycloak_docker_env_default`, значение `null` удалит переменную.
 ```
 # default
 keycloak_docker_environment: {}
