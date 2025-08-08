@@ -1,0 +1,11 @@
+---
+node_exporter_version: "1.9.1"
+node_exporter_docker_tag: "v{{ node_exporter_version }}"
+node_exporter_docker_image: "prom/node-exporter:{{ node_exporter_docker_tag }}"
+node_exporter_docker_timezone: "{{ timezone_name }}"
+
+node_exporter_docker_listen_addr: "0.0.0.0"
+node_exporter_docker_listen_port: 9100
+
+node_exporter_flags:
+  - "--collector.filesystem.mount-points-exclude=^/(dev|proc|run|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)"

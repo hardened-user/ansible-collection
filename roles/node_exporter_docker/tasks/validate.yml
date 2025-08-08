@@ -1,0 +1,30 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - node_exporter_version
+    - node_exporter_docker_tag
+    - node_exporter_docker_image
+    - node_exporter_docker_timezone
+    - node_exporter_docker_listen_addr
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - node_exporter_docker_listen_port
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - node_exporter_flags

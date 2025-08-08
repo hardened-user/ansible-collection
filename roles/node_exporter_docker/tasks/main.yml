@@ -1,0 +1,41 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - node_exporter
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ node_exporter_docker_compose_dir }}", mode: '0750' }
+  tags:
+    - node_exporter
+    - config
+
+
+- name: "Copy file from template: {{ node_exporter_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ node_exporter_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - node_exporter
+    - config
+
+
+- name: "docker-compose up: {{ node_exporter_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ node_exporter_docker_compose_dir }}"
+    pull: always
+  tags:
+    - node_exporter
+    - docker-compose
