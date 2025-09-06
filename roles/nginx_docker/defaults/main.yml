@@ -1,5 +1,5 @@
 ---
-nginx_version: "1.26"
+nginx_version: "1.28"
 nginx_docker_tag: "{{ nginx_version }}"
 nginx_docker_image: "nginx:{{ nginx_docker_tag }}"
 nginx_docker_instance: ""

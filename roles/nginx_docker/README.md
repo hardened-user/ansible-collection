@@ -9,7 +9,7 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-nginx_version: "1.26"
+nginx_version: "1.28"
 ```
 
 #### nginx_docker_instance
