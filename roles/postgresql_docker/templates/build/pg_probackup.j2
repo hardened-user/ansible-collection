@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 # PostgreSQL image with pg_probackup utility.
-FROM postgres:{{ postgresql_version }}
+FROM {{ postgresql_docker_image }}
 
 RUN apt-get update && \
     apt-get install -y ca-certificates wget && \
