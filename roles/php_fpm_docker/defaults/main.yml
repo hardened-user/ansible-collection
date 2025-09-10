@@ -1,5 +1,5 @@
 ---
-php_fpm_version: "8.2"
+php_fpm_version: "8.4"
 php_fpm_docker_tag: "{{ php_fpm_version }}-fpm"
 php_fpm_docker_image: "php:{{ php_fpm_docker_tag }}"
 php_fpm_docker_instance: "{{ php_fpm_version.split('.')[0:2] | join('.') }}"
