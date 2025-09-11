@@ -1,0 +1,20 @@
+---
+vm_single_version: "1.125.1"
+vm_single_docker_tag: "v{{ vm_single_version }}"
+vm_single_docker_image: "victoriametrics/victoria-metrics:{{ vm_single_docker_tag }}"
+vm_single_docker_instance: ""  # "{{ vm_single_version | trim }}"
+vm_single_docker_network: bridge # "bridge" or "host" supported
+vm_single_docker_timezone: "{{ timezone_name }}"
+vm_single_docker_bind_mount_volumes: true
+vm_single_docker_data_dir: "{{ vm_single_docker_compose_dir }}/data"
+vm_single_docker_extra_volumes: []
+
+vm_single_docker_listen_addr: "0.0.0.0"
+vm_single_docker_listen_port: 8428
+
+
+### postgresql.conf ----------------------------------------------------------------------------------------------------
+vm_single_conf_dict: {}
+vm_single_conf_default:
+  retentionPeriod: "1"     # Период хранения данных 1 месяц
+  selfScrapeInterval: "30s" # Само-мониторинг (https://docs.victoriametrics.com/#monitoring)

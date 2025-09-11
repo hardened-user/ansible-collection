@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+
+---
+{% if vm_single_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+
+{% endif %}
+services:
+  node_exporter:
+    image: "{{ vm_single_docker_image }}"
+    container_name: "{{ vm_single_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ vm_single_docker_timezone }}"
+    command:
+{% if vm_single_docker_network != "host" %}
+      - '-httpListenAddr={{ vm_single_docker_listen_addr }}:{{ vm_single_docker_listen_port }}'
+{% else %}
+      - '-httpListenAddr=:8428'
+{% endif %}
+{% for x in vm_single_conf_runtime | dict2items | rejectattr('value', 'none') %}
+      - '-{{ x.key }}={{ x.value }}'
+{% endfor %}
+    volumes:
+{% if vm_single_docker_bind_mount_volumes is sameas false %}
+      - data:/storage
+{% else %}
+      - {{ vm_single_docker_data_dir }}:/storage
+{% endif %}
+{% for v in vm_single_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if vm_single_docker_network != "host" %}
+    ports:
+      - {{ vm_single_docker_listen_addr }}:{{ vm_single_docker_listen_port }}:8428
+{% else %}
+    network_mode: host
+{% endif %}
+    network_mode: host
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

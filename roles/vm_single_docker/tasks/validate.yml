@@ -1,0 +1,52 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - vm_single_version
+    - vm_single_docker_tag
+    - vm_single_docker_image
+    - vm_single_docker_instance
+    - vm_single_docker_network
+    - vm_single_docker_timezone
+    - vm_single_docker_data_dir
+    - vm_single_docker_listen_addr
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - vm_single_docker_listen_port
+
+
+- name: "Ensure that variable is boolean"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "The variable must be a boolean"
+  loop:
+    - vm_single_docker_bind_mount_volumes
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - vm_single_docker_extra_volumes
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - vm_single_conf_dict
+    - vm_single_conf_default

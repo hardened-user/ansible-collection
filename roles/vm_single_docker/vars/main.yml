@@ -1,0 +1,4 @@
+---
+vm_single_docker_compose_dir: "/srv/vm-single{{ '-' + vm_single_docker_instance if vm_single_docker_instance }}"
+vm_single_docker_container_name: "vm-single{{ '-' + vm_single_docker_instance if vm_single_docker_instance }}"
+vm_single_conf_runtime: "{{ vm_single_conf_default | combine(vm_single_conf_dict) }}"
