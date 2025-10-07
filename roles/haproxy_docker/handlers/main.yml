@@ -1,0 +1,7 @@
+---
+- name: "restart haproxy-docker"
+  community.docker.docker_compose_v2:
+    project_src: "{{ haproxy_docker_compose_dir }}"
+    state: restarted
+    timeout: 60
+  when: not r_haproxy_docker_start_result.changed

@@ -1,0 +1,61 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - haproxy
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ haproxy_docker_compose_dir }}", mode: '0750' }
+  tags:
+    - haproxy
+    - config
+
+
+- name: "Copy file from template: {{ haproxy_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ haproxy_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - haproxy
+    - config
+
+
+- name: "Copy file from template: {{ haproxy_docker_compose_dir }}/haproxy.cfg"
+  ansible.builtin.template:
+    src: "{{ haproxy_config_template }}"
+    dest: "{{ haproxy_docker_compose_dir }}/haproxy.cfg"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart haproxy-docker
+  tags:
+    - haproxy
+    - config
+
+
+- name: "docker-compose up: {{ haproxy_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ haproxy_docker_compose_dir }}"
+    pull: always
+  register: r_haproxy_docker_start_result
+  tags:
+    - haproxy
+    - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - haproxy

@@ -1,0 +1,27 @@
+# {{ ansible_managed }}
+
+---
+services:
+  haproxy:
+    image: "{{ haproxy_docker_image }}"
+    container_name: "{{ haproxy_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ haproxy_docker_timezone }}"
+    volumes:
+      - {{ haproxy_docker_compose_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+{% for v in haproxy_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if haproxy_docker_network != "host" %}
+    ports:
+{% for p in haproxy_docker_listen_port %}
+      - {{ haproxy_docker_listen_addr }}:{{ p }}:{{ p }}
+{% endfor %}
+{% else %}
+    network_mode: host
+{% endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "8m"

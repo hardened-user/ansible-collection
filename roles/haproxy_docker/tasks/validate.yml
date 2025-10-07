@@ -1,0 +1,26 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - haproxy_version
+    - haproxy_docker_tag
+    - haproxy_docker_image
+    - haproxy_docker_instance
+    - haproxy_docker_network
+    - haproxy_docker_timezone
+    - haproxy_docker_listen_addr
+    - haproxy_config_template
+    - haproxy_config_raw
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - haproxy_docker_extra_volumes
+    - haproxy_docker_listen_port

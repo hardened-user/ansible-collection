@@ -1,0 +1,14 @@
+---
+haproxy_version: "3.2"
+haproxy_docker_tag: "{{ haproxy_version }}"
+haproxy_docker_image: "haproxy:{{ haproxy_docker_tag }}"
+haproxy_docker_instance: ""  # "{{ haproxy_version | trim }}"
+haproxy_docker_network: bridge # "bridge" or "host" supported
+haproxy_docker_timezone: "{{ timezone_name }}"
+haproxy_docker_extra_volumes: []
+
+haproxy_docker_listen_addr: "0.0.0.0"
+haproxy_docker_listen_port: [9000]
+
+haproxy_config_template: "haproxy.cfg.j2"
+haproxy_config_raw: |

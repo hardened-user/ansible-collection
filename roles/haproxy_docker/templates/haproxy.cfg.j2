@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+{% if haproxy_config_raw | length > 1 %}
+{{ haproxy_config_raw }}
+{% else %}
+global
+  maxconn 1000
+
+defaults
+  log global
+  mode tcp
+  retries 2
+  timeout client 30m
+  timeout connect 4s
+  timeout server 30m
+  timeout check 5s
+
+listen stats
+    bind *:9000
+    mode http
+    stats enable
+    stats uri /
+{% endif %}

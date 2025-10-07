@@ -1,0 +1,3 @@
+---
+haproxy_docker_compose_dir: "/srv/haproxy{{ '-' + haproxy_docker_instance if haproxy_docker_instance }}"
+haproxy_docker_container_name: "haproxy{{ '-' + haproxy_docker_instance if haproxy_docker_instance }}"
