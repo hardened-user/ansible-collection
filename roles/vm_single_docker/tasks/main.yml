@@ -2,7 +2,7 @@
 - name: "Validate"
   ansible.builtin.include_tasks: "validate.yml"
   tags:
-    - node_exporter
+    - vm_single
     - validate
 
 
@@ -16,7 +16,7 @@
   loop:
     - { path: "{{ vm_single_docker_compose_dir }}", mode: '0750' }
   tags:
-    - node_exporter
+    - vm_single
     - config
 
 
@@ -28,7 +28,7 @@
     group: root
     mode: '0600'
   tags:
-    - node_exporter
+    - vm_single
     - config
 
 
@@ -37,5 +37,5 @@
     project_src: "{{ vm_single_docker_compose_dir }}"
     pull: always
   tags:
-    - node_exporter
+    - vm_single
     - docker-compose

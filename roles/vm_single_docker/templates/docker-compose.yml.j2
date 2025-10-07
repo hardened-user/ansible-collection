@@ -7,7 +7,7 @@ volumes:
 
 {% endif %}
 services:
-  node_exporter:
+  vm_single:
     image: "{{ vm_single_docker_image }}"
     container_name: "{{ vm_single_docker_container_name }}"
     restart: unless-stopped
