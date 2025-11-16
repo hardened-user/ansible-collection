@@ -1,0 +1,7 @@
+---
+- name: "restart opensearch-dashboards-docker"
+  community.docker.docker_compose_v2:
+    project_src: "{{ opensearch_dashboards_docker_compose_dir }}"
+    state: restarted
+    timeout: 60
+  when: not r_opensearch_dashboards_start_result.changed

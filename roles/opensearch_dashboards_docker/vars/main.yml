@@ -1,0 +1,5 @@
+---
+opensearch_dashboards_short_version: "{{ opensearch_dashboards_version.split('.')[:-1] | join('.') }}"
+opensearch_dashboards_docker_compose_dir: "/srv/opensearch-dashboards-{{ opensearch_dashboards_short_version }}"
+opensearch_dashboards_docker_container_name: "opensearch-dashboards-{{ opensearch_dashboards_short_version }}"
+opensearch_dashboards_docker_env_runtime: "{{ opensearch_dashboards_docker_env_default | combine(opensearch_dashboards_docker_environment) }}"

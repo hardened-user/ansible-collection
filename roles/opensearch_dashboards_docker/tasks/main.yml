@@ -1,0 +1,63 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - opensearch_dashboards
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0750') }}"
+  loop:
+    - { path: "{{ opensearch_dashboards_docker_compose_dir }}", mode: '0750' }
+  tags:
+    - opensearch_dashboards
+    - config
+
+
+- name: "Copy file from template: {{ opensearch_dashboards_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ opensearch_dashboards_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - opensearch_dashboards
+    - config
+
+
+- name: "Configure sysctl: /etc/sysctl.d/90-opensearch-dashboards.conf"
+  ansible.posix.sysctl:
+    sysctl_file: "/etc/sysctl.d/90-opensearch-dashboards.conf"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: true
+    reload: true
+  loop:
+    - { name: vm.max_map_count, value: 262144 }
+  tags:
+    - opensearch_dashboards
+    - config
+
+
+- name: "docker-compose up: {{ opensearch_dashboards_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ opensearch_dashboards_docker_compose_dir }}"
+    pull: always
+  register: r_opensearch_dashboards_start_result
+  tags:
+    - opensearch_dashboards
+    - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - opensearch_dashboards

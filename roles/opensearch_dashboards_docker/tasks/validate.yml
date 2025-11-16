@@ -1,0 +1,43 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - opensearch_dashboards_version
+    - opensearch_dashboards_docker_tag
+    - opensearch_dashboards_docker_image
+    - opensearch_dashboards_docker_instance
+    - opensearch_dashboards_docker_network
+    - opensearch_dashboards_docker_timezone
+    - opensearch_dashboards_docker_listen_addr
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - opensearch_dashboards_docker_listen_port
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - opensearch_dashboards_docker_compose_extra_conf
+    - opensearch_dashboards_docker_environment
+    - opensearch_dashboards_docker_env_default
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - opensearch_dashboards_opensearch_hosts

@@ -1,0 +1,16 @@
+---
+opensearch_dashboards_version: "2.19.3"
+opensearch_dashboards_docker_tag: "{{ opensearch_dashboards_version }}"
+opensearch_dashboards_docker_image: "opensearchproject/opensearch-dashboards:{{ opensearch_dashboards_docker_tag }}"
+opensearch_dashboards_docker_instance: ""
+opensearch_dashboards_docker_network: bridge # "bridge" or "host" supported
+opensearch_dashboards_docker_compose_extra_conf: {}
+opensearch_dashboards_docker_timezone: "{{ timezone_name }}"
+
+opensearch_dashboards_docker_listen_addr: "0.0.0.0"
+opensearch_dashboards_docker_listen_port: 5601
+
+### opensearch dashboards ----------------------------------------------------------------------------------------------
+opensearch_dashboards_opensearch_hosts: ["http://localhost:9200"]
+opensearch_dashboards_docker_environment: {}
+opensearch_dashboards_docker_env_default: {}

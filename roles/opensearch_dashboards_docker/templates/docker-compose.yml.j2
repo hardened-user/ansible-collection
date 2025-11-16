@@ -1,0 +1,27 @@
+# {{ ansible_managed }}
+
+---
+services:
+  opensearch-dashboards:
+    image: "{{ opensearch_dashboards_docker_image }}"
+    container_name: "{{ opensearch_dashboards_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ opensearch_dashboards_docker_timezone }}"
+{% if opensearch_dashboards_docker_network == "host" %}
+      SERVER_HOST: "{{ opensearch_dashboards_docker_listen_addr }}"
+      SERVER_PORT: "{{ opensearch_dashboards_docker_listen_port }}"
+{% endif %}
+      OPENSEARCH_HOSTS: '["{{ opensearch_dashboards_opensearch_hosts | join('", "') }}"]'
+{% for x in opensearch_dashboards_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ x.key }}: "{{ x.value }}"
+{% endfor %}
+{% if opensearch_dashboards_docker_network != "host" %}
+    ports:
+      - {{ opensearch_dashboards_docker_listen_addr }}:{{ opensearch_dashboards_docker_listen_port }}:5601
+{% else %}
+    network_mode: host
+{% endif %}
+{% if opensearch_docker_compose_extra_conf %}
+{{ opensearch_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}
