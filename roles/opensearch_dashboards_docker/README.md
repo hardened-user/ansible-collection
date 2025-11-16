@@ -40,8 +40,8 @@ opensearch_dashboards_opensearch_hosts: ["http://localhost:9200"]
 ```
 
 #### opensearch_dashboards_docker_environment
-Произвольная конфигурация `opensearch.yml`.<br/>
-Параметры, через переменные окружения, подставляются скриптом `opensearch-docker-entrypoint.sh` в аргументы командной строки.
+Пользовательская конфигурация переменных окружения.<br/>
+Перезаписывает `opensearch_dashboards_docker_env_default`, значение `null` удалит переменную.
 ```
 # default
 opensearch_dashboards_docker_environment: {}
