@@ -1,24 +1,29 @@
 ---
-opensearch_version: "2.8.0"
+opensearch_version: "2.19.3"
 opensearch_docker_tag: "{{ opensearch_version }}"
 opensearch_docker_image: "opensearchproject/opensearch:{{ opensearch_docker_tag }}"
+opensearch_docker_instance: ""
 opensearch_docker_uid: 1000
 opensearch_docker_gid: 1000
 opensearch_docker_network: bridge # "bridge" or "host" supported
+opensearch_docker_compose_extra_conf: {}
 opensearch_docker_bind_mount_volumes: true
 opensearch_docker_timezone: "{{ timezone_name }}"
 opensearch_docker_extra_volumes: []
-opensearch_data_dir: "{{ opensearch_docker_compose_dir }}/data"
-opensearch_logs_dir: "{{ opensearch_docker_compose_dir }}/logs"
+opensearch_docker_data_dir: "{{ opensearch_docker_compose_dir }}/data"
+opensearch_docker_logs_dir: "{{ opensearch_docker_compose_dir }}/logs"
 
-opensearch_listen_addr: "0.0.0.0"
-opensearch_listen_port: 9200
+opensearch_docker_listen_addr: "0.0.0.0"
+opensearch_docker_listen_port: 9200
 
-### opensearch.yml -----------------------------------------------------------------------------------------------------
+
+### opensearch ---------------------------------------------------------------------------------------------------------
 opensearch_discovery_type: "single-node"
 opensearch_cluster_name: "docker-cluster"
 opensearch_node_name: "{{ ansible_hostname }}"
 opensearch_plugins_security_enabled: true
 opensearch_plugins_security_ssl_http_enabled: false
-opensearch_conf_dict: {}
-opensearch_conf_default: {}
+opensearch_initial_admin_password: ""
+
+opensearch_docker_environment: {}
+opensearch_docker_env_default: {}

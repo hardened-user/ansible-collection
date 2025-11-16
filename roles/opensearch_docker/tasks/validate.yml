@@ -6,8 +6,18 @@
     fail_msg: "The variable must be a string"
   loop:
     - opensearch_version
+    - opensearch_docker_tag
+    - opensearch_docker_image
+    - opensearch_docker_instance
     - opensearch_docker_network
     - opensearch_docker_timezone
+    - opensearch_docker_data_dir
+    - opensearch_docker_logs_dir
+    - opensearch_docker_listen_addr
+    - opensearch_discovery_type
+    - opensearch_cluster_name
+    - opensearch_node_name
+    - opensearch_initial_admin_password
 
 
 - name: "Ensure that variable is integer"
@@ -18,7 +28,7 @@
   loop:
     - opensearch_docker_uid
     - opensearch_docker_gid
-    - opensearch_listen_port
+    - opensearch_docker_listen_port
 
 
 - name: "Ensure that variable is boolean"
@@ -39,3 +49,14 @@
     fail_msg: "The variable must be a list"
   loop:
     - opensearch_docker_extra_volumes
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - opensearch_docker_compose_extra_conf
+    - opensearch_docker_environment
+    - opensearch_docker_env_default

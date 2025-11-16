@@ -1,0 +1,4 @@
+---
+opensearch_docker_compose_dir: "/srv/opensearch{{ '-' + opensearch_docker_instance if opensearch_docker_instance }}"
+opensearch_docker_container_name: "opensearch{{ '-' + opensearch_docker_instance if opensearch_docker_instance }}"
+opensearch_docker_env_runtime: "{{ opensearch_docker_env_default | combine(opensearch_docker_environment) }}"

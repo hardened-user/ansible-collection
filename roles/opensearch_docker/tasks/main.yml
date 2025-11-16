@@ -17,7 +17,7 @@
     - { path: "{{ opensearch_docker_compose_dir }}", mode: '0750' }
   tags:
     - opensearch
-    - mkdir
+    - config
 
 
 - name: "Create directories: ..."
@@ -29,11 +29,11 @@
     mode: '0700'
   when: opensearch_docker_bind_mount_volumes
   loop:
-    - { path: "{{ opensearch_data_dir }}" }
-    - { path: "{{ opensearch_logs_dir }}" }
+    - { path: "{{ opensearch_docker_data_dir }}" }
+    - { path: "{{ opensearch_docker_logs_dir }}" }
   tags:
     - opensearch
-    - mkdir
+    - config
 
 
 - name: "Copy file from template: {{ opensearch_docker_compose_dir }}/docker-compose.yml"
@@ -48,7 +48,7 @@
     - config
 
 
-- name: "Configure sysctl: /etc/sysctl.d/99-opensearch.conf"
+- name: "Configure sysctl: /etc/sysctl.d/90-opensearch.conf"
   ansible.posix.sysctl:
     sysctl_file: "/etc/sysctl.d/99-opensearch.conf"
     name: "{{ item.name }}"
@@ -61,14 +61,19 @@
   tags:
     - opensearch
     - config
-    - sysctl
 
 
 - name: "docker-compose up: {{ opensearch_docker_compose_dir }}"
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ opensearch_docker_compose_dir }}"
-    pull: true
+    pull: always
   register: r_opensearch_start_result
   tags:
     - opensearch
     - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - opensearch
