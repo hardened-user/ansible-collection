@@ -12,6 +12,7 @@
     owner: root
     group: root
     mode: '0644'
+  when: ansible_distribution != 'Altlinux'
   tags:
     - docker_ce_repo
     - download
@@ -25,6 +26,7 @@
     group: root
     mode: '0644'
   register: _result
+  when: ansible_distribution != 'Altlinux'
   tags:
     - docker_ce_repo
     - config

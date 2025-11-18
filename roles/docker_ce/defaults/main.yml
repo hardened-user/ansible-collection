@@ -6,5 +6,4 @@ docker_ce_systemd_environment: {}
 docker_ce_systemd_requires: []
 
 ### daemon.json --------------------------------------------------------------------------------------------------------
-docker_ce_conf_dict: {}
-docker_ce_conf_default: {}
+docker_ce_config: {}

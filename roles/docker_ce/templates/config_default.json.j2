@@ -1,0 +1,25 @@
+{% if ansible_distribution == 'Altlinux' %}
+{# ALT 8 SP Server (cliff) #}
+{
+    "init-path": "/usr/bin/tini",
+    "userland-proxy-path": "/usr/bin/docker-proxy",
+    "default-runtime": "docker-runc",
+    "live-restore": true,
+    "log-driver": "journald",
+    "runtimes": {
+        "docker-runc": {
+            "path": "/usr/bin/runc"
+        }
+    },
+    "default-ulimits": {
+        "nofile": {
+            "Name": "nofile",
+            "Hard": 64000,
+            "Soft": 64000
+        }
+    },
+    "storage-driver": "overlay2"
+}
+{% else %}
+{}
+{% endif %}

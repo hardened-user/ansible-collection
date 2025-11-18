@@ -1,0 +1,6 @@
+---
+docker_ce_remove_packages: []
+
+docker_ce_install_packages:
+  - "{{ 'docker-engine=' + docker_ce_version if docker_ce_version else 'docker-engine' }}"
+  - "docker-compose-v2"

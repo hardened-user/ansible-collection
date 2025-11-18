@@ -15,8 +15,8 @@
     fail_msg: "The variable must be a dictionary"
   loop:
     - docker_ce_systemd_environment
-    - docker_ce_conf_dict
-    - docker_ce_conf_default
+    - docker_ce_config
+    - _docker_ce_conf_default
 
 
 - name: "Ensure that variable is list"

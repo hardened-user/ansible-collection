@@ -16,7 +16,7 @@ docker_ce_version: "5:23.0.5-1~ubuntu.22.04~jammy"
 ```
 
 ```
-docker_ce_conf_dict:
+docker_ce_config:
   storage-driver: "btrfs"
   bip: "172.17.0.1/24"
   default-address-pools:

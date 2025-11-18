@@ -1,0 +1,7 @@
+---
+- name: "Update package lists"
+  ansible.builtin.apt_rpm:
+    update_cache: true
+  tags:
+    - docker_ce_repo
+    - packages

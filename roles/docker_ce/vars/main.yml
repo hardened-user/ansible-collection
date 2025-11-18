@@ -6,4 +6,4 @@ docker_ce_service_name: "docker"
 docker_ce_systemd_override_dir: "/etc/systemd/system/{{ docker_ce_service_name }}.service.d"
 docker_ce_systemd_override_file: "{{ docker_ce_systemd_override_dir }}/override.conf"
 
-docker_ce_conf_runtime: "{{ docker_ce_conf_default | combine(docker_ce_conf_dict) }}"
+docker_ce_conf_runtime: "{{ _docker_ce_conf_default | combine(docker_ce_config) }}"
