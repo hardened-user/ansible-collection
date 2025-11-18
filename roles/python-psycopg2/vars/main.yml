@@ -1,2 +1,8 @@
 ---
-python_psycopg2_package_name: "{{ 'python3-psycopg2' if ansible_python.version.major | string == '3' else 'python-psycopg2' }}"
+python_psycopg2_package_name: |-
+  {%- if ansible_distribution == 'Altlinux' -%}
+  {# ALT 8 SP Server (cliff) #}
+  {{ 'python3-module-psycopg2' if ansible_python.version.major | string == '3' else 'python-module-psycopg2' }}
+  {%- else -%}
+  {{ 'python3-psycopg2' if ansible_python.version.major | string == '3' else 'python-psycopg2' }}
+  {%- endif -%}
