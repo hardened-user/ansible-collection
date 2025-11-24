@@ -1,7 +1,7 @@
 ---
 - name: "Ensure that variable is string"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    that: vars[item] | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
     quiet: true
     fail_msg: "The variable must be a string"
   loop:
