@@ -21,7 +21,7 @@
 
 - name: "Ensure that variable is integer"
   ansible.builtin.assert:
-    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$")
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
     quiet: true
     fail_msg: "Variable must be an integer"
   loop:
