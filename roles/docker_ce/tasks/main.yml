@@ -1,7 +1,7 @@
 ---
 - name: "Internal variables"
   ansible.builtin.set_fact:
-    _docker_ce_conf_default: "{{ lookup('template', 'config_default.json.j2') }}"
+    _docker_ce_conf_default: "{{ lookup('template', 'docker_ce_conf_default.j2') }}"
   tags:
     - docker_ce
 
