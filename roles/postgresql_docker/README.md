@@ -104,12 +104,12 @@ postgresql_docker_extra_volumes:
 postgresql_extra_users: []
 ```
 
-#### postgresql_conf_dict
+#### postgresql_config
 Пользовательская конфигурация `postgresql.conf`.<br/>
 Перезаписывает `postgresql_conf_default`, значение `null` удалит переменную.
 ```
 # default
-postgresql_conf_dict: {}
+postgresql_config: {}
 ```
 
 #### postgresql_conf_default
@@ -161,7 +161,7 @@ postgresql_tls_cert_key: |-
   hosts: locahost
   become: yes
   vars:
-    postgresql_conf_dict:
+    postgresql_config:
       shared_buffers: 2GB
     postgresql_tls_enabled: true
     postgresql_tls_cert_crt: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.pem') }}"

@@ -58,7 +58,7 @@
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:
-    - postgresql_conf_dict
+    - postgresql_config
 
 
 - name: "Ensure that password_encryption is valid"

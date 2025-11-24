@@ -21,7 +21,7 @@ postgresql_bootstrap_base: "postgres"
 postgresql_extra_users: []
 
 ### postgresql.conf ----------------------------------------------------------------------------------------------------
-postgresql_conf_dict: {}
+postgresql_config: {}
 postgresql_conf_default:
   max_connections: 100
   shared_buffers: 128MB

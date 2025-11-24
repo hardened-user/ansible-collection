@@ -11,5 +11,6 @@
 - name: "Internal variables"
   ansible.builtin.set_fact:
     _postgresql_docker_build_enabled: "{{ postgresql_docker_build_template | length > 1 }}"
+    _postgresql_docker_conf_default: "{{ lookup('template', 'docker_ce_conf_default.j2') }}"
   tags:
     - postgresql
