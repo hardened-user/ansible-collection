@@ -40,6 +40,7 @@ postgresql_conf_default:
   lc_time: "en_US.utf8"
   default_text_search_config: "pg_catalog.english"
   password_encryption: "scram-sha-256"
+  shared_preload_libraries: "pg_stat_statements"
 
 ### pg_hba.conf --------------------------------------------------------------------------------------------------------
 postgresql_pg_hba_conf_list:
