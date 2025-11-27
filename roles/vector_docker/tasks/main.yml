@@ -1,0 +1,83 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - vector
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ vector_docker_compose_dir }}", mode: '0750' }
+  tags:
+    - vector
+    - config
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  when: vector_docker_bind_mount_volumes
+  loop:
+    - { path: "{{ vector_docker_data_dir }}" }
+  tags:
+    - vector
+    - config
+
+
+- name: "Copy file from template: {{ vector_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ vector_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - vector
+    - config
+
+
+- name: "Create file: {{ vector_docker_conf_file }}"
+  ansible.builtin.copy:
+    dest: "{{ vector_docker_conf_file }}"
+    content: |-
+      {%- if vector_config is mapping -%}
+      ---
+      {{ vector_config | to_nice_yaml(indent=2) }}
+      {%- else -%}
+      {{ vector_config | string }}
+      {%- endif -%}
+    owner: root
+    group: root
+    mode: '0640'
+    force: true
+  notify: restart vector-docker
+  tags:
+    - vector
+    - config
+
+
+- name: "docker-compose up: {{ vector_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ vector_docker_compose_dir }}"
+    pull: always
+  register: r_vector_docker_start_result
+  tags:
+    - vector
+    - docker-compose
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - vector

@@ -1,0 +1,4 @@
+---
+vector_docker_compose_dir: "/srv/vector{{ '-' + vector_docker_instance if vector_docker_instance }}"
+vector_docker_container_name: "vector{{ '-' + vector_docker_instance if vector_docker_instance }}"
+vector_docker_conf_file: "{{ vector_docker_compose_dir }}/vector.yaml"

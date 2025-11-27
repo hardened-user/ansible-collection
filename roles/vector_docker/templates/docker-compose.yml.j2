@@ -1,0 +1,29 @@
+# {{ ansible_managed }}
+
+---
+{% if vector_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+
+{% endif %}
+services:
+  vector:
+    image: "{{ vector_docker_image }}"
+    container_name: "{{ vector_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ vector_docker_timezone }}"
+    volumes:
+      - {{ vector_docker_conf_file }}:/etc/vector/vector.yaml
+{% if vector_docker_bind_mount_volumes is sameas false %}
+      - data:/var/lib/vector
+{% else %}
+      - {{ vector_docker_data_dir }}:/var/lib/vector
+{% endif %}
+{% for v in vector_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+    network_mode: host
+{% if vector_docker_compose_extra_conf %}
+{{ vector_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}

@@ -1,0 +1,7 @@
+---
+- name: "restart vector-docker"
+  community.docker.docker_compose_v2:
+    project_src: "{{ vector_docker_compose_dir }}"
+    state: restarted
+    timeout: 60
+  when: not r_vector_docker_start_result.changed
