@@ -22,6 +22,6 @@ services:
 {% else %}
     network_mode: host
 {% endif %}
-{% if opensearch_docker_compose_extra_conf %}
-{{ opensearch_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% if opensearch_dashboards_docker_compose_extra_conf %}
+{{ opensearch_dashboards_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
 {% endif %}

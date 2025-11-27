@@ -6,9 +6,9 @@ opensearch_docker_instance: ""
 opensearch_docker_uid: 1000
 opensearch_docker_gid: 1000
 opensearch_docker_network: bridge # "bridge" or "host" supported
+opensearch_docker_timezone: "{{ timezone_name }}"
 opensearch_docker_compose_extra_conf: {}
 opensearch_docker_bind_mount_volumes: true
-opensearch_docker_timezone: "{{ timezone_name }}"
 opensearch_docker_extra_volumes: []
 opensearch_docker_data_dir: "{{ opensearch_docker_compose_dir }}/data"
 opensearch_docker_logs_dir: "{{ opensearch_docker_compose_dir }}/logs"

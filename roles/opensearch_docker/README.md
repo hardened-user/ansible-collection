@@ -57,7 +57,7 @@ opensearch_docker_compose_extra_conf:
     resources:
       limits:
         cpus: "4"
-        memory: "8192"
+        memory: "8192M"
       reservations:
         cpus: "0.25"
         memory: "4096M"

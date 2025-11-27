@@ -9,9 +9,10 @@ postgresql_docker_gid: 999
 postgresql_docker_network: bridge # "bridge" or "host" supported
 postgresql_docker_timezone: "{{ timezone_name }}"
 postgresql_docker_bind_mount_volumes: true
+postgresql_docker_extra_volumes: []
 postgresql_docker_conf_dir: "{{ postgresql_docker_compose_dir }}/conf"
 postgresql_docker_data_dir: "{{ postgresql_docker_compose_dir }}/data"
-postgresql_docker_extra_volumes: []
+
 
 postgresql_listen_addr: "0.0.0.0"
 postgresql_listen_port: 5432
@@ -19,6 +20,7 @@ postgresql_bootstrap_user: "postgres"
 postgresql_bootstrap_pass: "postgres"
 postgresql_bootstrap_base: "postgres"
 postgresql_extra_users: []
+
 
 ### postgresql.conf ----------------------------------------------------------------------------------------------------
 postgresql_config: {}

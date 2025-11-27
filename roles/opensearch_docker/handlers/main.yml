@@ -4,4 +4,4 @@
     project_src: "{{ opensearch_docker_compose_dir }}"
     state: restarted
     timeout: 60
-  when: not r_opensearch_start_result.changed
+  when: not r_opensearch_docker_start_result.changed

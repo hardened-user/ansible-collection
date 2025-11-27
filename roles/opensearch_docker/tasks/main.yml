@@ -67,7 +67,7 @@
   community.docker.docker_compose_v2:
     project_src: "{{ opensearch_docker_compose_dir }}"
     pull: always
-  register: r_opensearch_start_result
+  register: r_opensearch_docker_start_result
   tags:
     - opensearch
     - docker-compose

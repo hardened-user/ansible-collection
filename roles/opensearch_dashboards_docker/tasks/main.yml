@@ -51,7 +51,7 @@
   community.docker.docker_compose_v2:
     project_src: "{{ opensearch_dashboards_docker_compose_dir }}"
     pull: always
-  register: r_opensearch_dashboards_start_result
+  register: r_opensearch_dashboards_docker_start_result
   tags:
     - opensearch_dashboards
     - docker-compose
