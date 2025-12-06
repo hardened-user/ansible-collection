@@ -123,6 +123,26 @@ Password must be at least 8 characters long and contain at least one uppercase l
 opensearch_admin_password: ""
 ```
 
+### opensearch_api_requests
+Пользовательские запросы к API (см. [api-reference](https://opensearch.org/docs/latest/api-reference/)).<br/>
+Структура переменной:.<br/>
+* path - путь к API endpoint
+* method - метод запроса. Возможные значения `PUT` (default), `POST`, `GET`, `DELETE`
+* body - тело запроса
+```
+# default
+opensearch_api_requests: []
+
+# example
+opensearch_api_requests:
+  - path: /_plugins/_security/api/internalusers/username
+    method: PUT
+    body:
+      password: "Pa$sW0rd1d2F@d1"
+      attributes:
+        department: "engineering"
+```
+
 #### opensearch_docker_environment
 Пользовательская конфигурация переменных окружения.<br/>
 Перезаписывает `opensearch_docker_env_default`, значение `null` удалит переменную.

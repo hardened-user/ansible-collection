@@ -49,6 +49,7 @@
     fail_msg: "The variable must be a list"
   loop:
     - opensearch_docker_extra_volumes
+    - opensearch_api_requests
 
 
 - name: "Ensure that variable is dict"

@@ -1,0 +1,19 @@
+---
+- name: "Configure via API"
+  ansible.builtin.uri:
+    url: "{{ _opensearch_docker_base_url }}/{{ item.path | trim('/') }}"
+    method: "{{ item.method | default('PUT') }}"
+    validate_certs: false
+    follow_redirects: none
+    user: "admin"
+    password: "{{ opensearch_admin_password }}"
+    force_basic_auth: true
+    headers:
+      Accept: application/json
+    body_format: json
+    body: "{{ item.body | default({}) }}"
+    status_code: [200, 201]
+  run_once: true
+  loop: "{{ opensearch_api_requests }}"
+  loop_control:
+    label: "{{ item.method | default('PUT') }} {{ item.path | trim('/') }}"

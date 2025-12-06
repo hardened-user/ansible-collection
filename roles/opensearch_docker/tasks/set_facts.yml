@@ -1,0 +1,6 @@
+---
+- name: "Internal variables"
+  ansible.builtin.set_fact:
+    _opensearch_docker_base_url: "{{ 'https' if opensearch_plugins_security_ssl_http_enabled else 'http' }}://{{ opensearch_docker_listen_addr }}:{{ opensearch_docker_listen_port }}"
+  tags:
+    - opensearch

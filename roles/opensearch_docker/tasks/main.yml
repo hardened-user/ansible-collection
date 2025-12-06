@@ -6,6 +6,12 @@
     - validate
 
 
+- name: "Set facts"
+  ansible.builtin.include_tasks: "set_facts.yml"
+  tags:
+    - opensearch
+
+
 - name: "Install"
   ansible.builtin.include_tasks: "install.yml"
   tags:
@@ -18,3 +24,9 @@
   tags:
     - opensearch
     - verify
+
+
+- name: "Configure"
+  ansible.builtin.include_tasks: "configure.yml"
+  tags:
+    - opensearch
