@@ -9,7 +9,7 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-opensearch_version: "2.19.3"
+opensearch_version: "2.19.4"
 ```
 
 #### opensearch_docker_uid
@@ -114,13 +114,13 @@ opensearch_plugins_security_enabled: true
 opensearch_plugins_security_ssl_http_enabled: false
 ```
 
-#### opensearch_initial_admin_password
-Пароль для встроенного пользователя **admin** при первоначально настройке.<br/>
+#### opensearch_admin_password
+Пароль для встроенного пользователя **admin**.<br/>
 Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.<br/>
 Используется если `opensearch_plugins_security_enabled: true`
 ```
 # default
-opensearch_initial_admin_password: ""
+opensearch_admin_password: ""
 ```
 
 #### opensearch_docker_environment
@@ -139,7 +139,7 @@ opensearch_docker_environment: {}
   hosts: locahost
   become: yes
   vars:
-    opensearch_initial_admin_password: !vault |
+    opensearch_admin_password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       38636564636362396136383762303936616531383438643462383136646431613733376263353763
       38636564636362396136383762303936616531383438643462383136646431613733376263353763

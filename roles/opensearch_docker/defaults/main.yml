@@ -1,5 +1,5 @@
 ---
-opensearch_version: "2.19.3"
+opensearch_version: "2.19.4"
 opensearch_docker_tag: "{{ opensearch_version }}"
 opensearch_docker_image: "opensearchproject/opensearch:{{ opensearch_docker_tag }}"
 opensearch_docker_instance: ""
@@ -23,7 +23,7 @@ opensearch_cluster_name: "docker-cluster"
 opensearch_node_name: "{{ ansible_hostname }}"
 opensearch_plugins_security_enabled: true
 opensearch_plugins_security_ssl_http_enabled: false
-opensearch_initial_admin_password: ""
+opensearch_admin_password: ""
 
 opensearch_docker_environment: {}
 opensearch_docker_env_default: {}

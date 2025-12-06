@@ -1,0 +1,18 @@
+---
+- name: "Wait for ready"
+  ansible.builtin.uri:
+    url: "{{ 'https' if opensearch_plugins_security_ssl_http_enabled else 'http' }}://{{ opensearch_docker_listen_addr }}:{{ opensearch_docker_listen_port }}/_cluster/health?wait_for_status=yellow&timeout=10s"
+    method: GET
+    validate_certs: false
+    follow_redirects: none
+    user: "admin"
+    password: "{{ opensearch_admin_password }}"
+    force_basic_auth: true
+    headers:
+      Accept: application/json
+  register: _result
+  failed_when: "_result.status != 200 or _result.json is undefined or \
+    (_result.json.status != 'yellow' and _result.json.status != 'green')"
+  until: _result is succeeded
+  retries: 12
+  delay: 5

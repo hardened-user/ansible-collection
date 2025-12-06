@@ -17,7 +17,7 @@
     - opensearch_discovery_type
     - opensearch_cluster_name
     - opensearch_node_name
-    - opensearch_initial_admin_password
+    - opensearch_admin_password
 
 
 - name: "Ensure that variable is integer"
@@ -60,3 +60,12 @@
     - opensearch_docker_compose_extra_conf
     - opensearch_docker_environment
     - opensearch_docker_env_default
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+- name: "Validating variable: opensearch_admin_password"
+  ansible.builtin.assert:
+    that: opensearch_admin_password | length > 7
+    fail_msg: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+    quiet: true
+  when: opensearch_plugins_security_enabled
