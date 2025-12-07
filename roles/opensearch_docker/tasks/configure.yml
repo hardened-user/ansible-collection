@@ -1,4 +1,48 @@
 ---
+- name: "Create users"
+  ansible.builtin.uri:
+    url: "{{ _opensearch_docker_base_url }}/_plugins/_security/api/internalusers/{{ item.key }}"
+    method: PUT
+    validate_certs: false
+    follow_redirects: none
+    user: "admin"
+    password: "{{ opensearch_admin_password }}"
+    force_basic_auth: true
+    headers:
+      Accept: application/json
+    body_format: json
+    body: "{{ item.value | default({}) | dict2items | rejectattr('key', 'equalto', 'state') | items2dict }}"
+    status_code: [200, 201]
+  register: _result
+  changed_when: _result.status == 201
+  when: opensearch_plugins_security_enabled
+  loop: "{{ _opensearch_internal_users | dict2items | selectattr('value.state', 'ne', 'absent') | list }}"
+  loop_control:
+    label: "{{ item.key }}"
+  run_once: true
+
+
+- name: "Delete users"
+  ansible.builtin.uri:
+    url: "{{ _opensearch_docker_base_url }}/_plugins/_security/api/internalusers/{{ item.key }}"
+    method: DELETE
+    validate_certs: false
+    follow_redirects: none
+    user: "admin"
+    password: "{{ opensearch_admin_password }}"
+    force_basic_auth: true
+    headers:
+      Accept: application/json
+    status_code: [200, 404]
+  register: _result
+  changed_when: _result.status == 200
+  when: opensearch_plugins_security_enabled
+  loop: "{{ _opensearch_internal_users | dict2items | selectattr('value.state', 'eq', 'absent') | list }}"
+  loop_control:
+    label: "{{ item.key }}"
+  run_once: true
+
+
 - name: "Configure via API"
   ansible.builtin.uri:
     url: "{{ _opensearch_docker_base_url }}/{{ item.path | trim('/') }}"
@@ -13,7 +57,7 @@
     body_format: json
     body: "{{ item.body | default({}) }}"
     status_code: [200, 201]
-  run_once: true
   loop: "{{ opensearch_api_requests }}"
   loop_control:
     label: "{{ item.method | default('PUT') }} {{ item.path | trim('/') }}"
+  run_once: true

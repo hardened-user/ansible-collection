@@ -116,6 +116,7 @@ opensearch_plugins_security_ssl_http_enabled: false
 
 #### opensearch_admin_password
 Пароль для встроенного пользователя **admin**.<br/>
+Смену пароля администратора через ansible не предусмотрена.<br/>
 Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.<br/>
 Используется если `opensearch_plugins_security_enabled: true`
 ```
@@ -123,12 +124,39 @@ Password must be at least 8 characters long and contain at least one uppercase l
 opensearch_admin_password: ""
 ```
 
+#### opensearch_internal_users
+Пользователи, которые будут созданы или удалены.<br/>
+Используется если `opensearch_plugins_security_enabled: true`
+Структура переменной:.<br/>
+* `state` - специальный ключ для ansible. Возможные значения: `present` (default) - создать, `absent` - удалить
+* `*API*` - ключи из спецификации API [create-user](https://docs.opensearch.org/2.19/security/access-control/api/#create-user)
+```
+# default
+opensearch_internal_users: {}
+
+# example
+opensearch_internal_users:
+  vector:
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      33643234313064333437666663396531623536663563333038343135366433666230616338346363
+      ...
+      39323865623234373263356535666536346331656130663433613733623862313232
+    attributes:
+      managed-by: "ansible"
+  anomalyadmin: { state: absent }
+  kibanaro: { state: absent }
+  logstash: { state: absent }
+  readall: { state: absent }
+  snapshotrestore: { state: absent }
+```
+
 ### opensearch_api_requests
 Пользовательские запросы к API (см. [api-reference](https://opensearch.org/docs/latest/api-reference/)).<br/>
 Структура переменной:.<br/>
-* path - путь к API endpoint
-* method - метод запроса. Возможные значения `PUT` (default), `POST`, `GET`, `DELETE`
-* body - тело запроса
+* `path`- путь к API endpoint
+* `method` - метод запроса. Возможные значения: `PUT` (default), `POST`, `GET`, `DELETE`
+* `body` - тело запроса
 ```
 # default
 opensearch_api_requests: []

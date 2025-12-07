@@ -24,6 +24,7 @@ opensearch_node_name: "{{ ansible_hostname }}"
 opensearch_plugins_security_enabled: true
 opensearch_plugins_security_ssl_http_enabled: false
 opensearch_admin_password: ""
+opensearch_internal_users: {}
 opensearch_api_requests: []
 
 opensearch_docker_environment: {}
