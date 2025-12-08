@@ -163,12 +163,16 @@ opensearch_api_requests: []
 
 # example
 opensearch_api_requests:
-  - path: /_plugins/_security/api/internalusers/username
+  - path: _plugins/_security/api/roles/vector
     method: PUT
     body:
-      password: "Pa$sW0rd1d2F@d1"
-      attributes:
-        department: "engineering"
+      cluster_permissions:
+        - "cluster_monitor"
+      index_permissions:
+        - index_patterns:
+            - "vector-*"
+          allowed_actions:
+            - "crud"
 ```
 
 #### opensearch_docker_environment
