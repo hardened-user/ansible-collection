@@ -54,6 +54,9 @@ opensearch_dashboards_docker_environment: {}
 - name: "Setup OpenSearch in Docker"
   hosts: locahost
   become: yes
+  vars:
+    opensearch_dashboards_docker_environment:
+      LOGGING_QUIET: "true"
   roles:
     - opensearch-docker
 ```
