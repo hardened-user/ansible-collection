@@ -59,7 +59,7 @@
       {%- endif -%}
     owner: root
     group: root
-    mode: '0640'
+    mode: '0600'
     force: true
   notify: restart vector-docker
   tags:
