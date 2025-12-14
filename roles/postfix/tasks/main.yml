@@ -65,10 +65,8 @@
     group: root
     mode: '0644'
   notify: execute newaliases
-  with_items:
-    - "{{ lookup('dict', postfix_aliases) }}"
-  when:
-    - item.value
+  loop: "{{ postfix_aliases | dict2items | rejectattr('value', 'none') }}"
+  when: item.value | string | length > 0
   tags:
     - postfix
     - config
@@ -84,10 +82,8 @@
     group: root
     mode: '0644'
   notify: restart postfix
-  with_items:
-    - "{{ lookup('dict', postfix_main_conf_runtime) | rejectattr('value', 'none') | list }}"
-  when:
-    - item.value
+  loop: "{{ postfix_main_conf_runtime | dict2items | rejectattr('value', 'none') | list }}"
+  when: item.value | string | length > 0
   tags:
     - postfix
     - config
@@ -100,10 +96,7 @@
     state: absent
     regexp: '^{{ item.key }}[\s=]'
   notify: restart postfix
-  with_items:
-    - "{{ lookup('dict', postfix_main_conf_runtime) | selectattr('value', 'none') | list }}"
-  when:
-    - not item.value
+  loop: "{{ postfix_main_conf_runtime | dict2items | selectattr('value', 'none') | list }}"
   tags:
     - postfix
     - config
