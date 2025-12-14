@@ -16,7 +16,7 @@
     groups: "{{ zabbix_agent_user_extra_groups }}"
     append: true
   notify: restart zabbix-agent
-  when: zabbix_agent_user_extra_groups
+  when: zabbix_agent_user_extra_groups | length > 0
   tags:
     - zabbix_agent
     - config
