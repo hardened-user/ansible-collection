@@ -3,7 +3,7 @@ Collection of Ansible Roles.
 
 Recommended:
 * ansible >= 12.x (ansible-core >= 2.19)
-
+* docker >= 29.x
 
 ---
 
