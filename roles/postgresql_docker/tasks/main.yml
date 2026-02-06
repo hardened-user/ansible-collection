@@ -28,6 +28,6 @@
 
 - name: "Extra users"
   ansible.builtin.include_tasks: "extra_users.yml"
-  when: postgresql_extra_users
+  when: postgresql_extra_users | length > 1
   tags:
     - postgresql
