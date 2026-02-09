@@ -1,0 +1,52 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - spilo_version
+    - spilo_docker_tag
+    - spilo_docker_image
+    - spilo_docker_instance
+    - spilo_docker_timezone
+    - spilo_docker_data_dir
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - spilo_docker_uid
+    - spilo_docker_gid
+
+
+- name: "Ensure that variable is boolean"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug == "bool"
+    quiet: true
+    fail_msg: "The variable must be a boolean"
+  loop:
+    - spilo_docker_bind_mount_volumes
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - spilo_docker_extra_volumes
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - spilo_docker_compose_extra_conf
+    - spilo_docker_environment
+    - spilo_docker_env_default

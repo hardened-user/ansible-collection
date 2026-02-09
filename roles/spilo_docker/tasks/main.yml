@@ -1,0 +1,56 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - spilo
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ spilo_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ spilo_docker_data_dir }}", owner: "{{ spilo_docker_uid }}", group: "{{ spilo_docker_gid }}", mode: '0700',
+        enabled: "{{ spilo_docker_bind_mount_volumes }}" }
+  when: item.enabled | default(true)
+  tags:
+    - spilo
+    - config
+
+
+- name: "Copy file from template: {{ spilo_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ spilo_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - spilo
+    - config
+
+
+- name: "Copy file from template: {{ spilo_docker_compose_dir }}/patronictl.sh"
+  ansible.builtin.template:
+    src: "patronictl.sh.j2"
+    dest: "{{ spilo_docker_compose_dir }}/patronictl.sh"
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - spilo
+    - copy
+
+
+- name: "docker-compose up: {{ spilo_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ spilo_docker_compose_dir }}"
+    pull: always
+  tags:
+    - spilo
+    - docker-compose

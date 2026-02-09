@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+---
+{% if spilo_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+
+{% endif %}
+services:
+  spilo:
+    image: "{{ spilo_docker_image }}"
+    container_name: "{{ spilo_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ spilo_docker_timezone }}"
+{% for e in spilo_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ e.key }}: "{{ e.value }}"
+{% endfor %}
+    volumes:
+{% if spilo_docker_bind_mount_volumes is sameas false %}
+      - data:/home/postgres/pgdata/pgroot
+{% else %}
+      - {{ spilo_docker_data_dir }}:/home/postgres/pgdata/pgroot
+{% endif %}
+{% for v in spilo_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+    network_mode: host
+{% if spilo_docker_compose_extra_conf %}
+{{ spilo_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}
