@@ -86,6 +86,48 @@ spilo_docker_extra_volumes: []
 spilo_docker_data_dir: "{{ spilo_docker_compose_dir }}/data"
 ```
 
+### spilo_docker_postgresql_listen_port
+Номер порта для подключения к Postgres.
+```yaml
+# default
+spilo_docker_postgresql_listen_port: 5432
+
+```
+
+### spilo_docker_patroni_restapi_listen_port
+Номер порта для подключения к Patroni REST API.
+```yaml
+# default
+spilo_docker_patroni_restapi_listen_port: 8008
+```
+
+#### spilo_docker_extra_users
+Список пользователей, который дополнительно будут созданы.<br/>
+Элементом списка является словарь со следующими ключами:
+* `name` - имя пользователя (обязательно)
+* `pass` - пароль пользователя (обязательно)
+* `base` - имя базы данных, которая будет создана (опционально)
+* `attr` - аттрибуты пользователя. См. [role_attr_flags](https://docs.ansible.com/ansible/latest/collections/community/postgresql/spilo_docker_postgresql_user_module.html#parameter-role_attr_flags) (опционально, default: `LOGIN`)
+
+```
+# default
+spilo_docker_extra_users: []
+```
+
+#### spilo_docker_dcs_conf
+Настройки динамической конфигурации, после инициализации кластера можно поменять только через `patronictl`.<br/>
+Изменения происходят командой `patronictl edit-config --apply`!!!<br/>
+См. [Dynamic Configuration Settings](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html).
+```
+# default
+spilo_docker_dcs_conf: {}
+
+# example
+spilo_docker_dcs_conf:
+  ttl: 15
+  synchronous_mode: true
+```
+
 #### spilo_docker_environment
 Переменные окружения docker контейнера.
 ```
@@ -94,8 +136,7 @@ spilo_docker_environment: {}
 
 # example
 spilo_docker_environment:
-  SCOPE: "mycluster"
-  APIPORT: 8008
+  ETCD3_HOSTS: "etcd-01:2379,etcd-02:2379,etcd-03:2379"
 ```
 
 
@@ -106,7 +147,16 @@ spilo_docker_environment:
   hosts: locahost
   become: yes
   vars:
-    ETCD3_HOSTS: "etcd-01:2379,etcd-02:2379,etcd-03:2379"
+    spilo_docker_superuser_pass: "PaS$w0rd"
+    spilo_docker_environment:
+      ETCD3_HOSTS: "etcd-01:2379,etcd-02:2379,etcd-03:2379"
+      SPILO_CONFIGURATION:
+        bootstrap:
+          dcs:
+            synchronous_mode: true
+            postgresql:
+              parameters:
+                max_connections: 999
   roles:
     - spilo_docker
 ```

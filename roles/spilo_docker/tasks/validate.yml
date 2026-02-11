@@ -11,6 +11,9 @@
     - spilo_docker_instance
     - spilo_docker_timezone
     - spilo_docker_data_dir
+    - spilo_docker_cluster_name
+    - spilo_docker_superuser_name
+    - spilo_docker_superuser_pass
 
 
 - name: "Ensure that variable is integer"
@@ -21,6 +24,8 @@
   loop:
     - spilo_docker_uid
     - spilo_docker_gid
+    - spilo_docker_postgresql_listen_port
+    - spilo_docker_patroni_restapi_listen_port
 
 
 - name: "Ensure that variable is boolean"
@@ -39,6 +44,7 @@
     fail_msg: "The variable must be a list"
   loop:
     - spilo_docker_extra_volumes
+    - spilo_docker_extra_users
 
 
 - name: "Ensure that variable is dict"
@@ -48,5 +54,6 @@
     fail_msg: "The variable must be a dictionary"
   loop:
     - spilo_docker_compose_extra_conf
+    - spilo_docker_dcs_conf
     - spilo_docker_environment
     - spilo_docker_env_default

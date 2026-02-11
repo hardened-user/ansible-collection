@@ -11,8 +11,20 @@ spilo_docker_bind_mount_volumes: true
 spilo_docker_extra_volumes: []
 spilo_docker_data_dir: "{{ spilo_docker_compose_dir }}/data"
 
+spilo_docker_postgresql_listen_port: 5432
+spilo_docker_patroni_restapi_listen_port: 8008
 
+spilo_docker_cluster_name: "spilo-docker-cluster"
+spilo_docker_superuser_name: "postgres"
+spilo_docker_superuser_pass: "zalando"
+spilo_docker_extra_users: []
+
+spilo_docker_dcs_conf: {}
 spilo_docker_environment: {}
 spilo_docker_env_default:
-  SCOPE: "spilo-docker-cluster"
+  SCOPE: "{{ spilo_docker_cluster_name }}"
   ETCD3_HOSTS: "127.0.0.1:2379"
+  APIPORT: "{{ spilo_docker_patroni_restapi_listen_port }}"
+  PGPORT: "{{ spilo_docker_postgresql_listen_port }}"
+  PGUSER_SUPERUSER: "{{ spilo_docker_superuser_name }}"
+  PGPASSWORD_SUPERUSER: "{{ spilo_docker_superuser_pass }}"

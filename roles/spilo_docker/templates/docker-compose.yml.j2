@@ -17,6 +17,7 @@ services:
       {{ e.key }}: "{{ e.value }}"
 {% endfor %}
     volumes:
+      - {{ spilo_docker_mnt_dir }}:/mnt:ro
 {% if spilo_docker_bind_mount_volumes is sameas false %}
       - data:/home/postgres/pgdata/pgroot
 {% else %}

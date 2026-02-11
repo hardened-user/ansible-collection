@@ -1,4 +1,6 @@
 ---
 spilo_docker_compose_dir: "/srv/spilo{{ '-' + spilo_docker_instance if spilo_docker_instance }}"
 spilo_docker_container_name: "spilo{{ '-' + spilo_docker_instance if spilo_docker_instance }}"
+spilo_docker_mnt_dir: "{{ spilo_docker_compose_dir }}/mnt"
+spilo_docker_dcs_file: "{{ spilo_docker_mnt_dir }}/dcs.yaml"
 spilo_docker_env_runtime: "{{ spilo_docker_env_default | combine(spilo_docker_environment) }}"

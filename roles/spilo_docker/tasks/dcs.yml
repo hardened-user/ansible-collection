@@ -1,0 +1,58 @@
+---
+- name: "Get restapi status"
+  ansible.builtin.uri:
+    url: "http://localhost:{{ spilo_docker_patroni_restapi_listen_port }}/"
+    method: GET
+    validate_certs: false
+    follow_redirects: none
+    status_code: [200, 503]
+  register: spilo_docker_r_restapi_info
+  tags:
+    - spilo
+    - config
+
+
+- name: "Validate cluster leader"
+  ansible.builtin.assert:
+    that: ansible_play_hosts | map('extract', hostvars, ['spilo_docker_r_restapi_info', 'status']) | select('equalto', 200) | list | length == 1
+    fail_msg: "Expected status 200 for exactly one host"
+    quiet: true
+  run_once: true
+  tags:
+    - spilo
+    - config
+
+
+- name: "Update dynamic configuration settings"
+  community.docker.docker_compose_v2_exec:
+    project_src: "{{ spilo_docker_compose_dir }}"
+    service: spilo
+    user: postgres
+    command: timeout 180 patronictl edit-config --apply /mnt/dcs.yaml "{{ spilo_docker_cluster_name }}" --force
+  register: _result
+  changed_when: "'configuration changed' in _result.stdout.lower()"
+  notify: wait spilo dcs sync
+  when: spilo_docker_r_restapi_info.status == 200
+  tags:
+    - spilo
+    - config
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - spilo
+
+
+- name: "Restart if pending"
+  community.docker.docker_compose_v2_exec:
+    project_src: "{{ spilo_docker_compose_dir }}"
+    service: spilo
+    user: postgres
+    command: timeout 420 patronictl restart --pending --timeout 300 "{{ spilo_docker_cluster_name }}" --force
+  register: _result
+  changed_when: "'success: restart' in _result.stdout.lower()"
+  when: spilo_docker_r_restapi_info.status == 200
+  tags:
+    - spilo
+    - config

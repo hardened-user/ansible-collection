@@ -1,0 +1,5 @@
+---
+- name: "wait spilo dcs sync"
+  ansible.builtin.pause:
+    seconds: 35
+  run_once: true

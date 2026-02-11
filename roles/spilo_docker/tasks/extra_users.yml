@@ -1,0 +1,46 @@
+---
+- name: "Get recovery status"
+  community.postgresql.spilo_docker_postgresql_query:
+    query: "SELECT pg_is_in_recovery()"
+    login_host: "{{ spilo_docker_postgresql_listen_addr }}"
+    login_port: "{{ spilo_docker_postgresql_listen_port }}"
+    login_user: "{{ spilo_docker_superuser_name }}"
+    login_password: "{{ spilo_docker_superuser_pass }}"
+    login_db: "{{ spilo_docker_postgresql_bootstrap_base }}"
+  register: _result
+
+
+- name: "Create users: ..."
+  community.postgresql.spilo_docker_postgresql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.pass }}"
+    role_attr_flags: "{{ item.attr | default('LOGIN') }}"
+    state: present
+    encrypted: true
+    login_host: "{{ spilo_docker_postgresql_listen_addr }}"
+    login_port: "{{ spilo_docker_postgresql_listen_port }}"
+    login_user: "{{ spilo_docker_superuser_name }}"
+    login_password: "{{ spilo_docker_superuser_pass }}"
+    login_db: "{{ spilo_docker_postgresql_bootstrap_base }}"
+  when: not (_result.query_result | first)['pg_is_in_recovery']
+  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+
+- name: "Create databases: ..."
+  community.postgresql.spilo_docker_postgresql_db:
+    name: "{{ item.base }}"
+    encoding: "UTF-8"
+    owner: "{{ item.name }}"
+    state: present
+    login_host: "{{ spilo_docker_postgresql_listen_addr }}"
+    login_port: "{{ spilo_docker_postgresql_listen_port }}"
+    login_user: "{{ spilo_docker_superuser_name }}"
+    login_password: "{{ spilo_docker_superuser_pass }}"
+    maintenance_db: "{{ spilo_docker_postgresql_bootstrap_base }}"
+  when: not (_result.query_result | first)['pg_is_in_recovery']
+  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
+  loop_control:
+    extended: false
+    label: "{{ item.base }} user={{ item.name }}"
