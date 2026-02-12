@@ -11,6 +11,9 @@
     - vector_docker_instance
     - vector_docker_timezone
     - vector_docker_data_dir
+  tags:
+    - vector
+    - validate
 
 
 - name: "Ensure that variable is boolean"
@@ -20,6 +23,9 @@
     fail_msg: "The variable must be a boolean"
   loop:
     - vector_docker_bind_mount_volumes
+  tags:
+    - vector
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -29,12 +35,27 @@
     fail_msg: "The variable must be a list"
   loop:
     - vector_docker_extra_volumes
+  tags:
+    - vector
+    - validate
 
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    that: lookup('vars', item) is mapping
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:
     - vector_docker_compose_extra_conf
+  tags:
+    - vector
+    - validate
+
+
+- name: "Validating variable: vector_config"
+  ansible.builtin.assert:
+    that: vector_config | from_yaml is mapping
+    quiet: true
+  tags:
+    - vector
+    - validate

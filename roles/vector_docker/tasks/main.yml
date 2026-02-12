@@ -15,24 +15,11 @@
     mode: "{{ item.mode | default('0755') }}"
   loop:
     - { path: "{{ vector_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ vector_docker_data_dir }}", mode: '0700', enabled: "{{ vector_docker_bind_mount_volumes }}" }
+  when: item.enabled | default(true)
   tags:
     - vector
-    - config
-
-
-- name: "Create directories: ..."
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: directory
-    owner: root
-    group: root
-    mode: '0700'
-  when: vector_docker_bind_mount_volumes
-  loop:
-    - { path: "{{ vector_docker_data_dir }}" }
-  tags:
-    - vector
-    - config
+    - install
 
 
 - name: "Copy file from template: {{ vector_docker_compose_dir }}/docker-compose.yml"
@@ -44,7 +31,7 @@
     mode: '0600'
   tags:
     - vector
-    - config
+    - install
 
 
 - name: "Create file: {{ vector_docker_conf_file }}"
@@ -64,7 +51,7 @@
   notify: restart vector-docker
   tags:
     - vector
-    - config
+    - install
 
 
 - name: "docker-compose up: {{ vector_docker_compose_dir }}"
@@ -74,10 +61,12 @@
   register: r_vector_docker_start_result
   tags:
     - vector
-    - docker-compose
+    - install
+    - docker_compose_up
 
 
 - name: "Flush handlers"
   ansible.builtin.meta: flush_handlers
   tags:
     - vector
+    - install
