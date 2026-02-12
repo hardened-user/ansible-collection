@@ -28,7 +28,7 @@
     - verify
 
 
-- name: "Validate status host"
+- name: "Validating status host"
   ansible.builtin.assert:
     that:
       - spilo_docker_r_restapi_info.json is defined

@@ -12,7 +12,7 @@
     - sql_queries
 
 
-- name: "Validate cluster leader"
+- name: "Validating cluster leader"
   ansible.builtin.assert:
     that: ansible_play_hosts | map('extract', hostvars, ['spilo_docker_r_restapi_info', 'status']) | select('equalto', 200) | list | length == 1
     fail_msg: "Expected status 200 for exactly one host"
