@@ -3,7 +3,7 @@
   ansible.builtin.shell: |-
     yum clean metadata && yum makecache
   changed_when: false
-  when: _result.changed
+  when: _docker_ce_repo_register.changed
   tags:
     - docker_ce_repo
     - packages

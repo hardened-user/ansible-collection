@@ -3,7 +3,7 @@
   ansible.builtin.apt:
     update_cache: true
   changed_when: false
-  when: _result.changed
+  when: _docker_ce_repo_register.changed
   tags:
     - docker_ce_repo
     - packages

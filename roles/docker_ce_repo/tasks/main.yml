@@ -3,6 +3,7 @@
   ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags:
     - docker_ce_repo
+    - always
 
 
 - name: "Download file: {{ docker_ce_repo_gpg_key_src }}"
@@ -15,6 +16,7 @@
   when: ansible_distribution != 'Altlinux'
   tags:
     - docker_ce_repo
+    - install
     - download
 
 
@@ -25,14 +27,15 @@
     owner: root
     group: root
     mode: '0644'
-  register: _result
+  register: _docker_ce_repo_register
   when: ansible_distribution != 'Altlinux'
   tags:
     - docker_ce_repo
-    - config
+    - install
 
 
 - name: "Include OS distribution specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
   tags:
     - docker_ce_repo
+    - always
