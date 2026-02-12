@@ -1,46 +1,59 @@
 ---
-- name: "Get recovery status"
-  community.postgresql.spilo_docker_postgresql_query:
-    query: "SELECT pg_is_in_recovery()"
-    login_host: "{{ spilo_docker_postgresql_listen_addr }}"
-    login_port: "{{ spilo_docker_postgresql_listen_port }}"
-    login_user: "{{ spilo_docker_superuser_name }}"
-    login_password: "{{ spilo_docker_superuser_pass }}"
-    login_db: "{{ spilo_docker_postgresql_bootstrap_base }}"
-  register: _result
+- name: "Get restapi status"
+  ansible.builtin.uri:
+    url: "http://localhost:{{ spilo_docker_patroni_restapi_listen_port }}/"
+    method: GET
+    validate_certs: false
+    follow_redirects: none
+    status_code: [200, 503]
+  register: spilo_docker_r_restapi_info
+  tags:
+    - spilo
+    - config
 
 
-- name: "Create users: ..."
-  community.postgresql.spilo_docker_postgresql_user:
+- name: "Validate cluster leader"
+  ansible.builtin.assert:
+    that: ansible_play_hosts | map('extract', hostvars, ['spilo_docker_r_restapi_info', 'status']) | select('equalto', 200) | list | length == 1
+    fail_msg: "Expected status 200 for exactly one host"
+    quiet: true
+  run_once: true
+  tags:
+    - spilo
+    - config
+
+
+
+- name: "Create users"
+  community.postgresql.postgresql_user:
     name: "{{ item.name }}"
     password: "{{ item.pass }}"
     role_attr_flags: "{{ item.attr | default('LOGIN') }}"
     state: present
     encrypted: true
-    login_host: "{{ spilo_docker_postgresql_listen_addr }}"
+    login_host: "localhost"
     login_port: "{{ spilo_docker_postgresql_listen_port }}"
     login_user: "{{ spilo_docker_superuser_name }}"
     login_password: "{{ spilo_docker_superuser_pass }}"
-    login_db: "{{ spilo_docker_postgresql_bootstrap_base }}"
-  when: not (_result.query_result | first)['pg_is_in_recovery']
+    login_db: "postgres"
+  when: spilo_docker_r_restapi_info.status == 200
   loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') }}"
   loop_control:
     label: "{{ item.name }}"
 
 
-- name: "Create databases: ..."
-  community.postgresql.spilo_docker_postgresql_db:
+- name: "Create databases"
+  community.postgresql.postgresql_db:
     name: "{{ item.base }}"
     encoding: "UTF-8"
     owner: "{{ item.name }}"
     state: present
-    login_host: "{{ spilo_docker_postgresql_listen_addr }}"
+    login_host: "localhost"
     login_port: "{{ spilo_docker_postgresql_listen_port }}"
     login_user: "{{ spilo_docker_superuser_name }}"
     login_password: "{{ spilo_docker_superuser_pass }}"
-    maintenance_db: "{{ spilo_docker_postgresql_bootstrap_base }}"
-  when: not (_result.query_result | first)['pg_is_in_recovery']
+    maintenance_db: "postgres"
+  when: spilo_docker_r_restapi_info.status == 200
   loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
   loop_control:
-    extended: false
     label: "{{ item.base }} user={{ item.name }}"

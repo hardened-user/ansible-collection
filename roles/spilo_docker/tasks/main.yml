@@ -18,12 +18,12 @@
     - spilo
 
 
-# TODO:
-#- name: "Extra users"
-#  ansible.builtin.include_tasks: "extra_users.yml"
-#  when: spilo_docker_extra_users | length > 1
-#  tags:
-#    - spilo
+- name: "Extra users"
+  ansible.builtin.include_tasks: "extra_users.yml"
+  when: spilo_docker_extra_users | length > 0
+  tags:
+    - spilo
+
 
 - name: "Verify"
   ansible.builtin.include_tasks: "verify.yml"
