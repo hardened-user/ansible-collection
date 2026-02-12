@@ -1,0 +1,40 @@
+---
+- name: "Get restapi status"
+  ansible.builtin.uri:
+    url: "http://localhost:{{ spilo_docker_patroni_restapi_listen_port }}/"
+    method: GET
+    validate_certs: false
+    follow_redirects: none
+    status_code: [200, 503]
+  register: spilo_docker_r_restapi_info
+  tags:
+    - spilo
+    - sql_queries
+
+
+- name: "Validate cluster leader"
+  ansible.builtin.assert:
+    that: ansible_play_hosts | map('extract', hostvars, ['spilo_docker_r_restapi_info', 'status']) | select('equalto', 200) | list | length == 1
+    fail_msg: "Expected status 200 for exactly one host"
+    quiet: true
+  run_once: true
+  tags:
+    - spilo
+    - sql_queries
+
+
+- name: "Execute SQL queries"
+  community.postgresql.postgresql_query:
+    query: "{{ item.exec }}"
+    login_host: "localhost"
+    login_port: "{{ spilo_docker_postgresql_listen_port }}"
+    login_user: "{{ spilo_docker_superuser_name }}"
+    login_password: "{{ spilo_docker_superuser_pass }}"
+    login_db: "{{ item.db | default('postgres') }}"
+  when: spilo_docker_r_restapi_info.status == 200
+  loop: "{{ spilo_docker_sql_queries | selectattr('exec', 'defined') if spilo_docker_r_restapi_info.status == 200 else [] }}"
+  loop_control:
+    label: "{{ item.exec | truncate(64, True) }}"
+  tags:
+    - spilo
+    - sql_queries

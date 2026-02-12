@@ -18,6 +18,7 @@ spilo_docker_cluster_name: "spilo-docker-cluster"
 spilo_docker_superuser_name: "postgres"
 spilo_docker_superuser_pass: "zalando"
 spilo_docker_extra_users: []
+spilo_docker_sql_queries: []
 
 spilo_docker_dcs_conf: {}
 spilo_docker_environment: {}

@@ -14,6 +14,9 @@
     - spilo_docker_cluster_name
     - spilo_docker_superuser_name
     - spilo_docker_superuser_pass
+  tags:
+    - spilo
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -26,6 +29,9 @@
     - spilo_docker_gid
     - spilo_docker_postgresql_listen_port
     - spilo_docker_patroni_restapi_listen_port
+  tags:
+    - spilo
+    - validate
 
 
 - name: "Ensure that variable is boolean"
@@ -35,6 +41,9 @@
     fail_msg: "The variable must be a boolean"
   loop:
     - spilo_docker_bind_mount_volumes
+  tags:
+    - spilo
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -45,6 +54,10 @@
   loop:
     - spilo_docker_extra_volumes
     - spilo_docker_extra_users
+    - spilo_docker_sql_queries
+  tags:
+    - spilo
+    - validate
 
 
 - name: "Ensure that variable is dict"
@@ -57,3 +70,6 @@
     - spilo_docker_dcs_conf
     - spilo_docker_environment
     - spilo_docker_env_default
+  tags:
+    - spilo
+    - validate

@@ -80,7 +80,7 @@ spilo_docker_extra_volumes: []
 
 #### spilo_docker_data_dir
 Каталог для хранения данных на диске.<br/>
-Используется если `spilo_docker_bind_mount_volumes: false`
+Используется если `spilo_docker_bind_mount_volumes: true`
 ```
 # default
 spilo_docker_data_dir: "{{ spilo_docker_compose_dir }}/data"
@@ -108,10 +108,19 @@ spilo_docker_patroni_restapi_listen_port: 8008
 * `pass` - пароль пользователя (обязательно)
 * `base` - имя базы данных, которая будет создана (опционально)
 * `attr` - аттрибуты пользователя. См. [role_attr_flags](https://docs.ansible.com/ansible/latest/collections/community/postgresql/spilo_docker_postgresql_user_module.html#parameter-role_attr_flags) (опционально, default: `LOGIN`)
-
 ```
 # default
 spilo_docker_extra_users: []
+```
+
+### spilo_docker_sql_queries
+Список SQL запросов, которые нужно выполнить.<br/>
+Элементом списка является словарь со следующими ключами:
+* `exec` - текст выполняемого запроса (обязательно)
+* `base` - база данных для выполнения (опционально, default: `postgres`)
+```yaml
+# default
+spilo_docker_sql_queries: []
 ```
 
 #### spilo_docker_dcs_conf

@@ -9,7 +9,7 @@
   register: spilo_docker_r_restapi_info
   tags:
     - spilo
-    - config
+    - extra_users
 
 
 - name: "Validate cluster leader"
@@ -20,16 +20,15 @@
   run_once: true
   tags:
     - spilo
-    - config
-
+    - extra_users
 
 
 - name: "Create users"
   community.postgresql.postgresql_user:
+    state: present
     name: "{{ item.name }}"
     password: "{{ item.pass }}"
     role_attr_flags: "{{ item.attr | default('LOGIN') }}"
-    state: present
     encrypted: true
     login_host: "localhost"
     login_port: "{{ spilo_docker_postgresql_listen_port }}"
@@ -37,23 +36,29 @@
     login_password: "{{ spilo_docker_superuser_pass }}"
     login_db: "postgres"
   when: spilo_docker_r_restapi_info.status == 200
-  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') }}"
+  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') if spilo_docker_r_restapi_info.status == 200 else [] }}"
   loop_control:
     label: "{{ item.name }}"
+  tags:
+    - spilo
+    - extra_users
 
 
 - name: "Create databases"
   community.postgresql.postgresql_db:
+    state: present
     name: "{{ item.base }}"
     encoding: "UTF-8"
     owner: "{{ item.name }}"
-    state: present
     login_host: "localhost"
     login_port: "{{ spilo_docker_postgresql_listen_port }}"
     login_user: "{{ spilo_docker_superuser_name }}"
     login_password: "{{ spilo_docker_superuser_pass }}"
     maintenance_db: "postgres"
   when: spilo_docker_r_restapi_info.status == 200
-  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
+  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') if spilo_docker_r_restapi_info.status == 200 else [] }}"
   loop_control:
     label: "{{ item.base }} user={{ item.name }}"
+  tags:
+    - spilo
+    - extra_users

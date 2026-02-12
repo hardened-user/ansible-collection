@@ -10,12 +10,14 @@
   ansible.builtin.include_tasks: "install.yml"
   tags:
     - spilo
+    - install
 
 
 - name: "Dynamic Configuration Settings"
   ansible.builtin.include_tasks: "dcs.yml"
   tags:
     - spilo
+    - dcs
 
 
 - name: "Extra users"
@@ -23,6 +25,15 @@
   when: spilo_docker_extra_users | length > 0
   tags:
     - spilo
+    - extra_users
+
+
+- name: "SQL queries"
+  ansible.builtin.include_tasks: "sql_queries.yml"
+  when: spilo_docker_extra_users | length > 0
+  tags:
+    - spilo
+    - sql_queries
 
 
 - name: "Verify"

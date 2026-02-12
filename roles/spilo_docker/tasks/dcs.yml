@@ -9,7 +9,7 @@
   register: spilo_docker_r_restapi_info
   tags:
     - spilo
-    - config
+    - dcs
 
 
 - name: "Validate cluster leader"
@@ -20,7 +20,7 @@
   run_once: true
   tags:
     - spilo
-    - config
+    - dcs
 
 
 - name: "Update dynamic configuration settings"
@@ -35,13 +35,14 @@
   when: spilo_docker_r_restapi_info.status == 200
   tags:
     - spilo
-    - config
+    - dcs
 
 
 - name: "Flush handlers"
   ansible.builtin.meta: flush_handlers
   tags:
     - spilo
+    - dcs
 
 
 - name: "Restart if pending"
@@ -55,4 +56,4 @@
   when: spilo_docker_r_restapi_info.status == 200
   tags:
     - spilo
-    - config
+    - dcs
