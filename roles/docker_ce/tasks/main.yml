@@ -4,6 +4,7 @@
     _docker_ce_conf_default: "{{ lookup('template', 'docker_ce_conf_default.j2') | from_yaml }}"
   tags:
     - docker_ce
+    - always
 
 
 - name: "Validate"
@@ -17,12 +18,14 @@
   ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags:
     - docker_ce
+    - always
 
 
 - name: "Include OS distribution specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
   tags:
     - docker_ce
+    - always
 
 
 - name: "Remove packages: {{ docker_ce_remove_packages | sort | join(' ') }}"
