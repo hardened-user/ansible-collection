@@ -52,7 +52,7 @@ zabbix_server_pgsql_docker_extra_volumes: []
 
 #### zabbix_server_pgsql_docker_export_dir
 Каталог для хранения данных [real_time_export](https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/real_time_export) на диске.<br/>
-Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: false`
+Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: true`
 ```
 # default
 zabbix_server_pgsql_docker_export_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/export"
@@ -60,7 +60,7 @@ zabbix_server_pgsql_docker_export_dir: "{{ zabbix_server_pgsql_docker_compose_di
 
 #### zabbix_server_pgsql_docker_snmptraps_dir
 Каталог для хранения данных [snmptrap](https://www.zabbix.com/documentation/6.0/en/manual/config/items/itemtypes/snmptrap) на диске.<br/>
-Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: false`
+Используется если `zabbix_server_pgsql_docker_bind_mount_volumes: true`
 ```
 # default
 zabbix_server_pgsql_docker_snmptraps_dir: "{{ zabbix_server_pgsql_docker_compose_dir }}/snmptraps"

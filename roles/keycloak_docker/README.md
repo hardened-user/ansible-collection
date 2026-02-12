@@ -53,7 +53,7 @@ keycloak_docker_bind_mount_volumes: true
 
 #### keycloak_docker_data_dir
 Каталог для хранения данных на диске.<br/>
-Используется если `keycloak_docker_bind_mount_volumes == true`.
+Используется если `keycloak_docker_bind_mount_volumes: true`.
 ```
 # default
 keycloak_docker_data_dir: "{{ keycloak_docker_compose_dir }}/data"
@@ -73,7 +73,7 @@ keycloak_docker_extra_volumes:
 #### keycloak_docker_listen_addr
 IP адрес, на который будут приниматься подключения.<br/>
 Специальная запись `0.0.0.0` означает, что будут использоваться все адреса.<br/>
-Используется если `keycloak_docker_network == bridge`.
+Используется если `keycloak_docker_network: bridge`.
 ```
 # default
 keycloak_docker_listen_addr: "0.0.0.0"
@@ -81,7 +81,7 @@ keycloak_docker_listen_addr: "0.0.0.0"
 
 #### keycloak_docker_listen_port
 Номера портов, которые будут перенаправлены в контейнер.<br/>
-Используется если `keycloak_docker_network == bridge`.
+Используется если `keycloak_docker_network: bridge`.
 ```
 # default
 keycloak_docker_listen_port: ["{{ keycloak_http_port }}", "{{ keycloak_http_management_port }}" ]

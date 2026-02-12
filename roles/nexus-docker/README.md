@@ -44,7 +44,7 @@ nexus_docker_extra_volumes: []
 
 #### nexus_data_dir
 Каталог для хранения данных на диске.<br/>
-Используется если `nexus_docker_bind_mount_volumes: false`
+Используется если `nexus_docker_bind_mount_volumes: true`
 ```
 # default
 nexus_data_dir: "{{ nexus_docker_compose_dir }}/data"

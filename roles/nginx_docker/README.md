@@ -139,7 +139,7 @@ nginx_docker_logrotate_rotate: 31
 #### nginx_docker_listen_addr
 IP адрес, на который будут приниматься подключения.<br/>
 Специальная запись `0.0.0.0` означает, что будут использоваться все адреса.<br/>
-Используется если `nginx_docker_network == bridge`.
+Используется если `nginx_docker_network: bridge`.
 ```
 # default
 nginx_docker_listen_addr: "0.0.0.0"
@@ -150,7 +150,7 @@ nginx_docker_listen_addr: "127.0.0.1"
 
 #### nginx_docker_listen_port
 Номера портов, которые будут перенаправлены в контейнер.<br/>
-Используется если `nginx_docker_network == bridge`.
+Используется если `nginx_docker_network: bridge`.
 ```
 # default
 nginx_docker_listen_port: [80, 443]

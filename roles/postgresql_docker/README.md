@@ -74,7 +74,7 @@ postgresql_docker_conf_dir: "{{ postgresql_docker_compose_dir }}/conf"
 
 #### postgresql_docker_data_dir
 Каталог для хранения данных на диске.<br/>
-Используется если `postgresql_docker_bind_mount_volumes == true`
+Используется если `postgresql_docker_bind_mount_volumes: true`
 ```
 # default
 postgresql_docker_data_dir: "{{ postgresql_docker_compose_dir }}/data"
@@ -94,11 +94,10 @@ postgresql_docker_extra_volumes:
 #### postgresql_extra_users
 Список пользователей, который дополнительно будут созданы.<br/>
 Элементом списка является словарь со следующими ключами:
-* name - имя пользователя (обязательно)
-* pass - пароль пользователя (обязательно)
-* base - имя базы данных, которая будет создана (опционально)
-* attr - аттрибуты пользователя. См. [role_attr_flags](https://docs.ansible.com/ansible/latest/collections/community/postgresql/postgresql_user_module.html#parameter-role_attr_flags) (опционально, default: `LOGIN`)
-
+* `name` - имя пользователя (обязательно)
+* `pass` - пароль пользователя (обязательно)
+* `base` - имя базы данных, которая будет создана (опционально)
+* `attr` - аттрибуты пользователя. См. [role_attr_flags](https://docs.ansible.com/ansible/latest/collections/community/postgresql/postgresql_user_module.html#parameter-role_attr_flags) (опционально, default: `LOGIN`)
 ```
 # default
 postgresql_extra_users: []

@@ -59,7 +59,7 @@ vector_docker_extra_volumes: []
 
 #### vector_docker_data_dir
 Каталог для хранения данных на диске.<br/>
-Используется если `vector_docker_bind_mount_volumes: false`
+Используется если `vector_docker_bind_mount_volumes: true`
 ```
 # default
 vector_docker_data_dir: "{{ vector_docker_compose_dir }}/data"

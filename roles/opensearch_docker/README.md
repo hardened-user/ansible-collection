@@ -85,7 +85,7 @@ opensearch_docker_extra_volumes: []
 
 #### opensearch_docker_data_dir
 Каталог для хранения данных на диске.<br/>
-Используется если `opensearch_docker_bind_mount_volumes: false`
+Используется если `opensearch_docker_bind_mount_volumes: true`
 ```
 # default
 opensearch_docker_data_dir: "{{ opensearch_docker_compose_dir }}/data"
@@ -93,7 +93,7 @@ opensearch_docker_data_dir: "{{ opensearch_docker_compose_dir }}/data"
 
 #### opensearch_docker_logs_dir
 Каталог для хранения логов на диске.<br/>
-Используется если `opensearch_docker_bind_mount_volumes: false`
+Используется если `opensearch_docker_bind_mount_volumes: true`
 ```
 # default
 opensearch_docker_logs_dir: "{{ opensearch_docker_compose_dir }}/logs"

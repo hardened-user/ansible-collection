@@ -135,7 +135,7 @@ php_fpm_docker_tcp_enabled: true
 #### php_fpm_docker_listen_addr
 IP адрес, на который будут приниматься подключения.<br/>
 Специальная запись `0.0.0.0` означает, что будут использоваться все адреса.<br/>
-Используется если `php_fpm_docker_tcp_enabled == true`.
+Используется если `php_fpm_docker_tcp_enabled: true`.
 ```
 # default
 php_fpm_docker_listen_addr: "0.0.0.0"
@@ -146,7 +146,7 @@ php_fpm_docker_listen_addr: "127.0.0.1"
 
 #### php_fpm_docker_listen_port
 Номер порта, который будет перенаправлен в контейнер.<br/>
-Используется если `php_fpm_docker_tcp_enabled == true`.
+Используется если `php_fpm_docker_tcp_enabled: true`.
 ```
 # default
 php_fpm_docker_listen_port: 9000
