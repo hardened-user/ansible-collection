@@ -54,7 +54,7 @@
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    that: vars[item] is mapping
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:
@@ -68,6 +68,6 @@
 - name: "Validating variable: opensearch_admin_password"
   ansible.builtin.assert:
     that: opensearch_admin_password | length > 7
-    fail_msg: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
     quiet: true
+    fail_msg: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
   when: opensearch_plugins_security_enabled

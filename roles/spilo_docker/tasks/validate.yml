@@ -62,7 +62,7 @@
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    that: vars[item] is mapping
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:

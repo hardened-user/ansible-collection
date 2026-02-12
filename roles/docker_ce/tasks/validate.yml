@@ -10,13 +10,12 @@
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    that: vars[item] is mapping
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:
     - docker_ce_systemd_environment
     - docker_ce_config
-    - _docker_ce_conf_default
 
 
 - name: "Ensure that variable is list"

@@ -54,18 +54,18 @@
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["dict", "AnsibleMapping"]
+    that: vars[item] is mapping
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:
     - postgresql_config
 
 
-- name: "Ensure that password_encryption is valid"
+- name: "Validating variable: password_encryption"
   ansible.builtin.assert:
     that: postgresql_conf_runtime.password_encryption in ["scram-sha-256", "md5"]
-    fail_msg: "Invalid value: {{ postgresql_conf_runtime.password_encryption }}"
     quiet: true
+    fail_msg: "Invalid value: {{ postgresql_conf_runtime.password_encryption }}"
 
 
 - name: "Check certificate variables length"
