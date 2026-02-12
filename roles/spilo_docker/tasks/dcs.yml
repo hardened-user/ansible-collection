@@ -6,7 +6,7 @@
     validate_certs: false
     follow_redirects: none
     status_code: [200, 503]
-  register: spilo_docker_r_restapi_info
+  register: _spilo_docker_restapi_status
   tags:
     - spilo
     - dcs
@@ -14,7 +14,7 @@
 
 - name: "Validating cluster leader"
   ansible.builtin.assert:
-    that: ansible_play_hosts | map('extract', hostvars, ['spilo_docker_r_restapi_info', 'status']) | select('equalto', 200) | list | length == 1
+    that: ansible_play_hosts | map('extract', hostvars, ['_spilo_docker_restapi_status', 'status']) | select('equalto', 200) | list | length == 1
     fail_msg: "Expected status 200 for exactly one host"
     quiet: true
   run_once: true
@@ -29,10 +29,10 @@
     service: spilo
     user: postgres
     command: timeout 180 patronictl edit-config --apply /mnt/dcs.yaml "{{ spilo_docker_cluster_name }}" --force
-  register: _result
-  changed_when: "'configuration changed' in _result.stdout.lower()"
+  register: _spilo_docker_register
+  changed_when: "'configuration changed' in _spilo_docker_register.stdout.lower()"
   notify: wait spilo dcs sync
-  when: spilo_docker_r_restapi_info.status == 200
+  when: _spilo_docker_restapi_status.status == 200
   tags:
     - spilo
     - dcs
@@ -51,9 +51,9 @@
     service: spilo
     user: postgres
     command: timeout 420 patronictl restart --pending --timeout 300 "{{ spilo_docker_cluster_name }}" --force
-  register: _result
-  changed_when: "'success: restart' in _result.stdout.lower()"
-  when: spilo_docker_r_restapi_info.status == 200
+  register: _spilo_docker_register
+  changed_when: "'success: restart' in _spilo_docker_register.stdout.lower()"
+  when: _spilo_docker_restapi_status.status == 200
   tags:
     - spilo
     - dcs

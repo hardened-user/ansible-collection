@@ -1,11 +1,11 @@
 ---
-spilo_version: "17"
+spilo_docker_version: "17"
 spilo_docker_tag: "latest"
-spilo_docker_image: "ghcr.io/zalando/spilo-{{ spilo_version }}:{{ spilo_docker_tag }}"
-spilo_docker_instance: "{{ spilo_version }}"
+spilo_docker_image: "ghcr.io/zalando/spilo-{{ spilo_docker_version }}:{{ spilo_docker_tag }}"
+spilo_docker_instance: "{{ spilo_docker_version }}"
 spilo_docker_uid: 101
 spilo_docker_gid: 103
-spilo_docker_timezone: "{{ timezone_name }}"
+spilo_docker_timezone: "{{ timezone_name | default('UTC') }}"
 spilo_docker_compose_extra_conf: {}
 spilo_docker_bind_mount_volumes: true
 spilo_docker_extra_volumes: []

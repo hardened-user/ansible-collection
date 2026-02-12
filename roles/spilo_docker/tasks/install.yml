@@ -72,9 +72,9 @@
     service: spilo
     user: postgres
     command: psql -c "SELECT version();"
-  register: _result
+  register: _spilo_docker_register
   changed_when: false
-  until: _result is succeeded
+  until: _spilo_docker_register is succeeded
   retries: 60
   delay: 3
   tags:

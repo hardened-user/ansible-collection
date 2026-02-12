@@ -4,12 +4,12 @@ Simple installation compatible with the [official Docker image](https://github.c
 
 
 ## Variables
-#### spilo_version
+#### spilo_docker_version
 Версия **spilo**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-spilo_version: "17"
+spilo_docker_version: "17"
 ```
 
 #### spilo_docker_tag
@@ -24,7 +24,7 @@ spilo_docker_tag: "latest"
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-spilo_docker_instance: "{{ spilo_version }}"
+spilo_docker_instance: "{{ spilo_docker_version }}"
 ```
 
 #### spilo_docker_uid

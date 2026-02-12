@@ -5,9 +5,9 @@
     service: spilo
     user: postgres
     command: psql -c "SELECT version();"
-  register: _result
+  register: _spilo_docker_register
   changed_when: false
-  until: _result is succeeded
+  until: _spilo_docker_register is succeeded
   retries: 60
   delay: 3
   tags:
@@ -22,7 +22,7 @@
     validate_certs: false
     follow_redirects: none
     status_code: [200, 503]
-  register: spilo_docker_r_restapi_info
+  register: _spilo_docker_restapi_status
   tags:
     - spilo
     - verify
@@ -31,8 +31,8 @@
 - name: "Validating status host"
   ansible.builtin.assert:
     that:
-      - spilo_docker_r_restapi_info.json is defined
-      - spilo_docker_r_restapi_info.json.pending_restart is not defined
+      - _spilo_docker_restapi_status.json is defined
+      - _spilo_docker_restapi_status.json.pending_restart is not defined
     quiet: true
   tags:
     - spilo

@@ -6,7 +6,7 @@
     validate_certs: false
     follow_redirects: none
     status_code: [200, 503]
-  register: spilo_docker_r_restapi_info
+  register: _spilo_docker_restapi_status
   tags:
     - spilo
     - extra_users
@@ -14,7 +14,7 @@
 
 - name: "Validating cluster leader"
   ansible.builtin.assert:
-    that: ansible_play_hosts | map('extract', hostvars, ['spilo_docker_r_restapi_info', 'status']) | select('equalto', 200) | list | length == 1
+    that: ansible_play_hosts | map('extract', hostvars, ['_spilo_docker_restapi_status', 'status']) | select('equalto', 200) | list | length == 1
     fail_msg: "Expected status 200 for exactly one host"
     quiet: true
   run_once: true
@@ -35,8 +35,8 @@
     login_user: "{{ spilo_docker_superuser_name }}"
     login_password: "{{ spilo_docker_superuser_pass }}"
     login_db: "postgres"
-  when: spilo_docker_r_restapi_info.status == 200
-  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') if spilo_docker_r_restapi_info.status == 200 else [] }}"
+  when: _spilo_docker_restapi_status.status == 200
+  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') if _spilo_docker_restapi_status.status == 200 else [] }}"
   loop_control:
     label: "{{ item.name }}"
   tags:
@@ -55,8 +55,8 @@
     login_user: "{{ spilo_docker_superuser_name }}"
     login_password: "{{ spilo_docker_superuser_pass }}"
     maintenance_db: "postgres"
-  when: spilo_docker_r_restapi_info.status == 200
-  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') if spilo_docker_r_restapi_info.status == 200 else [] }}"
+  when: _spilo_docker_restapi_status.status == 200
+  loop: "{{ spilo_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') if _spilo_docker_restapi_status.status == 200 else [] }}"
   loop_control:
     label: "{{ item.base }} user={{ item.name }}"
   tags:

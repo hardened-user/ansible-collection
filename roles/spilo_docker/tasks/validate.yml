@@ -5,7 +5,7 @@
     quiet: true
     fail_msg: "The variable must be a string"
   loop:
-    - spilo_version
+    - spilo_docker_version
     - spilo_docker_tag
     - spilo_docker_image
     - spilo_docker_instance
