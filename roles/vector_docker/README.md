@@ -4,12 +4,12 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### vector_version
+#### vector_docker_version
 Версия **vector**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-vector_version: "0.51.1-alpine"
+vector_docker_version: "0.51.1-alpine"
 ```
 
 #### vector_docker_instance
@@ -65,14 +65,14 @@ vector_docker_extra_volumes: []
 vector_docker_data_dir: "{{ vector_docker_compose_dir }}/data"
 ```
 
-#### vector_config
+#### vector_docker_config
 Конфигурация `vector.yaml`.<br/>
 ```
 # default
-vector_config:
+vector_docker_config:
 
 # example
-vector_config:
+vector_docker_config:
   sources:
     logs:
       ...
@@ -91,7 +91,7 @@ vector_config:
   vars:
     vector_docker_extra_volumes:
       - "/var/log:/var/log:ro"
-    vector_config: "{{ lookup('template', 'files/vector/' + inventory_hostname + '/vector.yaml') }}"
+    vector_docker_config: "{{ lookup('template', 'files/vector/' + inventory_hostname + '/vector.yaml') }}"
   roles:
     - vector_docker
 ```

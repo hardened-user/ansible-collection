@@ -1,6 +1,6 @@
 ---
-vector_version: "0.51.1-alpine"
-vector_docker_tag: "{{ vector_version }}"
+vector_docker_version: "0.51.1-alpine"
+vector_docker_tag: "{{ vector_docker_version }}"
 vector_docker_image: "timberio/vector:{{ vector_docker_tag }}"
 vector_docker_instance: ""
 vector_docker_timezone: "{{ timezone_name | default('UTC') }}"
@@ -11,4 +11,4 @@ vector_docker_data_dir: "{{ vector_docker_compose_dir }}/data"
 
 
 ### vector -------------------------------------------------------------------------------------------------------------
-vector_config:
+vector_docker_config:

@@ -38,11 +38,11 @@
   ansible.builtin.copy:
     dest: "{{ vector_docker_conf_file }}"
     content: |-
-      {%- if vector_config is mapping -%}
+      {%- if vector_docker_config is mapping -%}
       ---
-      {{ vector_config | to_nice_yaml(indent=2) }}
+      {{ vector_docker_config | to_nice_yaml(indent=2) }}
       {%- else -%}
-      {{ vector_config | string }}
+      {{ vector_docker_config | string }}
       {%- endif -%}
     owner: root
     group: root
@@ -58,7 +58,7 @@
   community.docker.docker_compose_v2:
     project_src: "{{ vector_docker_compose_dir }}"
     pull: always
-  register: r_vector_docker_start_result
+  register: _vector_docker_startup
   tags:
     - vector
     - install
