@@ -1,7 +1,7 @@
 ---
 - name: "Ensure that variable is string"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
     quiet: true
     fail_msg: "The variable must be a string"
   loop:
@@ -36,7 +36,7 @@
 
 - name: "Ensure that variable is boolean"
   ansible.builtin.assert:
-    that: vars[item] | type_debug == "bool"
+    that: lookup('vars', item) | type_debug == "bool"
     quiet: true
     fail_msg: "The variable must be a boolean"
   loop:
@@ -48,7 +48,7 @@
 
 - name: "Ensure that variable is list"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
     fail_msg: "The variable must be a list"
   loop:
@@ -62,7 +62,7 @@
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: vars[item] is mapping
+    that: lookup('vars', item) is mapping
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:

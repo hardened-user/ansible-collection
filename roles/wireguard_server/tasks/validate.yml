@@ -10,7 +10,7 @@
 
 - name: "Ensure that variable is list"
   ansible.builtin.assert:
-    that: vars[item] | type_debug in ["list", "AnsibleSequence"]
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
     fail_msg: "The variable must be a list"
   loop:
