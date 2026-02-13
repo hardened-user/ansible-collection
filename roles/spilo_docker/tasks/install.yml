@@ -63,7 +63,7 @@
   tags:
     - spilo
     - install
-    - docker_compose_up
+    - startup
 
 
 - name: "Wait for ready"

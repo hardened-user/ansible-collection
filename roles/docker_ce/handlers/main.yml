@@ -4,4 +4,4 @@
     name: "{{ docker_ce_service_name }}"
     state: restarted
   when:
-    - not r_docker_ce_start.changed
+    - not _docker_ce_startup.changed

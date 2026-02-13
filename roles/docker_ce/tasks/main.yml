@@ -35,6 +35,7 @@
   when: docker_ce_remove_packages | length > 0
   tags:
     - docker_ce
+    - install
     - packages
 
 
@@ -44,6 +45,7 @@
     state: present
   tags:
     - docker_ce
+    - install
     - packages
 
 
@@ -59,6 +61,7 @@
     - { path: "{{ docker_ce_systemd_override_dir }}" }
   tags:
     - docker_ce
+    - install
 
 
 - name: "Copy file from template: {{ docker_ce_systemd_override_file }}"
@@ -68,17 +71,21 @@
     owner: root
     group: root
     mode: '0644'
-  register: _result
+  register: _docker_ce_register
   notify: restart docker-ce
   tags:
     - docker_ce
+    - install
 
 
 # NOTE: Right now, without handler!
 - name: "systemd daemon reload"
   ansible.builtin.systemd:
     daemon_reload: true
-  when: _result.changed
+  when: _docker_ce_register.changed
+  tags:
+    - docker_ce
+    - install
 
 
 - name: "Copy file from template: {{ docker_ce_conf_file }}"
@@ -91,6 +98,7 @@
   notify: restart docker-ce
   tags:
     - docker_ce
+    - install
 
 
 - name: "Service start: {{ docker_ce_service_name }}"
@@ -98,12 +106,15 @@
     name: "{{ docker_ce_service_name }}"
     state: started
     enabled: true
-  register: r_docker_ce_start
+  register: _docker_ce_startup
   tags:
     - docker_ce
+    - install
+    - startup
 
 
 - name: "Flush handlers"
   ansible.builtin.meta: flush_handlers
   tags:
     - docker_ce
+    - install

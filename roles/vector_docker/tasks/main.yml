@@ -62,7 +62,7 @@
   tags:
     - vector
     - install
-    - docker_compose_up
+    - startup
 
 
 - name: "Flush handlers"
