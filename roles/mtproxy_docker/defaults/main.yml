@@ -1,0 +1,12 @@
+---
+mtproxy_docker_version: "latest"
+mtproxy_docker_tag: "{{ mtproxy_docker_version }}"
+mtproxy_docker_image: "telegrammessenger/proxy:{{ mtproxy_docker_tag }}"
+mtproxy_docker_instance: ""
+mtproxy_docker_timezone: "{{ timezone_name | default('UTC') }}"
+mtproxy_docker_compose_extra_conf: {}
+mtproxy_docker_extra_volumes: []
+mtproxy_docker_conf_dir: "{{ mtproxy_docker_compose_dir }}/conf"
+
+mtproxy_docker_environment: {}
+mtproxy_docker_env_default: {}

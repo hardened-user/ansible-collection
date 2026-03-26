@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+
+---
+services:
+  mtproxy:
+    image: "{{ mtproxy_docker_image }}"
+    container_name: "{{ mtproxy_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ mtproxy_docker_timezone }}"
+{% for e in mtproxy_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ e.key }}: "{{ e.value }}"
+{% endfor %}
+    volumes:
+      - {{ mtproxy_docker_conf_dir }}:/data
+{% for v in mtproxy_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+    network_mode: host
+{% if mtproxy_docker_compose_extra_conf %}
+{{ mtproxy_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}
