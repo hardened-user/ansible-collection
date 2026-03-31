@@ -52,7 +52,7 @@ mtproxy_docker_extra_volumes: []
 Каталог для хранения данных на диске.<br/>
 ```
 # default
-mtproxy_docker_conf_dir: "{{ mtproxy_docker_compose_dir }}/data"
+mtproxy_docker_conf_dir: "{{ mtproxy_docker_compose_dir }}/conf"
 ```
 
 #### mtproxy_docker_environment
