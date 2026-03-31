@@ -1,0 +1,65 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - mtgproxy
+    - validate
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ mtgproxy_docker_compose_dir }}", mode: '0750' }
+  when: item.enabled | default(true)
+  tags:
+    - mtgproxy
+    - install
+
+
+- name: "Copy file from template: {{ mtgproxy_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ mtgproxy_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - mtgproxy
+    - install
+
+
+- name: "Create file: {{ mtgproxy_docker_conf_file }}"
+  ansible.builtin.copy:
+    dest: "{{ mtgproxy_docker_conf_file }}"
+    content: "{{ mtgproxy_docker_config }}"
+    owner: root
+    group: root
+    mode: '0600'
+    force: true
+  notify: restart mtgproxy-docker
+  tags:
+    - mtgproxy
+    - install
+
+
+- name: "docker-compose up: {{ mtgproxy_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ mtgproxy_docker_compose_dir }}"
+    pull: always
+  register: _mtgproxy_docker_startup
+  tags:
+    - mtgproxy
+    - install
+    - startup
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - mtgproxy
+    - install

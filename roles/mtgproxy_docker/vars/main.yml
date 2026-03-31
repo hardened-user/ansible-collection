@@ -1,0 +1,4 @@
+---
+mtgproxy_docker_compose_dir: "/srv/mtgproxy{{ '-' + mtgproxy_docker_instance if mtgproxy_docker_instance }}"
+mtgproxy_docker_container_name: "mtgproxy{{ '-' + mtgproxy_docker_instance if mtgproxy_docker_instance }}"
+mtgproxy_docker_conf_file: "{{ mtgproxy_docker_compose_dir }}/config.toml"

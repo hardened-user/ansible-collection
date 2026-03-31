@@ -1,0 +1,11 @@
+---
+mtgproxy_docker_version: "2"
+mtgproxy_docker_tag: "{{ mtgproxy_docker_version }}"
+mtgproxy_docker_image: "nineseconds/mtg:{{ mtgproxy_docker_tag }}"
+mtgproxy_docker_instance: ""
+mtgproxy_docker_timezone: "{{ timezone_name | default('UTC') }}"
+mtgproxy_docker_compose_extra_conf: {}
+mtgproxy_docker_extra_volumes: []
+
+### mtg ----------------------------------------------------------------------------------------------------------------
+mtgproxy_docker_config: "{{ lookup('template', 'config.toml.j2') }}"

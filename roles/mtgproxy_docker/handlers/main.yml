@@ -1,0 +1,7 @@
+---
+- name: "restart mtgproxy-docker"
+  community.docker.docker_compose_v2:
+    project_src: "{{ mtgproxy_docker_compose_dir }}"
+    state: restarted
+    timeout: 60
+  when: not _mtgproxy_docker_startup.changed

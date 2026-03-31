@@ -1,0 +1,40 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - mtgproxy_docker_version
+    - mtgproxy_docker_tag
+    - mtgproxy_docker_image
+    - mtgproxy_docker_instance
+    - mtgproxy_docker_timezone
+    - mtgproxy_docker_config
+  tags:
+    - mtgproxy
+    - validate
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - mtgproxy_docker_extra_volumes
+  tags:
+    - mtgproxy
+    - validate
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: lookup('vars', item) is mapping
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - mtgproxy_docker_compose_extra_conf
+  tags:
+    - mtgproxy
+    - validate
