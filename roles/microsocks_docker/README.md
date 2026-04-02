@@ -85,7 +85,10 @@ microsocks_docker_command: ["-i", "{{ microsocks_docker_listen_addr }}", "-p", "
   hosts: locahost
   become: yes
   vars:
-    microsocks_docker_command: 
+    microsocks_docker_command: ["-p", "{{ microsocks_docker_listen_port }}", "-u", "user", "-P", "*****", "-b", "10.10.0.5"]
+    microsocks_docker_compose_extra_conf:
+    dns:
+      - 10.10.0.1
   roles:
     - microsocks_docker
 ```
