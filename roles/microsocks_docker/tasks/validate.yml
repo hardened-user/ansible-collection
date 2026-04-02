@@ -1,0 +1,58 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string"
+  loop:
+    - microsocks_docker_version
+    - microsocks_docker_tag
+    - microsocks_docker_image
+    - microsocks_docker_instance
+    - microsocks_docker_timezone
+    - microsocks_docker_listen_addr
+  tags:
+    - microsocks
+    - validate
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
+    quiet: true
+    fail_msg: "Variable must be an integer"
+  loop:
+    - microsocks_docker_listen_port
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - microsocks_docker_extra_volumes
+  tags:
+    - microsocks
+    - validate
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: lookup('vars', item) is mapping
+    quiet: true
+    fail_msg: "The variable must be a dictionary"
+  loop:
+    - microsocks_docker_compose_extra_conf
+  tags:
+    - microsocks
+    - validate
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list"
+  loop:
+    - microsocks_docker_command

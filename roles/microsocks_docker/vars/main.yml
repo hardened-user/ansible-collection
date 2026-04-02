@@ -1,0 +1,3 @@
+---
+microsocks_docker_compose_dir: "/srv/microsocks{{ '-' + microsocks_docker_instance if microsocks_docker_instance }}"
+microsocks_docker_container_name: "microsocks{{ '-' + microsocks_docker_instance if microsocks_docker_instance }}"

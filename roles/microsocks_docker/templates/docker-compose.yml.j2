@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+---
+services:
+  microsocks:
+    image: "{{ microsocks_docker_image }}"
+    container_name: "{{ microsocks_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ microsocks_docker_timezone }}"
+{% if microsocks_docker_command %}
+    command:
+{% for item in microsocks_docker_command %}
+      - "{{ item | string }}"
+{% endfor %}
+{% endif %}
+    network_mode: host
+{% if microsocks_docker_compose_extra_conf %}
+{{ microsocks_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}

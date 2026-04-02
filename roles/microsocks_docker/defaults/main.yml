@@ -1,0 +1,14 @@
+---
+microsocks_docker_version: "1.0.5"
+microsocks_docker_tag: "{{ microsocks_docker_version }}"
+microsocks_docker_image: "hardeneduser/microsocks:{{ microsocks_docker_tag }}"
+microsocks_docker_instance: ""
+microsocks_docker_timezone: "{{ timezone_name | default('UTC') }}"
+microsocks_docker_compose_extra_conf: {}
+microsocks_docker_extra_volumes: []
+
+microsocks_docker_listen_addr: "0.0.0.0"
+microsocks_docker_listen_port: 1080
+
+### microsocks ---------------------------------------------------------------------------------------------------------
+microsocks_docker_command: ["-i", "{{ microsocks_docker_listen_addr }}", "-p", "{{ microsocks_docker_listen_port }}"]
