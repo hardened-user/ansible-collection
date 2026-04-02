@@ -1,4 +1,4 @@
-# Highly-opinionated MTPROTO proxy for Telegram.
+# Highly-opinionated MTPROTO proxy for Telegram
 
 Simple installation compatible with the [official Docker image](https://hub.docker.com/r/nineseconds/mtg/)
 
