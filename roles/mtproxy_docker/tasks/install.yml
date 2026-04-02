@@ -1,0 +1,60 @@
+---
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ mtproxy_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ mtproxy_docker_build_dir }}", mode: '0755', enabled: "{{ _mtproxy_docker_build_enabled }}" }
+    - { path: "{{ mtproxy_docker_conf_dir }}", mode: '0700' }
+  when: item.enabled | default(true)
+  tags:
+    - mtproxy
+    - install
+
+
+- name: "Copy file from template: {{ mtproxy_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ mtproxy_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - mtproxy
+    - install
+
+
+- name: "Copy file from template: {{ mtproxy_docker_build_dir }}/Dockerfile"
+  ansible.builtin.template:
+    src: "{{ mtproxy_docker_build_template }}"
+    dest: "{{ mtproxy_docker_build_dir }}/Dockerfile"
+    owner: root
+    group: root
+    mode: '0600'
+  when: _mtproxy_docker_build_enabled
+  tags:
+    - mtproxy
+    - install
+
+
+- name: "docker-compose up: {{ mtproxy_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ mtproxy_docker_compose_dir }}"
+    pull: always
+    build: always
+  register: _mtproxy_docker_startup
+  tags:
+    - mtproxy
+    - install
+    - startup
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - mtproxy
+    - install

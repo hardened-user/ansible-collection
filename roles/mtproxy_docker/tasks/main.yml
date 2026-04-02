@@ -6,47 +6,15 @@
     - validate
 
 
-- name: "Create directories: ..."
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: directory
-    owner: "{{ item.owner | default('root') }}"
-    group: "{{ item.group | default('root') }}"
-    mode: "{{ item.mode | default('0755') }}"
-  loop:
-    - { path: "{{ mtproxy_docker_compose_dir }}", mode: '0750' }
-    - { path: "{{ mtproxy_docker_conf_dir }}", mode: '0700' }
-  when: item.enabled | default(true)
+- name: "Set facts"
+  ansible.builtin.include_tasks: "set_facts.yml"
   tags:
     - mtproxy
-    - install
+    - set_facts
 
 
-- name: "Copy file from template: {{ mtproxy_docker_compose_dir }}/docker-compose.yml"
-  ansible.builtin.template:
-    src: "docker-compose.yml.j2"
-    dest: "{{ mtproxy_docker_compose_dir }}/docker-compose.yml"
-    owner: root
-    group: root
-    mode: '0600'
-  tags:
-    - mtproxy
-    - install
-
-
-- name: "docker-compose up: {{ mtproxy_docker_compose_dir }}"
-  community.docker.docker_compose_v2:
-    project_src: "{{ mtproxy_docker_compose_dir }}"
-    pull: always
-  register: _mtproxy_docker_startup
-  tags:
-    - mtproxy
-    - install
-    - startup
-
-
-- name: "Flush handlers"
-  ansible.builtin.meta: flush_handlers
+- name: "Install"
+  ansible.builtin.include_tasks: "install.yml"
   tags:
     - mtproxy
     - install

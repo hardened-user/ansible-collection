@@ -1,0 +1,16 @@
+---
+- name: "Variable transformation"
+  ansible.builtin.set_fact:
+    mtproxy_docker_build_template: "{{ mtproxy_docker_build_template | trim }}"
+    mtproxy_docker_conf_dir: "{{ mtproxy_docker_conf_dir | trim | regex_replace('\\/+$', '') | trim }}"
+  tags:
+    - mtproxy
+    - set_facts
+
+
+- name: "Internal variables"
+  ansible.builtin.set_fact:
+    _mtproxy_docker_build_enabled: "{{ mtproxy_docker_build_template | length > 1 }}"
+  tags:
+    - mtproxy
+    - set_facts

@@ -12,6 +12,17 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 mtproxy_docker_version: "latest"
 ```
 
+#### mtproxy_docker_build_template
+Шаблон **Dockerfile** для сборки образа. Опционально.<br/>
+См. [docker compose build specification](https://docs.docker.com/reference/compose-file/build/).
+```
+# default
+mtproxy_docker_build_template: ""
+
+# example
+mtproxy_docker_build_template: "{{ role_path }}/templates/build/Dockerfile.j2"
+```
+
 #### mtproxy_docker_instance
 Имя экземпляра **mtproxy**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.

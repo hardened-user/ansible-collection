@@ -1,4 +1,5 @@
 ---
 mtproxy_docker_compose_dir: "/srv/mtproxy{{ '-' + mtproxy_docker_instance if mtproxy_docker_instance }}"
 mtproxy_docker_container_name: "mtproxy{{ '-' + mtproxy_docker_instance if mtproxy_docker_instance }}"
+mtproxy_docker_build_dir: "{{ mtproxy_docker_compose_dir }}/build"
 mtproxy_docker_env_runtime: "{{ mtproxy_docker_env_default | combine(mtproxy_docker_environment) }}"

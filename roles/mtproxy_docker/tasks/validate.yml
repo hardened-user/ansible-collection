@@ -8,6 +8,7 @@
     - mtproxy_docker_version
     - mtproxy_docker_tag
     - mtproxy_docker_image
+    - mtproxy_docker_build_template
     - mtproxy_docker_instance
     - mtproxy_docker_timezone
     - mtproxy_docker_conf_dir
