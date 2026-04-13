@@ -50,6 +50,7 @@
     owner: root
     group: root
     mode: '0755'
+  when: systemd_resolved_config | length > 0
   tags:
     - systemd
     - install
@@ -63,6 +64,7 @@
     group: root
     mode: '0644'
   notify: Restart systemd-resolved
+  when: systemd_resolved_config | length > 0
   vars:
     _systemd_generic_config: "{{ systemd_resolved_config }}"
   tags:
@@ -76,6 +78,7 @@
     state: started
     enabled: true
   register: _systemd_resolved_startup
+  when: systemd_resolved_config | length > 0
   tags:
     - systemd
     - install
@@ -90,6 +93,7 @@
     owner: root
     group: root
     mode: '0755'
+  when: systemd_journald_config | length > 0
   tags:
     - systemd
     - install
@@ -103,6 +107,7 @@
     group: root
     mode: '0644'
   notify: Restart systemd-journald
+  when: systemd_journald_config | length > 0
   vars:
     _systemd_generic_config: "{{ systemd_journald_config }}"
   tags:
@@ -116,6 +121,7 @@
     state: started
     enabled: true
   register: _systemd_journald_startup
+  when: systemd_journald_config | length > 0
   tags:
     - systemd
     - install
