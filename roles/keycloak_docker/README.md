@@ -110,8 +110,8 @@ You are logged in as a temporary admin user. To harden security, create a perman
 ```
 $ docker compose exec keycloak bash
 $ cd /opt/keycloak/bin
-$ ./kcadm.sh config credentials --server http://localhost:8017 --realm master --user "${KC_BOOTSTRAP_ADMIN_USERNAME}" --password "${KC_BOOTSTRAP_ADMIN_PASSWORD}"
-Logging into http://localhost:8017 as user temp-admin of realm master
+$ ./kcadm.sh config credentials --server http://localhost:8080 --realm master --user "${KC_BOOTSTRAP_ADMIN_USERNAME}" --password "${KC_BOOTSTRAP_ADMIN_PASSWORD}"
+Logging into http://localhost:8080 as user temp-admin of realm master
 $ ./kcadm.sh create users -r master -s username=new-admin -s enabled=true
 $ ./kcadm.sh set-password -r master --username new-admin --new-password "*****"
 $ ./kcadm.sh add-roles -r master --uusername new-admin --rolename admin
