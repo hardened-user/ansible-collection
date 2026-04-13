@@ -5,4 +5,4 @@
   service:
     name: sshd
     state: reloaded
-    enabled: yes
+    enabled: true
