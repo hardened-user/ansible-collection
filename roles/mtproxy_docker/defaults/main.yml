@@ -1,13 +1,19 @@
 ---
-mtproxy_docker_version: "latest"
+mtproxy_docker_version: "1.4"
 mtproxy_docker_tag: "{{ mtproxy_docker_version }}"
 mtproxy_docker_image: "telegrammessenger/proxy:{{ mtproxy_docker_tag }}"
-mtproxy_docker_build_template: ""
+mtproxy_docker_build_template: "{{ role_path }}/templates/build/Dockerfile.j2"
 mtproxy_docker_instance: ""
 mtproxy_docker_timezone: "{{ timezone_name | default('UTC') }}"
 mtproxy_docker_compose_extra_conf: {}
 mtproxy_docker_extra_volumes: []
 mtproxy_docker_conf_dir: "{{ mtproxy_docker_compose_dir }}/conf"
 
+mtproxy_docker_listen_port: 443
+
+mtproxy_docker_user_name: "mtproxy"
+mtproxy_docker_user_group: "mtproxy"
+
 mtproxy_docker_environment: {}
-mtproxy_docker_env_default: {}
+mtproxy_docker_env_default:
+  PORT: "{{ mtproxy_docker_listen_port }}"

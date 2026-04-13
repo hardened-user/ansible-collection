@@ -12,6 +12,8 @@
     - mtproxy_docker_instance
     - mtproxy_docker_timezone
     - mtproxy_docker_conf_dir
+    - mtproxy_docker_user_name
+    - mtproxy_docker_user_group
   tags:
     - mtproxy
     - validate

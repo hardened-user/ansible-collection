@@ -1,4 +1,28 @@
 ---
+- name: "Create group: {{ mtproxy_docker_user_group }}"
+  ansible.builtin.group:
+    name: "{{ mtproxy_docker_user_group }}"
+    system: true
+  tags:
+    - mtproxy
+    - install
+
+
+- name: "Create user: {{ mtproxy_docker_user_name }}"
+  ansible.builtin.user:
+    name: "{{ mtproxy_docker_user_name }}"
+    group: "{{ mtproxy_docker_user_group }}"
+    home: "/nonexistent"
+    shell: "/usr/sbin/nologin"
+    comment: "created by ansible"
+    system: true
+    create_home: no
+  register: _mtproxy_docker_user
+  tags:
+    - mtproxy
+    - install
+
+
 - name: "Create directories: ..."
   ansible.builtin.file:
     path: "{{ item.path }}"
@@ -9,7 +33,7 @@
   loop:
     - { path: "{{ mtproxy_docker_compose_dir }}", mode: '0750' }
     - { path: "{{ mtproxy_docker_build_dir }}", mode: '0755', enabled: "{{ _mtproxy_docker_build_enabled }}" }
-    - { path: "{{ mtproxy_docker_conf_dir }}", mode: '0700' }
+    - { path: "{{ mtproxy_docker_conf_dir }}", owner: "{{ mtproxy_docker_user_name }}", group: "{{ mtproxy_docker_user_group }}", mode: '0700' }
   when: item.enabled | default(true)
   tags:
     - mtproxy
@@ -46,7 +70,6 @@
     project_src: "{{ mtproxy_docker_compose_dir }}"
     pull: always
     build: always
-  register: _mtproxy_docker_startup
   tags:
     - mtproxy
     - install

@@ -1,8 +1,9 @@
 # {{ ansible_managed }}
 
 FROM {{ mtproxy_docker_image }}
-
-RUN cat <<'EOF' > /run.sh
+CMD ["/run.sh"]
+RUN chmod 777 -R /etc/telegram/ && \
+    cat <<'EOF' > /run.sh
 #!/bin/bash
 if [ ! -z "$DEBUG" ]; then set -x; fi
 mkdir /data 2>/dev/null >/dev/null
@@ -10,6 +11,14 @@ RANDOM=$(printf "%d" "0x$(head -c4 /dev/urandom | od -t x1 -An | tr -d ' ')")
 
 if [ -z "$PORT" ]; then
   PORT=443
+fi
+
+if [ -z "$IP" ]; then
+  IP="$(curl -sS -4 "https://digitalresistance.dog/myIp")"
+fi
+
+if [ -z "$INTERNAL_IP" ]; then
+  INTERNAL_IP="$(ip -4 route get 8.8.8.8 | grep '^8\.8\.8\.8\s' | grep -Po 'src\s+\d+\.\d+\.\d+\.\d+' | awk '{print $2}')"
 fi
 
 if [ -z "$WORKERS" ]; then
@@ -68,14 +77,11 @@ if [[ ! -z "$TAG" ]]; then
   fi
 fi
 
-curl -s https://core.telegram.org/getProxyConfig -o /etc/telegram/backend.conf || {
+CONFIG=/etc/telegram/backend.conf
+curl -sS https://core.telegram.org/getProxyConfig -o ${CONFIG} || {
   echo '[F] Cannot download proxy configuration from Telegram servers.'
   exit 2
 }
-CONFIG=/etc/telegram/backend.conf
-
-IP="$(curl -s -4 "https://digitalresistance.dog/myIp")"
-INTERNAL_IP="$(ip -4 route get 8.8.8.8 | grep '^8\.8\.8\.8\s' | grep -Po 'src\s+\d+\.\d+\.\d+\.\d+' | awk '{print $2}')"
 
 if [[ -z "$IP" ]]; then
   echo "[F] Cannot determine external IP address."
@@ -102,5 +108,7 @@ echo "[*]   Make sure to fix the links in case you run the proxy on a different 
 echo
 echo '[+] Starting proxy...'
 sleep 1
-exec /usr/local/bin/mtproto-proxy -p 2398 -H ${PORT} -M "$WORKERS" -C 60000 --aes-pwd /etc/telegram/hello-explorers-how-are-you-doing -u root $CONFIG --allow-skip-dh --nat-info "$INTERNAL_IP:$IP" $SECRET_CMD $TAG_CMD
+exec /usr/local/bin/mtproto-proxy -p 2398 -H ${PORT} -M "$WORKERS" -C 60000 \
+  --aes-pwd /etc/telegram/hello-explorers-how-are-you-doing \
+  $CONFIG --allow-skip-dh --nat-info "$INTERNAL_IP:$IP" $SECRET_CMD $TAG_CMD
 EOF

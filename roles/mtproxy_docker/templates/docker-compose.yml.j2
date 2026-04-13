@@ -9,6 +9,7 @@ services:
     image: "{{ mtproxy_docker_image }}"
 {% endif %}
     container_name: "{{ mtproxy_docker_container_name }}"
+    user: "{{ _mtproxy_docker_user.uid }}:{{ _mtproxy_docker_user.group }}"
     restart: unless-stopped
     environment:
       TZ: "{{ mtproxy_docker_timezone }}"

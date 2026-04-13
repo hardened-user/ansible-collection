@@ -2,6 +2,8 @@
 
 Simple installation compatible with the [official Docker image](https://hub.docker.com/r/telegrammessenger/proxy/)
 
+Tested on `telegrammessenger/proxy:1.4`
+
 
 ## Variables
 #### mtproxy_docker_version
@@ -9,7 +11,7 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-mtproxy_docker_version: "latest"
+mtproxy_docker_version: "1.4"
 ```
 
 #### mtproxy_docker_build_template
@@ -17,9 +19,6 @@ mtproxy_docker_version: "latest"
 См. [docker compose build specification](https://docs.docker.com/reference/compose-file/build/).
 ```
 # default
-mtproxy_docker_build_template: ""
-
-# example
 mtproxy_docker_build_template: "{{ role_path }}/templates/build/Dockerfile.j2"
 ```
 
