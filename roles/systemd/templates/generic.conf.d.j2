@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+{% for section, items in _systemd_generic_config | groupby('section') %}
+[{{ section }}]
+{% for item in items %}
+{{ item.option }}={{ item.value }}
+{% endfor %}
+
+{% endfor %}

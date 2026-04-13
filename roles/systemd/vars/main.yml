@@ -1,0 +1,12 @@
+---
+systemd_system_conf_file: "/etc/systemd/system.conf"
+
+systemd_logind_conf_file: "/etc/systemd/logind.conf"
+
+systemd_resolved_service_name: "systemd-resolved"
+systemd_resolved_conf_d_dir: "/etc/systemd/resolved.conf.d"
+systemd_resolved_conf_file: "{{ systemd_resolved_conf_d_dir }}/99-ansible.conf"
+
+systemd_journald_service_name: "systemd-journald"
+systemd_journald_conf_d_dir: "/etc/systemd/journald.conf.d"
+systemd_journald_conf_file: "{{ systemd_journald_conf_d_dir }}/99-ansible.conf"

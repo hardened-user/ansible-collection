@@ -1,0 +1,130 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - systemd
+    - validate
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+- name: "Configure systemd: {{ systemd_system_conf_file }}"
+  community.general.ini_file:
+    dest: "{{ systemd_system_conf_file }}"
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Recommend reboot
+  loop: "{{ systemd_system_config }}"
+  tags:
+    - systemd
+    - install
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+- name: "Configure systemd logind: {{ systemd_logind_conf_file }}"
+  community.general.ini_file:
+    dest: "{{ systemd_logind_conf_file }}"
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Recommend reboot
+  loop: "{{ systemd_logind_config }}"
+  tags:
+    - systemd
+    - install
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+- name: "Create directory: {{ systemd_resolved_conf_d_dir }}"
+  ansible.builtin.file:
+    path: "{{ systemd_resolved_conf_d_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - systemd
+    - install
+
+
+- name: "Copy file from template: {{ systemd_resolved_conf_file }}"
+  ansible.builtin.template:
+    src: "generic.conf.d.j2"
+    dest: "{{ systemd_resolved_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart systemd-resolved
+  vars:
+    _systemd_generic_config: "{{ systemd_resolved_config }}"
+  tags:
+    - systemd
+    - install
+
+
+- name: "Service start: {{ systemd_resolved_service_name }}"
+  ansible.builtin.service:
+    name: "{{ systemd_resolved_service_name }}"
+    state: started
+    enabled: true
+  register: _systemd_resolved_startup
+  tags:
+    - systemd
+    - install
+    - startup
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+- name: "Create directory: {{ systemd_journald_conf_d_dir }}"
+  ansible.builtin.file:
+    path: "{{ systemd_journald_conf_d_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - systemd
+    - install
+
+
+- name: "Copy file from template: {{ systemd_journald_conf_file }}"
+  ansible.builtin.template:
+    src: "generic.conf.d.j2"
+    dest: "{{ systemd_journald_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart systemd-journald
+  vars:
+    _systemd_generic_config: "{{ systemd_journald_config }}"
+  tags:
+    - systemd
+    - install
+
+
+- name: "Service start: {{ systemd_journald_service_name }}"
+  ansible.builtin.service:
+    name: "{{ systemd_journald_service_name }}"
+    state: started
+    enabled: true
+  register: _systemd_journald_startup
+  tags:
+    - systemd
+    - install
+    - startup
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - systemd
+    - install

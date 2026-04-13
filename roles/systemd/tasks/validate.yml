@@ -1,0 +1,30 @@
+---
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
+  loop:
+    - systemd_system_config
+    - systemd_logind_config
+    - systemd_resolved_config
+    - systemd_journald_config
+  tags:
+    - systemd
+    - validate
+
+
+- name: "Ensure that each item in the list is a dictionary"
+  ansible.builtin.assert:
+    that:
+      - lookup('vars', item) | reject('mapping') | length == 0
+    quiet: true
+    fail_msg: "Each item must be a dictionary"
+  loop:
+    - systemd_system_config
+    - systemd_logind_config
+    - systemd_resolved_config
+    - systemd_journald_config
+  tags:
+    - systemd
+    - validate

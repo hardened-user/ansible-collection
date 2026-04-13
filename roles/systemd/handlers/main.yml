@@ -1,0 +1,25 @@
+---
+- name: Recommend reboot
+  ansible.builtin.debug:
+    msg: |-
+      ###########################################################
+      WARNING: Configuration has changed!
+      A system reboot is RECOMMENDED to apply all changes.
+      Please run 'sudo reboot' at your earliest convenience.
+      ###########################################################
+
+
+- name: Restart systemd-resolved
+  ansible.builtin.service:
+    name: "{{ systemd_resolved_service_name }}"
+    state: restarted
+  when:
+    - not _systemd_resolved_startup.changed
+
+
+- name: Restart systemd-journald
+  ansible.builtin.service:
+    name: "{{ systemd_journald_service_name }}"
+    state: restarted
+  when:
+    - not _systemd_journald_startup.changed
