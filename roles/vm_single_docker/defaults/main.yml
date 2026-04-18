@@ -1,5 +1,5 @@
 ---
-vm_single_version: "1.136"
+vm_single_version: "1.140.0"
 vm_single_docker_tag: "v{{ vm_single_version }}"
 vm_single_docker_image: "victoriametrics/victoria-metrics:{{ vm_single_docker_tag }}"
 vm_single_docker_instance: ""  # "{{ vm_single_version | trim }}"
