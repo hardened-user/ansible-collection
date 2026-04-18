@@ -14,6 +14,7 @@
     - grafana_docker_conf_dir
     - grafana_docker_data_dir
     - grafana_docker_logs_dir
+    - grafana_docker_listen_addr
   tags:
     - grafana
     - validate
