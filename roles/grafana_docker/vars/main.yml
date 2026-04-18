@@ -1,0 +1,10 @@
+---
+grafana_docker_compose_dir: "/srv/grafana{{ '-' + grafana_docker_instance if grafana_docker_instance }}"
+grafana_docker_container_name: "grafana{{ '-' + grafana_docker_instance if grafana_docker_instance }}"
+grafana_docker_access_conf_dir: "{{ grafana_docker_conf_dir }}/provisioning/access-control"
+grafana_docker_alerting_conf_dir: "{{ grafana_docker_conf_dir }}/provisioning/alerting"
+grafana_docker_dashboards_conf_dir: "{{ grafana_docker_conf_dir }}/provisioning/dashboards"
+grafana_docker_datasources_conf_dir: "{{ grafana_docker_conf_dir }}/provisioning/datasources"
+grafana_docker_notifiers_conf_dir: "{{ grafana_docker_conf_dir }}/provisioning/notifiers"
+grafana_docker_plugins_conf_dir: "{{ grafana_docker_conf_dir }}/provisioning/plugins"
+grafana_docker_env_runtime: "{{ grafana_docker_env_default | combine(grafana_docker_environment) }}"

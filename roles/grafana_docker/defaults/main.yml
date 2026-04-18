@@ -1,0 +1,22 @@
+---
+grafana_docker_version: "12.4.3"
+grafana_docker_tag: "{{ grafana_docker_version }}"
+grafana_docker_image: "grafana/grafana:{{ grafana_docker_tag }}"
+grafana_docker_instance: ""
+grafana_docker_uid: 472
+grafana_docker_gid: 0
+grafana_docker_network: bridge # "bridge" or "host" supported
+grafana_docker_timezone: "{{ timezone_name | default('UTC') }}"
+grafana_docker_compose_extra_conf: {}
+grafana_docker_extra_volumes: []
+grafana_docker_conf_dir: "{{ grafana_docker_compose_dir }}/conf"
+grafana_docker_data_dir: "{{ grafana_docker_compose_dir }}/data"
+grafana_docker_logs_dir: "{{ grafana_docker_compose_dir }}/logs"
+
+grafana_docker_listen_addr: "0.0.0.0"
+grafana_docker_listen_port: 3000
+
+grafana_docker_environment: {}
+grafana_docker_env_default:
+  GF_NEWS_NEWS_FEED_ENABLED: "false"
+  GF_ANALYTICS_REPORTING_ENABLED: "false"

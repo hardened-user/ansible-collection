@@ -1,0 +1,13 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - grafana
+    - validate
+
+
+- name: "Install"
+  ansible.builtin.include_tasks: "install.yml"
+  tags:
+    - grafana
+    - install

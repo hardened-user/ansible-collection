@@ -1,0 +1,70 @@
+---
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0750') }}"
+  loop:
+    - { path: "{{ grafana_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ grafana_docker_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_data_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_logs_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_access_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_alerting_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_dashboards_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_datasources_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_notifiers_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+    - { path: "{{ grafana_docker_plugins_conf_dir }}", owner: "{{ grafana_docker_uid }}", group: "{{ grafana_docker_gid }}" }
+  tags:
+    - grafana
+    - install
+
+
+- name: "Copy file from template: {{ grafana_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ grafana_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - grafana
+    - install
+
+
+- name: "Copy files from template: ..."
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ grafana_docker_conf_dir }}/{{ item | basename | regex_replace('\\.j2$','') }}"
+    owner: root
+    group: root
+    mode: '0640'
+  notify: Restart grafana
+  loop:
+    - "grafana.ini.j2"
+    - "ldap.toml.j2"
+  loop_control:
+    label: "{{ grafana_docker_conf_dir }}/{{ item | basename | regex_replace('\\.j2$','') }}"
+  tags:
+    - grafana
+    - install
+
+
+- name: "docker-compose up: {{ grafana_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ grafana_docker_compose_dir }}"
+    pull: always
+  register: _grafana_docker_startup
+  tags:
+    - grafana
+    - install
+    - startup
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - grafana
+    - install

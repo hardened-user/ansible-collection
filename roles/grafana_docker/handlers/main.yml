@@ -1,0 +1,7 @@
+---
+- name: Restart grafana
+  community.docker.docker_compose_v2:
+    project_src: "{{ grafana_docker_compose_dir }}"
+    state: restarted
+    timeout: 60
+  when: not _grafana_docker_startup.changed

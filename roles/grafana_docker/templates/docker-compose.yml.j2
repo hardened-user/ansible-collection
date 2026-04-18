@@ -1,0 +1,33 @@
+# {{ ansible_managed }}
+
+---
+services:
+  grafana:
+    image: "{{ grafana_docker_image }}"
+    container_name: "{{ grafana_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ grafana_docker_timezone }}"
+{% if grafana_docker_network == "host" %}
+      GF_SERVER_HTTP_ADDR: "{{ grafana_docker_listen_addr }}"
+      GF_SERVER_HTTP_PORT: "{{ grafana_docker_listen_port }}"
+{% endif %}
+{% for e in grafana_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ e.key }}: "{{ e.value }}"
+{% endfor %}
+    volumes:
+      - {{ grafana_docker_conf_dir }}:/etc/grafana
+      - {{ grafana_docker_data_dir }}:/var/lib/grafana
+      - {{ grafana_docker_logs_dir }}:/var/log/grafana
+{% for v in grafana_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if grafana_docker_network != "host" %}
+    ports:
+      - {{ grafana_docker_listen_addr }}:{{ grafana_docker_listen_port }}:3000
+{% else %}
+    network_mode: host
+{% endif %}
+{% if grafana_docker_compose_extra_conf %}
+{{ grafana_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}
