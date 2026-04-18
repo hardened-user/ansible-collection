@@ -13,8 +13,8 @@ vm_single_docker_listen_addr: "0.0.0.0"
 vm_single_docker_listen_port: 8428
 
 
-### postgresql.conf ----------------------------------------------------------------------------------------------------
+### --------------------------------------------------------------------------------------------------------------------
 vm_single_conf_dict: {}
 vm_single_conf_default:
-  retentionPeriod: "1"     # Период хранения данных 1 месяц
+  retentionPeriod: "12m"    # Период хранения данных 12 месяц
   selfScrapeInterval: "30s" # Само-мониторинг (https://docs.victoriametrics.com/#monitoring)
