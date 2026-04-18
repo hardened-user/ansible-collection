@@ -14,7 +14,7 @@ vm_single_docker_listen_port: 8428
 
 
 ### --------------------------------------------------------------------------------------------------------------------
-vm_single_conf_dict: {}
+vm_single_config: {}
 vm_single_conf_default:
-  retentionPeriod: "12m"    # Период хранения данных 12 месяц
+  retentionPeriod: "12M"    # Период хранения данных 12 месяц
   selfScrapeInterval: "30s" # Само-мониторинг (https://docs.victoriametrics.com/#monitoring)

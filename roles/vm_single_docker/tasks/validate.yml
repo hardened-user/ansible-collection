@@ -48,5 +48,5 @@
     quiet: true
     fail_msg: "The variable must be a dictionary"
   loop:
-    - vm_single_conf_dict
+    - vm_single_config
     - vm_single_conf_default
