@@ -8,7 +8,7 @@ Simple installation VictoriaMetrics Single with the [official Docker image](http
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-vm_single_version: "1.125.1"
+vm_single_version: "1.136"
 ```
 
 #### vm_single_docker_instance
