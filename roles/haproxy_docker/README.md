@@ -1,6 +1,6 @@
 # HAProxy
 
-Simple installation HAProxy with the [official Docker image](https://hub.docker.com/_/haproxy/)
+Simple installation compatible with the [official Docker image](https://hub.docker.com/_/haproxy)
 
 ## Variables
 #### haproxy_version

@@ -1,6 +1,6 @@
 # Grafana
 
-Simple installation **Grafana** with the [official Docker image](https://hub.docker.com/r/grafana/grafana/)
+Simple installation compatible with the [official Docker image](https://hub.docker.com/r/grafana/grafana)
 
 
 ## Variables

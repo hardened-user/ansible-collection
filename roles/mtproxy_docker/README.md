@@ -1,6 +1,6 @@
 # Telegram Messenger MTProto zero-configuration proxy server.
 
-Simple installation compatible with the [official Docker image](https://hub.docker.com/r/telegrammessenger/proxy/)
+Simple installation compatible with the [official Docker image](https://hub.docker.com/r/telegrammessenger/proxy)
 
 Tested on `telegrammessenger/proxy:1.4`
 

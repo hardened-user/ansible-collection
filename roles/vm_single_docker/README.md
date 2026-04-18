@@ -1,6 +1,6 @@
 # VictoriaMetrics
 
-Simple installation VictoriaMetrics Single with the [official Docker image](https://hub.docker.com/r/victoriametrics/victoria-metrics/)
+Simple installation compatible with the [official Docker image](https://hub.docker.com/r/victoriametrics/victoria-metrics)
 
 ## Variables
 #### vm_single_version
