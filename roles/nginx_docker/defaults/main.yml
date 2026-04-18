@@ -6,7 +6,7 @@ nginx_docker_instance: ""
 nginx_docker_uid: 33
 nginx_docker_gid: 33
 nginx_docker_network: bridge # "bridge" or "host" supported
-nginx_docker_timezone: "{{ timezone_name }}"
+nginx_docker_timezone: "{{ timezone_name | default('UTC') }}"
 nginx_docker_cert_dir: "{{ nginx_docker_compose_dir }}/cert"
 nginx_docker_conf_dir: "{{ nginx_docker_compose_dir }}/conf"
 nginx_docker_data_dir: "{{ nginx_docker_compose_dir }}/data"

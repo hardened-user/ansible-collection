@@ -2,7 +2,7 @@
 zabbix_web_nginx_pgsql_version: "7.0"
 zabbix_web_nginx_pgsql_docker_tag: "{{ zabbix_web_nginx_pgsql_version }}-alpine-latest"
 zabbix_web_nginx_pgsql_docker_image: "zabbix/zabbix-web-nginx-pgsql:{{ zabbix_web_nginx_pgsql_docker_tag }}"
-zabbix_web_nginx_pgsql_docker_timezone: "{{ timezone_name }}"
+zabbix_web_nginx_pgsql_docker_timezone: "{{ timezone_name | default('UTC') }}"
 
 zabbix_web_nginx_pgsql_docker_listen_addr: "0.0.0.0"
 zabbix_web_nginx_pgsql_listen_http_port: 8080
