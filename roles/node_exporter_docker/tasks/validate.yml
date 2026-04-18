@@ -5,11 +5,14 @@
     quiet: true
     fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - node_exporter_version
+    - node_exporter_docker_version
     - node_exporter_docker_tag
     - node_exporter_docker_image
     - node_exporter_docker_timezone
     - node_exporter_docker_listen_addr
+  tags:
+    - node_exporter
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -19,12 +22,20 @@
     fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - node_exporter_docker_listen_port
+  tags:
+    - node_exporter
+    - validate
 
 
-- name: "Ensure that variable is list"
+- name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    that: lookup('vars', item) is mapping
     quiet: true
-    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - node_exporter_flags
+    - node_exporter_docker_compose_extra_conf
+    - node_exporter_docker_config
+    - node_exporter_docker_conf_default
+  tags:
+    - node_exporter
+    - validate

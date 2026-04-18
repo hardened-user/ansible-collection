@@ -1,3 +1,4 @@
 ---
 node_exporter_docker_compose_dir: "/srv/node_exporter"
 node_exporter_docker_container_name: "node_exporter"
+node_exporter_docker_conf_runtime: "{{ node_exporter_docker_conf_default | combine(node_exporter_docker_config) }}"

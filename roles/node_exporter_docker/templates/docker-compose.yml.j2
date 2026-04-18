@@ -13,21 +13,14 @@ services:
     environment:
       TZ: "{{ node_exporter_docker_timezone }}"
     command:
-      - '--log.level=info'
-      - '--web.listen-address={{ node_exporter_docker_listen_addr }}:{{ node_exporter_docker_listen_port }}'
       - '--path.rootfs=/host'
-{% for x in node_exporter_flags %}
-      - '{{ x }}'
+      - '--web.listen-address={{ node_exporter_docker_listen_addr }}:{{ node_exporter_docker_listen_port }}'
+{% for x in node_exporter_docker_conf_runtime | dict2items | rejectattr('value', 'none') %}
+      - '--{{ x.key }}={{ x.value }}'
 {% endfor %}
     volumes:
       - /:/host:ro,rslave
     network_mode: host
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "8m"
+{% if node_exporter_docker_compose_extra_conf %}
+{{ node_exporter_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}
