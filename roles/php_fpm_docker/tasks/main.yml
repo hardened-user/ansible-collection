@@ -18,7 +18,7 @@
     state: directory
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
-    mode: "{{ item.mode | default('0750') }}"
+    mode: "{{ item.mode | default('0755') }}"
   when: item.path | length > 1
   with_items:
     - { path: "{{ php_fpm_docker_compose_dir }}", mode: '0750' }
