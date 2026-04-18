@@ -3,7 +3,7 @@
   ansible.builtin.assert:
     that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
-    fail_msg: "The variable must be a list"
+    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - wireguard_client_tunnels
 

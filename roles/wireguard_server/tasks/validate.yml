@@ -3,7 +3,7 @@
   ansible.builtin.assert:
     that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
     quiet: true
-    fail_msg: "Variable must be an integer"
+    fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - wireguard_server_listen_port
 
@@ -12,6 +12,6 @@
   ansible.builtin.assert:
     that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
-    fail_msg: "The variable must be a list"
+    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - wireguard_server_clients

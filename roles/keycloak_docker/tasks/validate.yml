@@ -3,7 +3,7 @@
   ansible.builtin.assert:
     that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
     quiet: true
-    fail_msg: "The variable must be a string"
+    fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - keycloak_version
     - keycloak_docker_tag
@@ -22,7 +22,7 @@
   ansible.builtin.assert:
     that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
     quiet: true
-    fail_msg: "Variable must be an integer"
+    fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - keycloak_major_version
     - keycloak_docker_uid
@@ -44,7 +44,7 @@
   ansible.builtin.assert:
     that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
-    fail_msg: "The variable must be a list"
+    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - keycloak_docker_extra_volumes
     - keycloak_docker_listen_port
@@ -54,7 +54,7 @@
   ansible.builtin.assert:
     that: lookup('vars', item) is mapping
     quiet: true
-    fail_msg: "The variable must be a dictionary"
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - keycloak_docker_environment
     - keycloak_docker_env_default
