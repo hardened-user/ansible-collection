@@ -4,7 +4,7 @@
 services:
   mtproxy:
 {% if _mtproxy_docker_build_enabled %}
-    build: ./build
+    build: "{{ mtproxy_docker_build_dir }}"
 {% else %}
     image: "{{ mtproxy_docker_image }}"
 {% endif %}
