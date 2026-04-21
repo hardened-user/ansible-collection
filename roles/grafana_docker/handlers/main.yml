@@ -4,4 +4,4 @@
     project_src: "{{ grafana_docker_compose_dir }}"
     state: restarted
     timeout: 60
-  when: not _grafana_docker_startup.changed
+  when: not _grafana_docker_started.changed

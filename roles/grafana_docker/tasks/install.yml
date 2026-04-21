@@ -56,7 +56,7 @@
   community.docker.docker_compose_v2:
     project_src: "{{ grafana_docker_compose_dir }}"
     pull: always
-  register: _grafana_docker_startup
+  register: _grafana_docker_started
   tags:
     - grafana
     - install

@@ -4,4 +4,4 @@
     project_src: "{{ mtgproxy_docker_compose_dir }}"
     state: restarted
     timeout: 60
-  when: not _mtgproxy_docker_startup.changed
+  when: not _mtgproxy_docker_started.changed

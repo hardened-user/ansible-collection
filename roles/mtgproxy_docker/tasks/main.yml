@@ -51,7 +51,7 @@
   community.docker.docker_compose_v2:
     project_src: "{{ mtgproxy_docker_compose_dir }}"
     pull: always
-  register: _mtgproxy_docker_startup
+  register: _mtgproxy_docker_started
   tags:
     - mtgproxy
     - install

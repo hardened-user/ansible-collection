@@ -58,7 +58,7 @@
   community.docker.docker_compose_v2:
     project_src: "{{ vector_docker_compose_dir }}"
     pull: always
-  register: _vector_docker_startup
+  register: _vector_docker_started
   tags:
     - vector
     - install
