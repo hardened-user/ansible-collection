@@ -63,7 +63,7 @@
   tags:
     - spilo
     - install
-    - startup
+    - started
 
 
 - name: "Wait for ready"

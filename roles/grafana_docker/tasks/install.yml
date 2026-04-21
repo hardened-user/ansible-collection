@@ -60,7 +60,7 @@
   tags:
     - grafana
     - install
-    - startup
+    - started
 
 
 - name: "Flush handlers"

@@ -50,7 +50,7 @@
   register: r_docker_gitlab_runner_start_result
   tags:
     - gitlab-runner
-    - startup
+    - started
 
 
 # TODO: register

@@ -70,4 +70,4 @@
     pull: yes
   tags:
     - prometheus
-    - startup
+    - started

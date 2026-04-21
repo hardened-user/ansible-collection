@@ -55,7 +55,7 @@
   tags:
     - mtgproxy
     - install
-    - startup
+    - started
 
 
 - name: "Flush handlers"

@@ -62,7 +62,7 @@
   tags:
     - vector
     - install
-    - startup
+    - started
 
 
 - name: "Flush handlers"

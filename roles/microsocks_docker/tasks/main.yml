@@ -40,7 +40,7 @@
   tags:
     - microsocks
     - install
-    - startup
+    - started
 
 
 - name: "Flush handlers"

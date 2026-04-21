@@ -110,7 +110,7 @@
   tags:
     - docker_ce
     - install
-    - startup
+    - started
 
 
 - name: "Flush handlers"
