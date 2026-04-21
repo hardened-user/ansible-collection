@@ -4,20 +4,20 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### vm_single_version
+#### grafana_docker_version
 Version of **Grafana**.<br/>
 Used as a base value for defining other variables, directory names, etc.
 ```
 # default
-vm_single_version: "1.140.0"
+grafana_docker_version: "12.4.3"
 ```
 
-#### vm_single_docker_instance
+#### grafana_docker_instance
 Instance name.<br/>
 Used as a base value for defining other variables, directory names, etc.
 ```
 # default
-vm_single_docker_instance: ""
+grafana_docker_instance: ""
 ```
 
 
