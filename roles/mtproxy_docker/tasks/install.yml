@@ -16,7 +16,7 @@
     shell: "/usr/sbin/nologin"
     comment: "created by ansible"
     system: true
-    create_home: no
+    create_home: false
   register: _mtproxy_docker_user
   tags:
     - mtproxy
