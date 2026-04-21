@@ -15,7 +15,7 @@
         enabled: "{{ postgresql_docker_bind_mount_volumes }}" }
   tags:
     - postgresql
-    - config
+    - install
 
 
 - name: "Copy file from template: {{ postgresql_docker_compose_dir }}/docker-compose.yml"
@@ -27,7 +27,7 @@
     mode: '0600'
   tags:
     - postgresql
-    - config
+    - install
 
 
 - name: "Copy file from template: {{ postgresql_docker_build_dir }}/Dockerfile"
@@ -40,10 +40,10 @@
   when: _postgresql_docker_build_enabled
   tags:
     - postgresql
-    - config
+    - install
 
 
-- name: "Copy files from template: {{ postgresql_docker_conf_dir }}/"
+- name: "Copy files from template: ..."
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ postgresql_docker_conf_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
@@ -54,9 +54,11 @@
   loop:
     - "pg_hba.conf.j2"
     - "postgresql.conf.j2"
+  loop_control:
+    label: "{{ postgresql_docker_conf_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
   tags:
     - postgresql
-    - config
+    - install
 
 
 - name: "Create files: {{ postgresql_docker_conf_dir }}/"
@@ -67,15 +69,15 @@
     group: "{{ postgresql_docker_gid }}"
     mode: '0600'
   notify: restart postgresql-docker
-  when: postgresql_tls_enabled
+  when: postgresql_docker_tls_enabled
   loop:
-    - { filename: "server.crt", content: "{{ postgresql_tls_cert_crt }}" }
-    - { filename: "server.key", content: "{{ postgresql_tls_cert_key }}" }
+    - { filename: "server.crt", content: "{{ postgresql_docker_tls_cert_crt }}" }
+    - { filename: "server.key", content: "{{ postgresql_docker_tls_cert_key }}" }
   loop_control:
     label: "{{ item.filename }}"
   tags:
     - postgresql
-    - config
+    - install
 
 
 - name: "Copy file from template: {{ postgresql_docker_compose_dir }}/psql.sh"
@@ -87,7 +89,7 @@
     mode: '0755'
   tags:
     - postgresql
-    - copy
+    - install
 
 
 - name: "docker-compose up: {{ postgresql_docker_compose_dir }}"
@@ -95,13 +97,15 @@
     project_src: "{{ postgresql_docker_compose_dir }}"
     pull: always
     build: always
-  register: r_postgresql_docker_start_result
+  register: _postgresql_docker_started
   tags:
     - postgresql
-    - docker-compose
+    - install
+    - started
 
 
 - name: "Flush handlers"
   ansible.builtin.meta: flush_handlers
   tags:
     - postgresql
+    - install

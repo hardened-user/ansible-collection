@@ -4,6 +4,6 @@
 # ===================================================
 
 # TYPE  DATABASE        USER      ADDRESS         METHOD
-{% for x in postgresql_pg_hba_conf_list %}
+{% for x in postgresql_docker_pg_hba_conf_list %}
 {{ x | trim }}
 {% endfor %}

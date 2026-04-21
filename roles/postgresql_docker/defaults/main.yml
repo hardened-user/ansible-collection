@@ -1,30 +1,30 @@
 ---
-postgresql_version: "17"
-postgresql_docker_tag: "{{ postgresql_version }}"
+postgresql_docker_version: "17"
+postgresql_docker_tag: "{{ postgresql_docker_version }}"
 postgresql_docker_image: "postgres:{{ postgresql_docker_tag }}"
 postgresql_docker_build_template: ""
-postgresql_docker_instance: "{{ postgresql_major_version }}"
+postgresql_docker_instance: "{{ postgresql_docker_major_version }}"
 postgresql_docker_uid: 999
 postgresql_docker_gid: 999
 postgresql_docker_network: bridge # "bridge" or "host" supported
 postgresql_docker_timezone: "{{ timezone_name | default('UTC') }}"
+postgresql_docker_compose_extra_conf: {}
 postgresql_docker_bind_mount_volumes: true
 postgresql_docker_extra_volumes: []
 postgresql_docker_conf_dir: "{{ postgresql_docker_compose_dir }}/conf"
 postgresql_docker_data_dir: "{{ postgresql_docker_compose_dir }}/data"
 
-
-postgresql_listen_addr: "0.0.0.0"
-postgresql_listen_port: 5432
-postgresql_bootstrap_user: "postgres"
-postgresql_bootstrap_pass: "postgres"
-postgresql_bootstrap_base: "postgres"
-postgresql_extra_users: []
+postgresql_docker_listen_addr: "0.0.0.0"
+postgresql_docker_listen_port: 5432
+postgresql_docker_bootstrap_user: "postgres"
+postgresql_docker_bootstrap_pass: "postgres"
+postgresql_docker_bootstrap_base: "postgres"
+postgresql_docker_extra_users: []
 
 
 ### postgresql.conf ----------------------------------------------------------------------------------------------------
-postgresql_config: {}
-postgresql_conf_default:
+postgresql_docker_config: {}
+postgresql_docker_conf_default:
   max_connections: 100
   shared_buffers: 128MB
   temp_buffers: 8MB
@@ -44,16 +44,18 @@ postgresql_conf_default:
   password_encryption: "scram-sha-256"
   shared_preload_libraries: "pg_stat_statements"
 
+
 ### pg_hba.conf --------------------------------------------------------------------------------------------------------
-postgresql_pg_hba_conf_list:
+postgresql_docker_pg_hba_conf_list:
 #   TYPE     DATABASE        USER      ADDRESS         METHOD
   - "local   replication     all                       trust"
   - "local   all             all                       trust"
   - "host    replication     all       127.0.0.1/32    trust"
   - "host    replication     all       ::1/128         trust"
-  - "host    all             all       all             {{ postgresql_conf_runtime.password_encryption }}"
+  - "host    all             all       all             {{ postgresql_docker_conf_runtime.password_encryption }}"
+
 
 ### TLS ----------------------------------------------------------------------------------------------------------------
-postgresql_tls_enabled: false
-postgresql_tls_cert_crt: |-
-postgresql_tls_cert_key: |-
+postgresql_docker_tls_enabled: false
+postgresql_docker_tls_cert_crt: |-
+postgresql_docker_tls_cert_key: |-

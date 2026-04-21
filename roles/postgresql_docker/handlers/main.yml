@@ -4,4 +4,4 @@
     project_src: "{{ postgresql_docker_compose_dir }}"
     state: restarted
     timeout: 60
-  when: not r_postgresql_docker_start_result.changed
+  when: not _postgresql_docker_started.changed

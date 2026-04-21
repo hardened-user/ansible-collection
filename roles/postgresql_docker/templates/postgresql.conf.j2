@@ -2,7 +2,7 @@
 
 listen_addresses = '*'
 
-{% for key, value in postgresql_conf_runtime.items() | sort %}
+{% for key, value in postgresql_docker_conf_runtime.items() | sort %}
 {% if value in ['on', 'off'] %}
 {{ key }} = {{ value }}
 {% elif value == True %}
@@ -16,7 +16,7 @@ listen_addresses = '*'
 {% endif %}
 {% endfor %}
 
-{% if postgresql_tls_enabled %}
+{% if postgresql_docker_tls_enabled %}
 ssl = on
 ssl_cert_file = '/etc/postgresql/server.crt'
 ssl_key_file = '/etc/postgresql/server.key'

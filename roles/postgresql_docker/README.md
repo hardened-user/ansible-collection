@@ -4,15 +4,15 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### postgresql_version
+#### postgresql_docker_version
 Версия **postgresql**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-postgresql_version: "17"
+postgresql_docker_version: "17"
 
 # example
-postgresql_version: "17.2"
+postgresql_docker_version: "17.2"
 ```
 
 #### postgresql_docker_build_template
@@ -31,7 +31,7 @@ postgresql_docker_build_template: "{{ role_path }}/templates/build/pg_probackup.
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-postgresql_docker_instance: "{{ postgresql_major_version }}"
+postgresql_docker_instance: "{{ postgresql_docker_major_version }}"
 ```
 
 #### postgresql_docker_uid
@@ -54,6 +54,27 @@ postgresql_docker_gid: 999
 ```
 # default
 postgresql_docker_network: bridge
+```
+
+#### postgresql_docker_compose_extra_conf
+Дополнительные параметры для сервиса в **docker-compose**.
+```
+# default
+postgresql_docker_compose_extra_conf: {}
+
+# example
+postgresql_docker_compose_extra_conf:
+  deploy:
+    resources:
+      limits:
+        cpus: "2"
+        memory: "8GM"
+      reservations:
+        memory: "4G"
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "8m"
 ```
 
 #### postgresql_docker_bind_mount_volumes
@@ -91,7 +112,7 @@ postgresql_docker_extra_volumes:
   - "/mnt/data0:/pg_probackup"
 ```
 
-#### postgresql_extra_users
+#### postgresql_docker_extra_users
 Список пользователей, который дополнительно будут созданы.<br/>
 Элементом списка является словарь со следующими ключами:
 * `name` - имя пользователя (обязательно)
@@ -100,56 +121,56 @@ postgresql_docker_extra_volumes:
 * `attr` - аттрибуты пользователя. См. [role_attr_flags](https://docs.ansible.com/ansible/latest/collections/community/postgresql/postgresql_user_module.html#parameter-role_attr_flags) (опционально, default: `LOGIN`)
 ```
 # default
-postgresql_extra_users: []
+postgresql_docker_extra_users: []
 ```
 
-#### postgresql_config
+#### postgresql_docker_config
 Пользовательская конфигурация `postgresql.conf`.<br/>
-Перезаписывает `postgresql_conf_default`, значение `null` удалит переменную.
+Перезаписывает `postgresql_docker_conf_default`, значение `null` удалит переменную.
 ```
 # default
-postgresql_config: {}
+postgresql_docker_config: {}
 ```
 
-#### postgresql_conf_default
+#### postgresql_docker_conf_default
 Конфигурация `postgresql.conf` по-умолчанию.
 ```
 # default
-postgresql_conf_default:
+postgresql_docker_conf_default:
   ...
 ```
 
-#### postgresql_pg_hba_conf_list
+#### postgresql_docker_pg_hba_conf_list
 Пользовательская конфигурация `pg_hba.conf`.
 ```
 # default
-postgresql_pg_hba_conf_list:
+postgresql_docker_pg_hba_conf_list:
   - "local   replication     all                       trust"
   - "local   all             all                       trust"
   - "host    replication     all       127.0.0.1/32    trust"
   - "host    replication     all       ::1/128         trust"
-  - "host    all             all       all             {{ postgresql_conf_default.password_encryption }}"
+  - "host    all             all       all             {{ postgresql_docker_conf_default.password_encryption }}"
 ```
 
-#### postgresql_tls_enabled
+#### postgresql_docker_tls_enabled
 Использовать TLS при подключении к `postgresql`.
 ```
 # default
-postgresql_tls_enabled: false
+postgresql_docker_tls_enabled: false
 ```
 
-#### postgresql_tls_cert_crt
+#### postgresql_docker_tls_cert_crt
 Сертификат.
 ```
 # default
-postgresql_tls_cert_crt: |-
+postgresql_docker_tls_cert_crt: |-
 ```
 
-#### postgresql_tls_cert_key
+#### postgresql_docker_tls_cert_key
 Приватный ключ от сертификата.
 ```
 # default
-postgresql_tls_cert_key: |-
+postgresql_docker_tls_cert_key: |-
 ```
 
 
@@ -160,12 +181,12 @@ postgresql_tls_cert_key: |-
   hosts: locahost
   become: yes
   vars:
-    postgresql_config:
+    postgresql_docker_config:
       shared_buffers: 2GB
-    postgresql_tls_enabled: true
-    postgresql_tls_cert_crt: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.pem') }}"
-    postgresql_tls_cert_key: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.key') }}"
-    postgresql_extra_users:
+    postgresql_docker_tls_enabled: true
+    postgresql_docker_tls_cert_crt: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.pem') }}"
+    postgresql_docker_tls_cert_key: "{{ lookup('ansible.builtin.file', 'files/postgresql/{{ inventory_hostname }}/server.key') }}"
+    postgresql_docker_extra_users:
       - name: "zabbix"
         pass: "zabbix"
         base: "zabbix"

@@ -2,12 +2,15 @@
 - name: "Get recovery status"
   community.postgresql.postgresql_query:
     query: "SELECT pg_is_in_recovery()"
-    login_host: "{{ postgresql_listen_addr }}"
-    login_port: "{{ postgresql_listen_port }}"
-    login_user: "{{ postgresql_bootstrap_user }}"
-    login_password: "{{ postgresql_bootstrap_pass }}"
-    login_db: "{{ postgresql_bootstrap_base }}"
-  register: _result
+    login_host: "{{ postgresql_docker_listen_addr }}"
+    login_port: "{{ postgresql_docker_listen_port }}"
+    login_user: "{{ postgresql_docker_bootstrap_user }}"
+    login_password: "{{ postgresql_docker_bootstrap_pass }}"
+    login_db: "{{ postgresql_docker_bootstrap_base }}"
+  register: _postgresql_docker_result
+  tags:
+    - postgresql
+    - configure
 
 
 - name: "Create users: ..."
@@ -17,15 +20,18 @@
     role_attr_flags: "{{ item.attr | default('LOGIN') }}"
     state: present
     encrypted: true
-    login_host: "{{ postgresql_listen_addr }}"
-    login_port: "{{ postgresql_listen_port }}"
-    login_user: "{{ postgresql_bootstrap_user }}"
-    login_password: "{{ postgresql_bootstrap_pass }}"
-    login_db: "{{ postgresql_bootstrap_base }}"
-  when: not (_result.query_result | first)['pg_is_in_recovery']
-  loop: "{{ postgresql_extra_users | selectattr('name', 'defined') }}"
+    login_host: "{{ postgresql_docker_listen_addr }}"
+    login_port: "{{ postgresql_docker_listen_port }}"
+    login_user: "{{ postgresql_docker_bootstrap_user }}"
+    login_password: "{{ postgresql_docker_bootstrap_pass }}"
+    login_db: "{{ postgresql_docker_bootstrap_base }}"
+  when: not (_postgresql_docker_result.query_result | first)['pg_is_in_recovery']
+  loop: "{{ postgresql_docker_extra_users | selectattr('name', 'defined') }}"
   loop_control:
     label: "{{ item.name }}"
+  tags:
+    - postgresql
+    - configure
 
 
 - name: "Create databases: ..."
@@ -34,13 +40,16 @@
     encoding: "UTF-8"
     owner: "{{ item.name }}"
     state: present
-    login_host: "{{ postgresql_listen_addr }}"
-    login_port: "{{ postgresql_listen_port }}"
-    login_user: "{{ postgresql_bootstrap_user }}"
-    login_password: "{{ postgresql_bootstrap_pass }}"
-    maintenance_db: "{{ postgresql_bootstrap_base }}"
-  when: not (_result.query_result | first)['pg_is_in_recovery']
-  loop: "{{ postgresql_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
+    login_host: "{{ postgresql_docker_listen_addr }}"
+    login_port: "{{ postgresql_docker_listen_port }}"
+    login_user: "{{ postgresql_docker_bootstrap_user }}"
+    login_password: "{{ postgresql_docker_bootstrap_pass }}"
+    maintenance_db: "{{ postgresql_docker_bootstrap_base }}"
+  when: not (_postgresql_docker_result.query_result | first)['pg_is_in_recovery']
+  loop: "{{ postgresql_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
   loop_control:
     extended: false
     label: "{{ item.base }} user={{ item.name }}"
+  tags:
+    - postgresql
+    - configure

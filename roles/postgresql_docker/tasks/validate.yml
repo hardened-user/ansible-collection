@@ -5,7 +5,7 @@
     quiet: true
     fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - postgresql_version
+    - postgresql_docker_version
     - postgresql_docker_tag
     - postgresql_docker_image
     - postgresql_docker_build_template
@@ -14,9 +14,12 @@
     - postgresql_docker_timezone
     - postgresql_docker_conf_dir
     - postgresql_docker_data_dir
-    - postgresql_listen_addr
-    - postgresql_tls_cert_crt
-    - postgresql_tls_cert_key
+    - postgresql_docker_listen_addr
+    - postgresql_docker_tls_cert_crt
+    - postgresql_docker_tls_cert_key
+  tags:
+    - postgresql
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -25,10 +28,13 @@
     quiet: true
     fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - postgresql_major_version
+    - postgresql_docker_major_version
     - postgresql_docker_uid
     - postgresql_docker_gid
-    - postgresql_listen_port
+    - postgresql_docker_listen_port
+  tags:
+    - postgresql
+    - validate
 
 
 - name: "Ensure that variable is boolean"
@@ -38,7 +44,10 @@
     fail_msg: "The variable must be a boolean"
   loop:
     - postgresql_docker_bind_mount_volumes
-    - postgresql_tls_enabled
+    - postgresql_docker_tls_enabled
+  tags:
+    - postgresql
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -48,8 +57,11 @@
     fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - postgresql_docker_extra_volumes
-    - postgresql_extra_users
-    - postgresql_pg_hba_conf_list
+    - postgresql_docker_extra_users
+    - postgresql_docker_pg_hba_conf_list
+  tags:
+    - postgresql
+    - validate
 
 
 - name: "Ensure that variable is dict"
@@ -58,23 +70,33 @@
     quiet: true
     fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - postgresql_config
+    - postgresql_docker_compose_extra_conf
+    - postgresql_docker_config
+  tags:
+    - postgresql
+    - validate
 
 
 - name: "Validating variable: password_encryption"
   ansible.builtin.assert:
-    that: postgresql_conf_runtime.password_encryption in ["scram-sha-256", "md5"]
+    that: postgresql_docker_conf_runtime.password_encryption in ["scram-sha-256", "md5"]
     quiet: true
-    fail_msg: "Invalid value: {{ postgresql_conf_runtime.password_encryption }}"
+    fail_msg: "Invalid value: {{ postgresql_docker_conf_runtime.password_encryption }}"
+  tags:
+    - postgresql
+    - validate
 
 
 - name: "Check certificate variables length"
   ansible.builtin.assert:
     that: lookup('ansible.builtin.vars', item) | length > 1024
     quiet: true
-  when: postgresql_tls_enabled
+  when: postgresql_docker_tls_enabled
   loop:
-    - postgresql_tls_cert_crt
-    - postgresql_tls_cert_key
+    - postgresql_docker_tls_cert_crt
+    - postgresql_docker_tls_cert_key
   loop_control:
     label: "{{ item }}"
+  tags:
+    - postgresql
+    - validate

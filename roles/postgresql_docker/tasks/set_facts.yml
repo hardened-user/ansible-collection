@@ -6,6 +6,7 @@
     postgresql_docker_data_dir: "{{ postgresql_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"
   tags:
     - postgresql
+    - set_facts
 
 
 - name: "Internal variables"
@@ -13,3 +14,4 @@
     _postgresql_docker_build_enabled: "{{ postgresql_docker_build_template | length > 1 }}"
   tags:
     - postgresql
+    - set_facts
