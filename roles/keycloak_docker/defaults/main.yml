@@ -7,6 +7,7 @@ keycloak_docker_uid: 1000
 keycloak_docker_gid: 1000
 keycloak_docker_network: bridge # "bridge" or "host" supported
 keycloak_docker_timezone: "{{ timezone_name | default('UTC') }}"
+keycloak_docker_compose_extra_conf: {}
 keycloak_docker_bind_mount_volumes: true
 keycloak_docker_data_dir: "{{ keycloak_docker_compose_dir }}/data"
 keycloak_docker_extra_volumes: []

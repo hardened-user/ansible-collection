@@ -16,6 +16,9 @@
     - keycloak_server_start_mode
     - keycloak_bootstrap_admin_username
     - keycloak_bootstrap_admin_password
+  tags:
+    - keycloak
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -29,6 +32,9 @@
     - keycloak_docker_gid
     - keycloak_http_port
     - keycloak_http_management_port
+  tags:
+    - keycloak
+    - validate
 
 
 - name: "Ensure that variable is boolean"
@@ -38,6 +44,9 @@
     fail_msg: "The variable must be a boolean"
   loop:
     - keycloak_docker_bind_mount_volumes
+  tags:
+    - keycloak
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -48,6 +57,9 @@
   loop:
     - keycloak_docker_extra_volumes
     - keycloak_docker_listen_port
+  tags:
+    - keycloak
+    - validate
 
 
 - name: "Ensure that variable is dict"
@@ -56,5 +68,9 @@
     quiet: true
     fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
   loop:
+    - keycloak_docker_compose_extra_conf
     - keycloak_docker_environment
     - keycloak_docker_env_default
+  tags:
+    - keycloak
+    - validate
