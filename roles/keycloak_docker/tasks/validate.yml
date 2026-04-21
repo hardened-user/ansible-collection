@@ -5,7 +5,7 @@
     quiet: true
     fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - keycloak_version
+    - keycloak_docker_version
     - keycloak_docker_tag
     - keycloak_docker_image
     - keycloak_docker_instance
@@ -13,9 +13,9 @@
     - keycloak_docker_timezone
     - keycloak_docker_data_dir
     - keycloak_docker_listen_addr
-    - keycloak_server_start_mode
-    - keycloak_bootstrap_admin_username
-    - keycloak_bootstrap_admin_password
+    - keycloak_docker_server_start_mode
+    - keycloak_docker_bootstrap_admin_username
+    - keycloak_docker_bootstrap_admin_password
   tags:
     - keycloak
     - validate
@@ -27,11 +27,11 @@
     quiet: true
     fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - keycloak_major_version
+    - keycloak_docker_major_version
     - keycloak_docker_uid
     - keycloak_docker_gid
-    - keycloak_http_port
-    - keycloak_http_management_port
+    - keycloak_docker_http_port
+    - keycloak_docker_http_management_port
   tags:
     - keycloak
     - validate

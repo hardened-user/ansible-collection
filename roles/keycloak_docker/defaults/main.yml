@@ -1,8 +1,8 @@
 ---
-keycloak_version: "26.1"
-keycloak_docker_tag: "{{ keycloak_version }}"
+keycloak_docker_version: "26.1"
+keycloak_docker_tag: "{{ keycloak_docker_version }}"
 keycloak_docker_image: "keycloak/keycloak:{{ keycloak_docker_tag }}"
-keycloak_docker_instance: "{{ keycloak_major_version }}"
+keycloak_docker_instance: "{{ keycloak_docker_major_version }}"
 keycloak_docker_uid: 1000
 keycloak_docker_gid: 1000
 keycloak_docker_network: bridge # "bridge" or "host" supported
@@ -13,13 +13,13 @@ keycloak_docker_data_dir: "{{ keycloak_docker_compose_dir }}/data"
 keycloak_docker_extra_volumes: []
 
 keycloak_docker_listen_addr: "0.0.0.0"
-keycloak_docker_listen_port: ["{{ keycloak_http_port }}", "{{ keycloak_http_management_port }}"]
+keycloak_docker_listen_port: ["{{ keycloak_docker_http_port }}", "{{ keycloak_docker_http_management_port }}"]
 
-keycloak_server_start_mode: start-dev # "start" or "start-dev" supported
-keycloak_bootstrap_admin_username: "temp-admin"
-keycloak_bootstrap_admin_password: "admin"
-keycloak_http_port: 8080
-keycloak_http_management_port: 9000
+keycloak_docker_server_start_mode: start-dev # "start" or "start-dev" supported
+keycloak_docker_bootstrap_admin_username: "temp-admin"
+keycloak_docker_bootstrap_admin_password: "admin"
+keycloak_docker_http_port: 8080
+keycloak_docker_http_management_port: 9000
 
 # https://www.keycloak.org/server/all-config
 keycloak_docker_environment: {}

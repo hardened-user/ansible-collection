@@ -14,19 +14,19 @@ services:
     environment:
       TZ: "{{ keycloak_docker_timezone }}"
       # credentials for initialization
-{% if keycloak_major_version | int > 25 %}
-      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ keycloak_bootstrap_admin_username }}"
-      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ keycloak_bootstrap_admin_password }}"
+{% if keycloak_docker_major_version | int > 25 %}
+      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ keycloak_docker_bootstrap_admin_username }}"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ keycloak_docker_bootstrap_admin_password }}"
 {% else %}
-      KEYCLOAK_ADMIN: "{{ keycloak_bootstrap_admin_username }}"
-      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_bootstrap_admin_password }}"
+      KEYCLOAK_ADMIN: "{{ keycloak_docker_bootstrap_admin_username }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_docker_bootstrap_admin_password }}"
 {% endif %}
-      KC_HTTP_PORT: {{ keycloak_http_port }}
-      KC_HTTP_MANAGEMENT_PORT: {{ keycloak_http_management_port }}
+      KC_HTTP_PORT: {{ keycloak_docker_http_port }}
+      KC_HTTP_MANAGEMENT_PORT: {{ keycloak_docker_http_management_port }}
 {% for e in keycloak_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
       {{ e.key }}: "{{ e.value }}"
 {% endfor %}
-    entrypoint: ["/opt/keycloak/bin/kc.sh", "{{ keycloak_server_start_mode }}"]
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "{{ keycloak_docker_server_start_mode }}"]
     volumes:
 {% if keycloak_docker_bind_mount_volumes is sameas false %}
       - data:/opt/keycloak/data

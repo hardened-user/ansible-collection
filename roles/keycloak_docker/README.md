@@ -4,12 +4,12 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### keycloak_version
+#### keycloak_docker_version
 Версия **keycloak**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-keycloak_version: "26.1"
+keycloak_docker_version: "26.1"
 ```
 
 #### keycloak_docker_instance
@@ -17,7 +17,7 @@ keycloak_version: "26.1"
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-keycloak_docker_instance: "{{ keycloak_major_version }}"
+keycloak_docker_instance: "{{ keycloak_docker_major_version }}"
 ```
 
 #### keycloak_docker_uid
@@ -84,7 +84,7 @@ keycloak_docker_listen_addr: "0.0.0.0"
 Используется если `keycloak_docker_network: bridge`.
 ```
 # default
-keycloak_docker_listen_port: ["{{ keycloak_http_port }}", "{{ keycloak_http_management_port }}" ]
+keycloak_docker_listen_port: ["{{ keycloak_docker_http_port }}", "{{ keycloak_docker_http_management_port }}" ]
 ```
 
 #### keycloak_docker_environment
