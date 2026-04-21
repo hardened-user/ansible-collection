@@ -5,7 +5,7 @@
     quiet: true
     fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
   loop:
-    - vm_single_version
+    - vm_single_docker_version
     - vm_single_docker_tag
     - vm_single_docker_image
     - vm_single_docker_instance
@@ -49,5 +49,5 @@
     fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - vm_single_docker_compose_extra_conf
-    - vm_single_config
-    - vm_single_conf_default
+    - vm_single_docker_config
+    - vm_single_docker_conf_default

@@ -19,7 +19,7 @@ services:
 {% else %}
       - '-httpListenAddr=:8428'
 {% endif %}
-{% for x in vm_single_conf_runtime | dict2items | rejectattr('value', 'none') %}
+{% for x in vm_single_docker_conf_runtime | dict2items | rejectattr('value', 'none') %}
       - '-{{ x.key }}={{ x.value }}'
 {% endfor %}
     volumes:

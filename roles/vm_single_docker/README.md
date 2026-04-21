@@ -3,12 +3,12 @@
 Simple installation compatible with the [official Docker image](https://hub.docker.com/r/victoriametrics/victoria-metrics)
 
 ## Variables
-#### vm_single_version
+#### vm_single_docker_version
 Версия **VictoriaMetrics Single**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-vm_single_version: "1.140.0"
+vm_single_docker_version: "1.140.0"
 ```
 
 #### vm_single_docker_instance
