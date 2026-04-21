@@ -9,7 +9,7 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-keycloak_docker_version: "26.1"
+keycloak_docker_version: "26.5.7"
 ```
 
 #### keycloak_docker_instance

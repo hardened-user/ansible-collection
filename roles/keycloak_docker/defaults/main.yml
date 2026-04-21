@@ -1,5 +1,5 @@
 ---
-keycloak_docker_version: "26.1"
+keycloak_docker_version: "26.5.7"
 keycloak_docker_tag: "{{ keycloak_docker_version }}"
 keycloak_docker_image: "keycloak/keycloak:{{ keycloak_docker_tag }}"
 keycloak_docker_instance: "{{ keycloak_docker_major_version }}"
