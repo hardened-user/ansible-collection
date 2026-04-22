@@ -1,0 +1,70 @@
+---
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ vm_agent_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ vm_agent_docker_conf_dir }}", mode: '0700' }
+    - { path: "{{ vm_agent_docker_data_dir }}", mode: '0700' }
+    - { path: "{{ vm_agent_docker_conf_d_dir }}", mode: '0700' }
+  tags:
+    - vm_agent
+    - install
+
+
+- name: "Copy file from template: {{ vm_agent_docker_compose_dir }}/docker-compose.yml"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ vm_agent_docker_compose_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: '0600'
+  tags:
+    - vm_agent
+    - install
+
+
+- name: "Copy file from template: {{ vm_agent_docker_conf_dir }}/prometheus.yml"
+  ansible.builtin.template:
+    src: "prometheus.yml.j2"
+    dest: "{{ vm_agent_docker_conf_dir }}/prometheus.yml"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - vm_agent
+    - install
+
+
+# NOTE: perms: false
+- name: "Copy files (rsync delete): {{ vm_agent_docker_conf_d_dir }}/"
+  ansible.posix.synchronize:
+    src: "{{ vm_agent_docker_conf_d_src }}/"
+    dest: "{{ vm_agent_docker_conf_d_dir }}/"
+    archive: false
+    times: false
+    perms: false
+    checksum: true
+    links: true
+    recursive: true
+    delete: true
+    rsync_opts:
+      - "--exclude=.*"
+  when: vm_agent_docker_conf_d_src | length > 1
+  tags:
+    - vm_agent
+    - install
+
+
+- name: "docker-compose up: {{ vm_agent_docker_compose_dir }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ vm_agent_docker_compose_dir }}"
+    pull: always
+  tags:
+    - vm_agent
+    - install
+    - started

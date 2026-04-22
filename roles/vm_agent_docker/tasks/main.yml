@@ -1,0 +1,20 @@
+---
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
+  tags:
+    - vm_agent
+    - validate
+
+
+- name: "Set facts"
+  ansible.builtin.include_tasks: "set_facts.yml"
+  tags:
+    - vm_agent
+    - set_facts
+
+
+- name: "Install"
+  ansible.builtin.include_tasks: "install.yml"
+  tags:
+    - vm_agent
+    - install

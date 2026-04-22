@@ -1,0 +1,5 @@
+---
+vm_agent_docker_compose_dir: "/srv/vm-agent{{ '-' + vm_agent_docker_instance if vm_agent_docker_instance }}"
+vm_agent_docker_container_name: "vm-agent{{ '-' + vm_agent_docker_instance if vm_agent_docker_instance }}"
+vm_agent_docker_conf_d_dir: "{{ vm_agent_docker_conf_dir }}/conf.d"
+vm_agent_docker_conf_runtime: "{{ vm_agent_docker_conf_default | combine(vm_agent_docker_config) }}"

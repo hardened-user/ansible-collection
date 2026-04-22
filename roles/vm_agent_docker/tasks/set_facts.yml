@@ -1,0 +1,9 @@
+---
+- name: "Variable transformation"
+  ansible.builtin.set_fact:
+    vm_agent_docker_conf_dir: "{{ vm_agent_docker_conf_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    vm_agent_docker_data_dir: "{{ vm_agent_docker_data_dir | trim | regex_replace('\\/+$', '') | trim }}"
+    vm_agent_docker_conf_d_src: "{{ vm_agent_docker_conf_d_src | trim | regex_replace('\\/+$', '') | trim }}"
+  tags:
+    - vm_agent
+    - set_facts

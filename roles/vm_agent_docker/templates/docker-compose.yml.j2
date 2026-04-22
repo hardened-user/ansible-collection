@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+
+---
+{% if vm_agent_docker_bind_mount_volumes is sameas false %}
+volumes:
+  data: {}
+
+{% endif %}
+services:
+  vm_agent:
+    image: "{{ vm_agent_docker_image }}"
+    container_name: "{{ vm_agent_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ vm_agent_docker_timezone }}"
+    command:
+      - '--promscrape.config=/etc/victoriametrics/vmagent/prometheus.yml'
+{% if vm_agent_docker_network != "host" %}
+      - '-httpListenAddr=:8428'
+{% else %}
+      - '-httpListenAddr={{ vm_agent_docker_listen_addr }}:{{ vm_agent_docker_listen_port }}'
+{% endif %}
+{% for x in vm_agent_docker_conf_runtime | dict2items | rejectattr('value', 'none') %}
+      - '-{{ x.key }}={{ x.value }}'
+{% endfor %}
+    volumes:
+      - {{ vm_agent_docker_conf_dir }}:/etc/victoriametrics/vmagent
+{% if vm_agent_docker_bind_mount_volumes is sameas false %}
+      - data:/vmagent-remotewrite-data
+{% else %}
+      - {{ vm_agent_docker_data_dir }}:/vmagent-remotewrite-data
+{% endif %}
+{% for v in vm_agent_docker_extra_volumes %}
+      - {{ v }}
+{% endfor %}
+{% if vm_agent_docker_network != "host" %}
+    ports:
+      - {{ vm_agent_docker_listen_addr }}:{{ vm_agent_docker_listen_port }}:8428
+{% else %}
+    network_mode: host
+{% endif %}
+{% if vm_agent_docker_compose_extra_conf %}
+{{ vm_agent_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{% endif %}

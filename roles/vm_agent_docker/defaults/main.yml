@@ -1,0 +1,23 @@
+---
+vm_agent_docker_version: "1.140.0"
+vm_agent_docker_tag: "v{{ vm_agent_docker_version }}"
+vm_agent_docker_image: "victoriametrics/vmagent:{{ vm_agent_docker_tag }}"
+vm_agent_docker_instance: ""
+vm_agent_docker_network: bridge # "bridge" or "host" supported
+vm_agent_docker_timezone: "{{ timezone_name | default('UTC') }}"
+vm_agent_docker_compose_extra_conf: {}
+vm_agent_docker_bind_mount_volumes: true
+vm_agent_docker_extra_volumes: []
+vm_agent_docker_conf_dir: "{{ vm_agent_docker_compose_dir }}/conf"
+vm_agent_docker_data_dir: "{{ vm_agent_docker_compose_dir }}/data"
+vm_agent_docker_conf_d_src: ""
+
+vm_agent_docker_listen_addr: "0.0.0.0"
+vm_agent_docker_listen_port: 8429
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+vm_agent_docker_config: {}
+vm_agent_docker_conf_default:
+  loggerLevel: "INFO"
+  promscrape.maxScrapeSize: "16MB"

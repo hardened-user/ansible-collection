@@ -1,0 +1,70 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
+  loop:
+    - vm_agent_docker_version
+    - vm_agent_docker_tag
+    - vm_agent_docker_image
+    - vm_agent_docker_instance
+    - vm_agent_docker_network
+    - vm_agent_docker_timezone
+    - vm_agent_docker_conf_dir
+    - vm_agent_docker_data_dir
+    - vm_agent_docker_conf_d_src
+    - vm_agent_docker_listen_addr
+  tags:
+    - vm_agent
+    - validate
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
+    quiet: true
+    fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
+  loop:
+    - vm_agent_docker_listen_port
+  tags:
+    - vm_agent
+    - validate
+
+
+- name: "Ensure that variable is boolean"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug == "bool"
+    quiet: true
+    fail_msg: "The variable must be a boolean"
+  loop:
+    - vm_agent_docker_bind_mount_volumes
+  tags:
+    - vm_agent
+    - validate
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
+  loop:
+    - vm_agent_docker_extra_volumes
+  tags:
+    - vm_agent
+    - validate
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: lookup('vars', item) is mapping
+    quiet: true
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
+  loop:
+    - vm_agent_docker_compose_extra_conf
+    - vm_agent_docker_config
+    - vm_agent_docker_conf_default
+  tags:
+    - vm_agent
+    - validate
