@@ -1,46 +1,13 @@
 ---
-
-- name: "Ansible opening tag: {{ hosts_file }}"
-  lineinfile:
-    path: "{{ hosts_file }}"
-    line: "##### Ansible >>> #####"
-    owner: root
-    group: root
-    mode: 0644
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
   tags:
     - hosts
-    - config
+    - validate
 
 
-- name: "Ansible closing tag: {{ hosts_file }}"
-  lineinfile:
-    path: "{{ hosts_file }}"
-    line: "##### <<< Ansible #####"
+- name: "Install"
+  ansible.builtin.include_tasks: "install.yml"
   tags:
     - hosts
-    - config
-
-
-- name: "Configure hosts file: {{ hosts_file }}"
-  lineinfile:
-    path: "{{ hosts_file }}"
-    regexp: '^{{ item.key }}\s'
-    line: "{{ item.key }} {{ item.value }}"
-    insertafter: "^#+ Ansible >>> #+$"
-  with_items:
-    - "{{ lookup('dict', hosts_config_keys) | rejectattr('value', 'none') | list }}"
-  tags:
-    - hosts
-    - config
-
-
-- name: "Configure hosts file: {{ hosts_file }}"
-  lineinfile:
-    path: "{{ hosts_file }}"
-    state: absent
-    regexp: '^{{ item.key }}\s'
-  with_items:
-    - "{{ lookup('dict', hosts_config_keys) | selectattr('value', 'none') | list }}"
-  tags:
-    - hosts
-    - config
+    - install

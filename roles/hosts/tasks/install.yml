@@ -1,0 +1,44 @@
+---
+- name: "Ansible opening tag: {{ hosts_conf_file }}"
+  ansible.builtin.lineinfile:
+    path: "{{ hosts_conf_file }}"
+    line: "##### Ansible >>> #####"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - hosts
+    - install
+
+
+- name: "Ansible closing tag: {{ hosts_conf_file }}"
+  ansible.builtin.lineinfile:
+    path: "{{ hosts_conf_file }}"
+    line: "##### <<< Ansible #####"
+  tags:
+    - hosts
+    - install
+
+
+- name: "Configure hosts file: {{ hosts_conf_file }}"
+  ansible.builtin.lineinfile:
+    path: "{{ hosts_conf_file }}"
+    regexp: '^{{ item.key }}\s'
+    line: "{{ item.key }} {{ item.value }}"
+    insertafter: "^#+ Ansible >>> #+$"
+  when: item.value | length > 0
+  loop: "{{ hosts_config | dict2items | rejectattr('value', 'none') | list }}"
+  tags:
+    - hosts
+    - install
+
+
+- name: "Configure hosts file: {{ hosts_conf_file }}"
+  ansible.builtin.lineinfile:
+    path: "{{ hosts_conf_file }}"
+    state: absent
+    regexp: '^{{ item.key }}\s'
+  loop: "{{ hosts_config | dict2items | selectattr('value', 'none') | list }}"
+  tags:
+    - hosts
+    - install

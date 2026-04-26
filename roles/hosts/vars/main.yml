@@ -1,3 +1,2 @@
 ---
-
-hosts_file: "/etc/hosts"
+hosts_conf_file: "/etc/hosts"
