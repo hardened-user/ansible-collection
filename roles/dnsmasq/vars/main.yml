@@ -1,0 +1,5 @@
+---
+dnsmasq_package_name: "dnsmasq"
+dnsmasq_service_name: "dnsmasq"
+dnsmasq_systemd_override_dir: "/etc/systemd/system/{{ dnsmasq_service_name }}.service.d"
+dnsmasq_systemd_override_file: "{{ dnsmasq_systemd_override_dir }}/override.conf"

@@ -1,0 +1,74 @@
+---
+- name: "Install package: {{ dnsmasq_package_name }}"
+  ansible.builtin.apt:
+    name: "{{ dnsmasq_package_name }}"
+    state: present
+  tags:
+    - dnsmasq
+    - install
+
+
+- name: "Create directories: ..."
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - { path: "{{ dnsmasq_systemd_override_dir }}" }
+  tags:
+    - dnsmasq
+    - install
+
+
+- name: "Copy files from template: ..."
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '0640'
+  notify: Restart dnsmasq
+  loop:
+    - { dest: "/etc/default/dnsmasq", src: "dnsmasq.etc.default.j2" }
+    - { dest: "/etc/dnsmasq.conf", src: "dnsmasq.conf.j2" }
+  loop_control:
+    label: "{{ item.dest }}"
+  tags:
+    - dnsmasq
+    - install
+
+
+- name: "Copy files from template: {{ dnsmasq_systemd_override_file }}"
+  ansible.builtin.template:
+    src: "dnsmasq.override.conf.j2"
+    dest: "{{ dnsmasq_systemd_override_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  register: _dnsmasq_result
+  tags:
+    - dnsmasq
+    - install
+
+
+# NOTE: Right now, without handler!
+- name: "systemd daemon reload"
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: _dnsmasq_result.changed
+  tags:
+    - dnsmasq
+    - install
+
+
+- name: "Service start: {{ dnsmasq_service_name }}"
+  ansible.builtin.service:
+    name: "{{ dnsmasq_service_name }}"
+    state: started
+    enabled: true
+  register: _dnsmasq_started
+  tags:
+    - dnsmasq
+    - install

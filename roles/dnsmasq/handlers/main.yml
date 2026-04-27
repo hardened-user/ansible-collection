@@ -1,0 +1,6 @@
+---
+- name: Restart dnsmasq
+  service:
+    name: "{{ dnsmasq_service_name }}"
+    state: restarted
+  when: not _dnsmasq_started.changed

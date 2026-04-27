@@ -1,0 +1,11 @@
+---
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: lookup('vars', item) is mapping
+    quiet: true
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
+  loop:
+    - dnsmasq_config
+  tags:
+    - dnsmasq
+    - validate
