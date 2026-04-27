@@ -120,10 +120,10 @@
     - config
 
 
-- name: "Copy file from template: {{ nginx_docker_logrotate_conf_file }}"
+- name: "Copy file from template: {{ nginx_docker_logrotate_file }}"
   ansible.builtin.template:
     src: "logrotate.conf.j2"
-    dest: "{{ nginx_docker_logrotate_conf_file }}"
+    dest: "{{ nginx_docker_logrotate_file }}"
     owner: root
     group: root
     mode: '0644'

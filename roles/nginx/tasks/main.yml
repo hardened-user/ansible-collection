@@ -117,10 +117,10 @@
     - copy
 
 
-- name: "Copy file from template: {{ nginx_logrotate_conf_file }}"
+- name: "Copy file from template: {{ nginx_logrotate_file }}"
   ansible.builtin.template:
     src: "logrotate.d/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.conf.j2"
-    dest: "{{ nginx_logrotate_conf_file }}"
+    dest: "{{ nginx_logrotate_file }}"
     owner: root
     group: root
     mode: '0644'

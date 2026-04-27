@@ -177,7 +177,7 @@
     - config
 
 
-- name: "execute getssl"
+- name: "Execute: {{ getssl_bin_file }} -a -U"
   become_user: "{{ getssl_user_name }}"
   ansible.builtin.command: "{{ getssl_bin_file }} -a -U"
   changed_when: false
