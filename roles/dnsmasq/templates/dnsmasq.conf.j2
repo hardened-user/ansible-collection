@@ -13,6 +13,12 @@
 {% endif %}
 {% endfor %}
 
+{% for x in dnsmasq_dhcp_hosts %}
+# {{ x.name }}
+dhcp-host={{ x.mac | regex_replace('-',':') }},{{ x.ipv4 }}
+{% endfor %}
+
+
 {# ---------------------------------------------------------------------------------------------------------------------
 # Configuration file for dnsmasq.
 #
