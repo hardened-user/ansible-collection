@@ -15,6 +15,7 @@
     mode: "{{ item.mode | default('0755') }}"
   loop:
     - { path: "{{ vm_single_docker_compose_dir }}", mode: '0750' }
+    - { path: "{{ vm_single_docker_data_dir }}", mode: '0700' }
   tags:
     - vm_single
     - config

@@ -15,18 +15,18 @@ services:
       TZ: "{{ vm_single_docker_timezone }}"
     command:
 {% if vm_single_docker_network != "host" %}
-      - '-httpListenAddr={{ vm_single_docker_listen_addr }}:{{ vm_single_docker_listen_port }}'
-{% else %}
       - '-httpListenAddr=:8428'
+{% else %}
+      - '-httpListenAddr={{ vm_single_docker_listen_addr }}:{{ vm_single_docker_listen_port }}'
 {% endif %}
 {% for x in vm_single_docker_conf_runtime | dict2items | rejectattr('value', 'none') %}
       - '-{{ x.key }}={{ x.value }}'
 {% endfor %}
     volumes:
 {% if vm_single_docker_bind_mount_volumes is sameas false %}
-      - data:/storage
+      - data:/victoria-metrics-data
 {% else %}
-      - {{ vm_single_docker_data_dir }}:/storage
+      - {{ vm_single_docker_data_dir }}:/victoria-metrics-data
 {% endif %}
 {% for v in vm_single_docker_extra_volumes %}
       - {{ v }}

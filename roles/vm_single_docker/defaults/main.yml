@@ -7,14 +7,14 @@ vm_single_docker_network: bridge # "bridge" or "host" supported
 vm_single_docker_timezone: "{{ timezone_name | default('UTC') }}"
 vm_single_docker_compose_extra_conf: {}
 vm_single_docker_bind_mount_volumes: true
-vm_single_docker_data_dir: "{{ vm_single_docker_compose_dir }}/data"
 vm_single_docker_extra_volumes: []
+vm_single_docker_data_dir: "{{ vm_single_docker_compose_dir }}/data"
 
 vm_single_docker_listen_addr: "0.0.0.0"
 vm_single_docker_listen_port: 8428
 
 
-### --------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
 vm_single_docker_config: {}
 vm_single_docker_conf_default:
   retentionPeriod: "12M"    # Период хранения данных 12 месяц
