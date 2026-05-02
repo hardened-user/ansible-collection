@@ -1,3 +1,4 @@
 ---
 dnsmasq_config: {}
 dnsmasq_dhcp_hosts: []
+dnsmasq_blocklist_hosts: []

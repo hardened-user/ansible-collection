@@ -18,6 +18,20 @@
     fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - dnsmasq_dhcp_hosts
+    - dnsmasq_blocklist_hosts
+  tags:
+    - dnsmasq
+    - validate
+
+
+- name: "Ensure that each item in the list is a dictionary"
+  ansible.builtin.assert:
+    that:
+      - lookup('vars', item) | reject('mapping') | length == 0
+    quiet: true
+    fail_msg: "Each item must be a dictionary"
+  loop:
+    - dnsmasq_dhcp_hosts
   tags:
     - dnsmasq
     - validate

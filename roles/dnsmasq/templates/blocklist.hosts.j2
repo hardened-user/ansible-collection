@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for x in dnsmasq_blocklist_hosts | map('trim') | unique | sort %}
+0.0.0.0 {{ x }}
+{% endfor %}

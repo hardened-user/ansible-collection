@@ -28,11 +28,12 @@
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    mode: '0640'
+    mode: "{{ item.mode | default('0640') }}"
   notify: Restart dnsmasq
   loop:
     - { dest: "/etc/default/dnsmasq", src: "dnsmasq.etc.default.j2" }
     - { dest: "/etc/dnsmasq.conf", src: "dnsmasq.conf.j2" }
+    - { dest: "{{ dnsmasq_conf_blocklist_file }}", src: "blocklist.hosts.j2", mode: '0644' }
   loop_control:
     label: "{{ item.dest }}"
   tags:
