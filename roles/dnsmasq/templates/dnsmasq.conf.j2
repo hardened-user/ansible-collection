@@ -13,7 +13,8 @@
 {% endif %}
 {% endfor %}
 
-addn-hosts={{ dnsmasq_conf_blocklist_file }}
+addn-hosts={{ dnsmasq_conf_blocklist_hosts_file }}
+conf-file={{ dnsmasq_conf_blocklist_addresses_file }}
 
 {% for x in dnsmasq_dhcp_hosts %}
 # {{ x.name }}

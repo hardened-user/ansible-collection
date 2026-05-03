@@ -19,6 +19,7 @@
   loop:
     - dnsmasq_dhcp_hosts
     - dnsmasq_blocklist_hosts
+    - dnsmasq_blocklist_addresses
   tags:
     - dnsmasq
     - validate
