@@ -7,7 +7,7 @@
     login_user: "{{ postgresql_docker_bootstrap_user }}"
     login_password: "{{ postgresql_docker_bootstrap_pass }}"
     login_db: "{{ postgresql_docker_bootstrap_base }}"
-  register: _postgresql_docker_result
+  register: _postgresql_docker_temp
   tags:
     - postgresql
     - configure
@@ -25,7 +25,7 @@
     login_user: "{{ postgresql_docker_bootstrap_user }}"
     login_password: "{{ postgresql_docker_bootstrap_pass }}"
     login_db: "{{ postgresql_docker_bootstrap_base }}"
-  when: not (_postgresql_docker_result.query_result | first)['pg_is_in_recovery']
+  when: not (_postgresql_docker_temp.query_result | first)['pg_is_in_recovery']
   loop: "{{ postgresql_docker_extra_users | selectattr('name', 'defined') }}"
   loop_control:
     label: "{{ item.name }}"
@@ -45,7 +45,7 @@
     login_user: "{{ postgresql_docker_bootstrap_user }}"
     login_password: "{{ postgresql_docker_bootstrap_pass }}"
     maintenance_db: "{{ postgresql_docker_bootstrap_base }}"
-  when: not (_postgresql_docker_result.query_result | first)['pg_is_in_recovery']
+  when: not (_postgresql_docker_temp.query_result | first)['pg_is_in_recovery']
   loop: "{{ postgresql_docker_extra_users | selectattr('name', 'defined') | selectattr('base', 'defined') }}"
   loop_control:
     extended: false

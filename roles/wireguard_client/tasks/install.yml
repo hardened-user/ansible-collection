@@ -1,7 +1,7 @@
 ---
-- name: "Install package: {{ wireguard_package_name }}"
+- name: "Install package: {{ wireguard_client_package_name }}"
   ansible.builtin.package:
-    name: "{{ wireguard_package_name }}"
+    name: "{{ wireguard_client_package_name }}"
     state: present
   tags:
     - wireguard_client
@@ -12,24 +12,24 @@
 - name: "Copy files from template: ..."
   ansible.builtin.template:
     src: "tmpl.conf.j2"
-    dest: "{{ wireguard_conf_dir }}/wgc{{ index }}.conf"
+    dest: "{{ wireguard_client_conf_dir }}/wgc{{ index }}.conf"
     owner: root
     group: root
     mode: '0600'
   register: _wireguard_client_copy_config
-  notify: restart wireguard client
+  notify: Restart wireguard client
   loop: "{{ wireguard_client_tunnels }}"
   loop_control:
     index_var: index
-    label: "{{ wireguard_conf_dir }}/wgc{{ index }}.conf name={{ item.name }}"
+    label: "{{ wireguard_client_conf_dir }}/wgc{{ index }}.conf name={{ item.name }}"
   tags:
     - wireguard_client
     - install
 
 
-- name: "Find unmanaged config files: {{ wireguard_conf_dir }}/wgc*.conf"
+- name: "Find unmanaged config files: {{ wireguard_client_conf_dir }}/wgc*.conf"
   ansible.builtin.find:
-    paths: "{{ wireguard_conf_dir }}"
+    paths: "{{ wireguard_client_conf_dir }}"
     file_type: file
     patterns: |-
       {%- if wireguard_client_tunnels | length < 10 -%}
@@ -40,7 +40,7 @@
       {{ wtf_maximum_supported_number_of_configured_tunnels }}
       {%- endif -%}
     use_regex: true
-  register: _result
+  register: _wireguard_client_temp
   tags:
     - wireguard_client
     - install
@@ -66,7 +66,7 @@
       {{ result | sort }}
     _wireguard_client_unmanaged_indices: |-
       {% set result = [] %}
-      {% for x in _result.files %}
+      {% for x in _wireguard_client_temp.files %}
       {% set _ = result.append(x.path | basename | regex_replace('wgc(\\d)\\.conf', '\\1') | int) %}
       {% endfor %}
       {{ result | sort }}
@@ -91,7 +91,7 @@
 
 - name: "Delete files: ..."
   ansible.builtin.file:
-    path: "{{ wireguard_conf_dir }}/wgc{{ item }}.conf"
+    path: "{{ wireguard_client_conf_dir }}/wgc{{ item }}.conf"
     state: absent
   loop: "{{ _wireguard_client_unmanaged_indices }}"
   loop_control:
@@ -106,7 +106,7 @@
     name: "wg-quick@wgc{{ index }}"
     state: started
     enabled: true
-  register: _wireguard_client_service_start
+  register: _wireguard_client_started
   when: index in _wireguard_client_enabled_indices
   loop: "{{ wireguard_client_tunnels }}"
   loop_control:

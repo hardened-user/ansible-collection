@@ -49,7 +49,7 @@
     owner: root
     group: root
     mode: '0644'
-  register: _dnsmasq_result
+  register: _dnsmasq_temp
   tags:
     - dnsmasq
     - install
@@ -59,7 +59,7 @@
 - name: "systemd daemon reload"
   ansible.builtin.systemd:
     daemon_reload: true
-  when: _dnsmasq_result.changed
+  when: _dnsmasq_temp.changed
   tags:
     - dnsmasq
     - install
@@ -74,3 +74,4 @@
   tags:
     - dnsmasq
     - install
+    - started
