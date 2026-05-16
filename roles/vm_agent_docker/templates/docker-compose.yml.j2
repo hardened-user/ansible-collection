@@ -16,7 +16,7 @@ services:
     command:
       - '--promscrape.config=/etc/victoriametrics/vmagent/prometheus.yml'
 {% if vm_agent_docker_network != "host" %}
-      - '-httpListenAddr=:8428'
+      - '-httpListenAddr=:8429'
 {% else %}
       - '-httpListenAddr={{ vm_agent_docker_listen_addr }}:{{ vm_agent_docker_listen_port }}'
 {% endif %}
@@ -35,7 +35,7 @@ services:
 {% endfor %}
 {% if vm_agent_docker_network != "host" %}
     ports:
-      - {{ vm_agent_docker_listen_addr }}:{{ vm_agent_docker_listen_port }}:8428
+      - {{ vm_agent_docker_listen_addr }}:{{ vm_agent_docker_listen_port }}:8429
 {% else %}
     network_mode: host
 {% endif %}
