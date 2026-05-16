@@ -89,7 +89,7 @@
     name: "wg-quick@wgs0"
     state: started
     enabled: true
-  register: _wireguard_server_service_start
+  register: _wireguard_server_started
   tags:
     - wireguard_server
     - service
