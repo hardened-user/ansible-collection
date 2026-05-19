@@ -35,6 +35,7 @@
     owner: root
     group: root
     mode: '0644'
+  notify: Reload vm-agent
   tags:
     - vm_agent
     - install
@@ -54,6 +55,7 @@
     delete: true
     rsync_opts:
       - "--exclude=.*"
+  notify: Reload vm-agent
   when: vm_agent_docker_conf_d_src | length > 1
   tags:
     - vm_agent
@@ -64,7 +66,15 @@
   community.docker.docker_compose_v2:
     project_src: "{{ vm_agent_docker_compose_dir }}"
     pull: always
+  register: _vm_agent_started
   tags:
     - vm_agent
     - install
     - started
+
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - vm_agent
+    - install

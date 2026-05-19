@@ -1,0 +1,7 @@
+---
+- name: Reload vm-agent
+  community.docker.docker_compose_v2_exec:
+    project_src: "{{ vm_agent_docker_compose_dir }}"
+    service: vm-agent
+    command: kill -s SIGHUP 1
+  when: not _vm_agent_started.changed
