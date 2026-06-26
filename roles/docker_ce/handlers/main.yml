@@ -1,5 +1,5 @@
 ---
-- name: "restart docker-ce"
+- name: Restart docker-ce
   ansible.builtin.service:
     name: "{{ docker_ce_service_name }}"
     state: restarted

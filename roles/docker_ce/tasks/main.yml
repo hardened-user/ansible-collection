@@ -72,7 +72,7 @@
     group: root
     mode: '0644'
   register: _docker_ce_register
-  notify: restart docker-ce
+  notify: Restart docker-ce
   tags:
     - docker_ce
     - install
@@ -95,7 +95,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify: restart docker-ce
+  notify: Restart docker-ce
   tags:
     - docker_ce
     - install
