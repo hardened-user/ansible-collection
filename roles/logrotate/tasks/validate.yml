@@ -6,6 +6,9 @@
     fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - logrotate_interval
+  tags:
+    - logrotate
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -15,6 +18,9 @@
     fail_msg: "The variable must be an integer, but received {{ lookup('vars', item) | type_debug }}"
   loop:
     - logrotate_rotate
+  tags:
+    - logrotate
+    - validate
 
 
 - name: "Ensure that variable is boolean"
@@ -26,3 +32,6 @@
     - logrotate_dateext
     - logrotate_compress
     - logrotate_delaycompress
+  tags:
+    - logrotate
+    - validate
