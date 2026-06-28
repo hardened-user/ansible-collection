@@ -1,8 +1,6 @@
 ---
 dnsmasq_package_name: "dnsmasq"
 dnsmasq_service_name: "dnsmasq"
-dnsmasq_systemd_override_dir: "/etc/systemd/system/{{ dnsmasq_service_name }}.service.d"
-dnsmasq_systemd_override_file: "{{ dnsmasq_systemd_override_dir }}/override.conf"
 dnsmasq_conf_d_dir: "/etc/dnsmasq.d"
 dnsmasq_conf_blocklist_hosts_file: "{{ dnsmasq_conf_d_dir }}/blocklist.hosts"
 dnsmasq_conf_blocklist_addresses_file: "{{ dnsmasq_conf_d_dir }}/blocklist.addresses"

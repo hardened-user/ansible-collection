@@ -8,20 +8,6 @@
     - install
 
 
-- name: "Create directories: ..."
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: directory
-    owner: "{{ item.owner | default('root') }}"
-    group: "{{ item.group | default('root') }}"
-    mode: "{{ item.mode | default('0755') }}"
-  loop:
-    - { path: "{{ dnsmasq_systemd_override_dir }}" }
-  tags:
-    - dnsmasq
-    - install
-
-
 - name: "Copy files from template: ..."
   ansible.builtin.template:
     src: "{{ item.src }}"
@@ -37,29 +23,6 @@
     - { dest: "{{ dnsmasq_conf_blocklist_addresses_file }}", src: "blocklist.addresses.j2", mode: '0644' }
   loop_control:
     label: "{{ item.dest }}"
-  tags:
-    - dnsmasq
-    - install
-
-
-- name: "Copy files from template: {{ dnsmasq_systemd_override_file }}"
-  ansible.builtin.template:
-    src: "dnsmasq.override.conf.j2"
-    dest: "{{ dnsmasq_systemd_override_file }}"
-    owner: root
-    group: root
-    mode: '0644'
-  register: _dnsmasq_temp
-  tags:
-    - dnsmasq
-    - install
-
-
-# NOTE: Right now, without handler!
-- name: "systemd daemon reload"
-  ansible.builtin.systemd:
-    daemon_reload: true
-  when: _dnsmasq_temp.changed
   tags:
     - dnsmasq
     - install
