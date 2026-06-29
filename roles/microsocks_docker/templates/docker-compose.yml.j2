@@ -17,4 +17,4 @@ services:
     network_mode: host
 {% if microsocks_docker_compose_extra_conf %}
 {{ microsocks_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
-{% endif %}
+{%- endif -%}
