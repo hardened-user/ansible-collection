@@ -25,7 +25,7 @@ grafana_docker_instance: ""
 ### Playbook
 ```
 - name: "Setup Grafana in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - grafana_docker

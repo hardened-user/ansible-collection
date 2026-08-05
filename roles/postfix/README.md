@@ -78,7 +78,7 @@ postfix_main_conf_default:
 Пример настройки на отправку почты через Gmail.
 ```
 - name: "Setup Postfix MTA"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     postfix_main_conf_dict:

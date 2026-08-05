@@ -7,7 +7,7 @@ For Debug purposes
 ### Playbook
 ```
 - name: "varsdump"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - varsdump

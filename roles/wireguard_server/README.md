@@ -6,7 +6,7 @@ WireGuard VPN Server configration
 ### Playbook
 ```
 - name: "Setup WireGuard VPN Server"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     wireguard_server_network_address: "10.9.0.1/24"

@@ -55,7 +55,7 @@ nexus_data_dir: "{{ nexus_docker_compose_dir }}/data"
 ### Playbook
 ```
 - name: "Setup Sonatype Nexus in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - nexus-docker

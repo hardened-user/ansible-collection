@@ -52,7 +52,7 @@ opensearch_dashboards_docker_environment: {}
 ### Playbook
 ```
 - name: "Setup OpenSearch in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     opensearch_dashboards_docker_environment:

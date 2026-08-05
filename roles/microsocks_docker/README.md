@@ -82,7 +82,7 @@ microsocks_docker_command: ["-i", "{{ microsocks_docker_listen_addr }}", "-p", "
 ### Playbook
 ```
 - name: "Setup MicroSocks in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     microsocks_docker_command: ["-p", "{{ microsocks_docker_listen_port }}", "-u", "user", "-P", "*****", "-b", "10.10.0.5"]

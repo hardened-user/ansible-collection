@@ -127,7 +127,7 @@ $ ./kcadm.sh delete -r master users/<user_id>
 ### Playbook
 ```
 - name: "Setup Keycloak in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - keycloak_docker

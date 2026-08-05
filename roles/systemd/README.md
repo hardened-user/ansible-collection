@@ -56,7 +56,7 @@ systemd_journald_config:
 ### Playbook
 ```
 - name: "Setup Systemd"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - systemd

@@ -30,7 +30,7 @@ docker_ce_config:
 ### Playbook
 ```
 - name: "Setup Docker CE"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - docker_ce

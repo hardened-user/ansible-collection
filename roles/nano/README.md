@@ -11,7 +11,7 @@ set noconvert
 ### Playbook
 ```
 - name: "Setup Nano Text Editor"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - nano

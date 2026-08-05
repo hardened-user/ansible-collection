@@ -36,7 +36,7 @@ getssl_renewal_period: 30
 ### Playbook
 ```
 - name: "Setup GetSSL"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     getssl_production_enabled: true

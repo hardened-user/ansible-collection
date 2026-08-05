@@ -205,7 +205,7 @@ ZBX_WEBSERVICEURL - WebServiceURL
 ### Playbook
 ```
 - name: "Setup Zabbix Server in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     zabbix_server_pgsql_docker_environment:

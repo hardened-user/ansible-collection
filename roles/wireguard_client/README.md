@@ -7,7 +7,7 @@ WireGuard VPN Client configration
 ### Playbook
 ```
 - name: "Setup WireGuard VPN Client"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     wireguard_client_tunnels:

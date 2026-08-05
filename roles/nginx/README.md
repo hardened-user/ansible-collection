@@ -15,7 +15,7 @@ nginx_user_extra_groups: []
 ### Playbook
 ```
 - name: "Setup Nginx"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     nginx_conf_source_dir: "files/nginx/{{ inventory_hostname }}/conf"

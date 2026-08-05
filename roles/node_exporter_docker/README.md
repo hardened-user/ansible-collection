@@ -42,7 +42,7 @@ node_exporter_docker_conf_default:
 ### Playbook
 ```
 - name: "Setup node_exporter in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     node_exporter_docker_compose_extra_conf:

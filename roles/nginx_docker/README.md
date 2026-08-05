@@ -161,7 +161,7 @@ nginx_docker_listen_port: [80, 443]
 ### Playbook
 ```
 - name: "Setup Nginx in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     nginx_docker_data_dir: "/var/www"

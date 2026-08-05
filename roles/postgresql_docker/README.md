@@ -178,7 +178,7 @@ postgresql_docker_tls_cert_key: |-
 ### Playbook
 ```
 - name: "Setup PostgreSQL in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     postgresql_docker_config:

@@ -17,7 +17,7 @@ zabbix_repo_version: "7.0"
 ### Playbook
 ```
 - name: "Setup Zabbix Official Repository"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - zabbix_repo

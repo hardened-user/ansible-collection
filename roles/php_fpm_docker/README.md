@@ -162,7 +162,7 @@ php_fpm_docker_listen_port: 9000
 ### Playbook
 ```
 - name: "Setup PHP-FPM in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     php_fpm_docker_fpm_sock_dir: "/run/{{ php_fpm_docker_container_name }}"

@@ -67,7 +67,7 @@ eedabbf38191eeaad42d178f90968d0898676f6f676c652e636f6d
 ### Playbook
 ```
 - name: "Setup MTG in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     mtgproxy_docker_config: "{{ lookup('template', 'files/mtgproxy/' + inventory_hostname + '/config.toml') }}"

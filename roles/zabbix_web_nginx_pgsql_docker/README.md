@@ -29,7 +29,7 @@ zabbix_server_pgsql_docker_environment:
 ### Playbook
 ```
 - name: "Setup Zabbix Web Interface in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     zabbix_server_pgsql_docker_environment:

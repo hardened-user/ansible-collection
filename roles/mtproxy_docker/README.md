@@ -85,7 +85,7 @@ mtproxy_docker_env_default: {}
 ### Playbook
 ```
 - name: "Setup MTProxy in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - mtproxy_docker

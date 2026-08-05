@@ -153,7 +153,7 @@ spilo_docker_environment:
 ### Playbook
 ```
 - name: "Setup Spilo by Zalando in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     spilo_docker_superuser_pass: "PaS$w0rd"

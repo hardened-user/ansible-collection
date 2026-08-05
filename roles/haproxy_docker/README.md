@@ -24,7 +24,7 @@ haproxy_docker_instance: ""
 ### Playbook
 ```
 - name: "Setup HAProxy in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     haproxy_docker_network: host

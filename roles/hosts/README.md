@@ -6,7 +6,7 @@ Setup local DNS using the `/etc/hosts` file.
 ### Playbook
 ```
 - name: "Setup local DNS"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     hosts_config:

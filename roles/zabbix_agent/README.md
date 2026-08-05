@@ -14,7 +14,7 @@ zabbix_agent_user_extra_groups: []
 ### Playbook
 ```
 - name: "Setup Zabbix Agent"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - zabbix_agent

@@ -34,7 +34,7 @@ dnsmasq_dhcp_hosts:
 ### Playbook
 ```
 - name: "Setup Dnsmasq"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - dnsmasq

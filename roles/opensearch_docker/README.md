@@ -188,7 +188,7 @@ opensearch_docker_environment: {}
 ### Playbook
 ```
 - name: "Setup OpenSearch in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     opensearch_admin_password: !vault |

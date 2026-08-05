@@ -86,7 +86,7 @@ vector_docker_config:
 ### Playbook
 ```
 - name: "Setup Vector in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     vector_docker_extra_volumes:

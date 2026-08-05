@@ -25,7 +25,7 @@ vm_agent_docker_instance: ""
 ### Playbook
 ```
 - name: "Setup VMAgent in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   vars:
     vm_agent_docker_conf_d_src: "files/vm_agent_docker/{{ inventory_hostname }}/conf.d"

@@ -25,7 +25,7 @@ vm_single_docker_instance: ""
 ### Playbook
 ```
 - name: "Setup VMSingle in Docker"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - vm_single_docker

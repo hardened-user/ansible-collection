@@ -27,7 +27,7 @@ logrotate_dateext: true
 ### Playbook
 ```
 - name: "Setup logrotate"
-  hosts: locahost
+  hosts: localhost
   become: yes
   roles:
     - logrotate
