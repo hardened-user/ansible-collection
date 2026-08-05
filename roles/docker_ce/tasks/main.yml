@@ -106,7 +106,7 @@
     name: "{{ docker_ce_service_name }}"
     state: started
     enabled: true
-  register: _docker_ce_startup
+  register: _docker_ce_started
   tags:
     - docker_ce
     - install

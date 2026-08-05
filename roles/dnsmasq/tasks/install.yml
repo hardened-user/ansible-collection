@@ -6,6 +6,7 @@
   tags:
     - dnsmasq
     - install
+    - packages
 
 
 - name: "Copy files from template: ..."
