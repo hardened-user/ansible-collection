@@ -1,0 +1,4 @@
+---
+tinyproxy_docker_compose_dir: "/srv/tinyproxy{{ '-' + tinyproxy_docker_instance if tinyproxy_docker_instance }}"
+tinyproxy_docker_container_name: "tinyproxy{{ '-' + tinyproxy_docker_instance if tinyproxy_docker_instance }}"
+tinyproxy_docker_env_runtime: "{{ tinyproxy_docker_env_default | combine(tinyproxy_docker_environment) }}"

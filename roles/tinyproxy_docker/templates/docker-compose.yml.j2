@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+---
+services:
+  tinyproxy:
+    image: "{{ tinyproxy_docker_image }}"
+    container_name: "{{ tinyproxy_docker_container_name }}"
+    restart: unless-stopped
+    environment:
+      TZ: "{{ tinyproxy_docker_timezone }}"
+{% for e in tinyproxy_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
+      {{ e.key }}: "{{ e.value }}"
+{% endfor %}
+    network_mode: host
+{% if tinyproxy_docker_compose_extra_conf %}
+{{ tinyproxy_docker_compose_extra_conf | to_yaml(indent=2, default_flow_style=False) | indent(4, true) }}
+{%- endif -%}

@@ -1,0 +1,54 @@
+---
+- name: "Ensure that variable is string"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    quiet: true
+    fail_msg: "The variable must be a string, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
+  loop:
+    - tinyproxy_docker_version
+    - tinyproxy_docker_tag
+    - tinyproxy_docker_image
+    - tinyproxy_docker_instance
+    - tinyproxy_docker_timezone
+    - tinyproxy_docker_listen_addr
+  tags:
+    - tinyproxy
+    - validate
+
+
+- name: "Ensure that variable is integer"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | string | regex_search("^[0-9]+$") is not none
+    quiet: true
+    fail_msg: "The variable must be an integer, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
+  loop:
+    - tinyproxy_docker_listen_port
+  tags:
+    - tinyproxy
+    - validate
+
+
+- name: "Ensure that variable is list"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["list", "AnsibleSequence"]
+    quiet: true
+    fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
+  loop:
+    - tinyproxy_docker_extra_volumes
+  tags:
+    - tinyproxy
+    - validate
+
+
+- name: "Ensure that variable is dict"
+  ansible.builtin.assert:
+    that: lookup('ansible.builtin.vars', item) is mapping
+    quiet: true
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
+  loop:
+    - tinyproxy_docker_compose_extra_conf
+    - tinyproxy_docker_environment
+    - tinyproxy_docker_env_default
+  tags:
+    - tinyproxy
+    - validate

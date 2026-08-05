@@ -1,0 +1,16 @@
+---
+tinyproxy_docker_version: "latest"
+tinyproxy_docker_tag: "{{ tinyproxy_docker_version }}"
+tinyproxy_docker_image: "hardeneduser/tinyproxy:{{ tinyproxy_docker_tag }}"
+tinyproxy_docker_instance: ""
+tinyproxy_docker_timezone: "{{ timezone_name | default('UTC') }}"
+tinyproxy_docker_compose_extra_conf: {}
+tinyproxy_docker_extra_volumes: []
+
+tinyproxy_docker_listen_addr: "0.0.0.0"
+tinyproxy_docker_listen_port: 8888
+
+tinyproxy_docker_environment: {}
+tinyproxy_docker_env_default:
+  TINYPROXY_LISTEN: "{{ tinyproxy_docker_listen_addr }}"
+  TINYPROXY_PORT: "{{ tinyproxy_docker_listen_port }}"
