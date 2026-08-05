@@ -1,9 +1,9 @@
 ---
 - name: "Ensure that variable is string"
   ansible.builtin.assert:
-    that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
     quiet: true
-    fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a string, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - haproxy_version
     - haproxy_docker_tag
@@ -18,9 +18,9 @@
 
 - name: "Ensure that variable is list"
   ansible.builtin.assert:
-    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
-    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - haproxy_docker_extra_volumes
     - haproxy_docker_listen_port

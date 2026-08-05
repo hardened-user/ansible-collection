@@ -1,9 +1,9 @@
 ---
 - name: "Ensure that variable is string"
   ansible.builtin.assert:
-    that: lookup('vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["str", "string", "AnsibleUnicode", "AnsibleUnsafeText", "AnsibleVaultEncryptedUnicode"]
     quiet: true
-    fail_msg: "The variable must be a string, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a string, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - mtproxy_docker_version
     - mtproxy_docker_tag
@@ -21,9 +21,9 @@
 
 - name: "Ensure that variable is list"
   ansible.builtin.assert:
-    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
-    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - mtproxy_docker_extra_volumes
   tags:
@@ -33,9 +33,9 @@
 
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: lookup('vars', item) is mapping
+    that: lookup('ansible.builtin.vars', item) is mapping
     quiet: true
-    fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - mtproxy_docker_compose_extra_conf
     - mtproxy_docker_environment

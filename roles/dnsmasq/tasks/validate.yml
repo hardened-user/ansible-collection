@@ -1,9 +1,9 @@
 ---
 - name: "Ensure that variable is dict"
   ansible.builtin.assert:
-    that: lookup('vars', item) is mapping
+    that: lookup('ansible.builtin.vars', item) is mapping
     quiet: true
-    fail_msg: "The variable must be a dictionary, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a dictionary, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - dnsmasq_config
   tags:
@@ -13,9 +13,9 @@
 
 - name: "Ensure that variable is list"
   ansible.builtin.assert:
-    that: lookup('vars', item) | type_debug in ["list", "AnsibleSequence"]
+    that: lookup('ansible.builtin.vars', item) | type_debug in ["list", "AnsibleSequence"]
     quiet: true
-    fail_msg: "The variable must be a list, but received {{ lookup('vars', item) | type_debug }}"
+    fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - dnsmasq_dhcp_hosts
     - dnsmasq_blocklist_hosts
@@ -28,7 +28,7 @@
 - name: "Ensure that each item in the list is a dictionary"
   ansible.builtin.assert:
     that:
-      - lookup('vars', item) | reject('mapping') | length == 0
+      - lookup('ansible.builtin.vars', item) | reject('mapping') | length == 0
     quiet: true
     fail_msg: "Each item must be a dictionary"
   loop:
