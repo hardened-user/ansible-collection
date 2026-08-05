@@ -1,3 +1,0 @@
-# {{ ansible_managed }}
-
-SUBSYSTEM=="usb", ACTION=="add", ATTR{idVendor}=="0d9f", ATTR{idProduct}=="0004", TAG+="systemd", RUN+="/usr/bin/systemctl restart nut-server"

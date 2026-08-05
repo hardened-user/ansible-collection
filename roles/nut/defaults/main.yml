@@ -1,0 +1,6 @@
+---
+nut_ups_name: "generic-ups"
+nut_ups_description: "Generic UPS"
+nut_ups_driver: "usbhid-ups"
+nut_ups_override_battery_charge_low: 10
+nut_upsmon_password: "pass123"

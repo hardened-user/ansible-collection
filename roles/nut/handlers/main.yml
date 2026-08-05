@@ -1,0 +1,13 @@
+---
+- name: Restart upsd
+  ansible.builtin.service:
+    name: "{{ nut_upsd_service_name }}"
+    state: restarted
+  when: not _nut_upsd_started.changed
+
+
+- name: Restart upsmon
+  ansible.builtin.service:
+    name: "{{ nut_upsmon_service_name }}"
+    state: restarted
+  when: not _nut_upsmon_started.changed
