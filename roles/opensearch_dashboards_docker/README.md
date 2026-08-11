@@ -31,12 +31,12 @@ opensearch_dashboards_docker_instance: "{{ opensearch_dashboards_docker_version.
 opensearch_dashboards_docker_network: bridge
 ```
 
-#### opensearch_dashboards_opensearch_hosts
+#### opensearch_dashboards_docker_opensearch_hosts
 Список адресов **opensearch** для подключения.<br/>
 В идеале указать все ноды или несколько, но минимум одна, все остальные ноды кластера узнает автоматически.
 ```
 # default
-opensearch_dashboards_opensearch_hosts: ["http://localhost:9200"]
+opensearch_dashboards_docker_opensearch_hosts: ["http://localhost:9200"]
 ```
 
 #### opensearch_dashboards_docker_environment

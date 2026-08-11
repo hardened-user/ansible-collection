@@ -12,7 +12,7 @@ services:
       SERVER_HOST: "{{ opensearch_dashboards_docker_listen_addr }}"
       SERVER_PORT: "{{ opensearch_dashboards_docker_listen_port }}"
 {% endif %}
-      OPENSEARCH_HOSTS: '["{{ opensearch_dashboards_opensearch_hosts | join('", "') }}"]'
+      OPENSEARCH_HOSTS: '["{{ opensearch_dashboards_docker_opensearch_hosts | join('", "') }}"]'
 {% for x in opensearch_dashboards_docker_env_runtime | dict2items | rejectattr('value', 'none') %}
       {{ x.key }}: "{{ x.value }}"
 {% endfor %}

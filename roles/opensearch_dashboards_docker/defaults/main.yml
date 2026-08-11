@@ -12,6 +12,6 @@ opensearch_dashboards_docker_listen_port: 5601
 
 
 ### opensearch dashboards ----------------------------------------------------------------------------------------------
-opensearch_dashboards_opensearch_hosts: ["http://localhost:9200"]
+opensearch_dashboards_docker_opensearch_hosts: ["http://localhost:9200"]
 opensearch_dashboards_docker_environment: {}
 opensearch_dashboards_docker_env_default: {}

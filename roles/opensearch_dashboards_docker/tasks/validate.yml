@@ -49,7 +49,7 @@
     quiet: true
     fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
-    - opensearch_dashboards_opensearch_hosts
+    - opensearch_dashboards_docker_opensearch_hosts
   tags:
     - opensearch_dashboards
     - validate
