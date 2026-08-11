@@ -1,6 +1,6 @@
 ---
-nginx_version: "1.28"
-nginx_docker_tag: "{{ nginx_version }}"
+nginx_docker_version: "1.29"
+nginx_docker_tag: "{{ nginx_docker_version }}"
 nginx_docker_image: "nginx:{{ nginx_docker_tag }}"
 nginx_docker_instance: ""
 nginx_docker_uid: 33

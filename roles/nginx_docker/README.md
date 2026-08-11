@@ -4,12 +4,12 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### nginx_version
+#### nginx_docker_version
 Версия **nginx**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-nginx_version: "1.28"
+nginx_docker_version: "1.29"
 ```
 
 #### nginx_docker_instance

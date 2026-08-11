@@ -10,3 +10,4 @@
     nginx_docker_data_src: "{{ nginx_docker_data_src | trim | regex_replace('\\/+$', '') | trim }}"
   tags:
     - nginx
+    - set_facts

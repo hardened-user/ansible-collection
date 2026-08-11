@@ -5,7 +5,7 @@
     quiet: true
     fail_msg: "The variable must be a string, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
-    - nginx_version
+    - nginx_docker_version
     - nginx_docker_tag
     - nginx_docker_image
     - nginx_docker_instance
@@ -18,6 +18,9 @@
     - nginx_docker_cert_src
     - nginx_docker_conf_src
     - nginx_docker_data_src
+  tags:
+    - nginx
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -28,6 +31,9 @@
   loop:
     - nginx_docker_uid
     - nginx_docker_gid
+  tags:
+    - nginx
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -39,3 +45,6 @@
     - nginx_docker_extra_volumes
     - nginx_docker_tmpfs_volumes
     - nginx_docker_listen_port
+  tags:
+    - nginx
+    - validate
