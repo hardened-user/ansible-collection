@@ -12,6 +12,9 @@
     - opensearch_dashboards_docker_network
     - opensearch_dashboards_docker_timezone
     - opensearch_dashboards_docker_listen_addr
+  tags:
+    - opensearch_dashboards
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -21,6 +24,9 @@
     fail_msg: "The variable must be an integer, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - opensearch_dashboards_docker_listen_port
+  tags:
+    - opensearch_dashboards
+    - validate
 
 
 - name: "Ensure that variable is dict"
@@ -32,6 +38,9 @@
     - opensearch_dashboards_docker_compose_extra_conf
     - opensearch_dashboards_docker_environment
     - opensearch_dashboards_docker_env_default
+  tags:
+    - opensearch_dashboards
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -41,3 +50,6 @@
     fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - opensearch_dashboards_opensearch_hosts
+  tags:
+    - opensearch_dashboards
+    - validate

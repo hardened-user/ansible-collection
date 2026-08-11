@@ -17,7 +17,7 @@
     - { path: "{{ opensearch_dashboards_docker_compose_dir }}", mode: '0750' }
   tags:
     - opensearch_dashboards
-    - config
+    - install
 
 
 - name: "Copy file from template: {{ opensearch_dashboards_docker_compose_dir }}/docker-compose.yml"
@@ -29,7 +29,7 @@
     mode: '0600'
   tags:
     - opensearch_dashboards
-    - config
+    - install
 
 
 - name: "Configure sysctl: /etc/sysctl.d/90-opensearch-dashboards.conf"
@@ -44,7 +44,7 @@
     - { name: vm.max_map_count, value: 262144 }
   tags:
     - opensearch_dashboards
-    - config
+    - install
 
 
 - name: "docker-compose up: {{ opensearch_dashboards_docker_compose_dir }}"
@@ -54,10 +54,5 @@
   register: r_opensearch_dashboards_docker_start_result
   tags:
     - opensearch_dashboards
-    - docker-compose
-
-
-- name: "Flush handlers"
-  ansible.builtin.meta: flush_handlers
-  tags:
-    - opensearch_dashboards
+    - install
+    - started
