@@ -18,6 +18,9 @@
     - opensearch_cluster_name
     - opensearch_node_name
     - opensearch_admin_password
+  tags:
+    - opensearch
+    - validate
 
 
 - name: "Ensure that variable is integer"
@@ -29,6 +32,9 @@
     - opensearch_docker_uid
     - opensearch_docker_gid
     - opensearch_docker_listen_port
+  tags:
+    - opensearch
+    - validate
 
 
 - name: "Ensure that variable is boolean"
@@ -40,6 +46,9 @@
     - opensearch_docker_bind_mount_volumes
     - opensearch_plugins_security_enabled
     - opensearch_plugins_security_ssl_http_enabled
+  tags:
+    - opensearch
+    - validate
 
 
 - name: "Ensure that variable is list"
@@ -50,6 +59,9 @@
   loop:
     - opensearch_docker_extra_volumes
     - opensearch_api_requests
+  tags:
+    - opensearch
+    - validate
 
 
 - name: "Ensure that variable is dict"
@@ -62,6 +74,9 @@
     - opensearch_internal_users
     - opensearch_docker_environment
     - opensearch_docker_env_default
+  tags:
+    - opensearch
+    - validate
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -71,3 +86,6 @@
     quiet: true
     fail_msg: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
   when: opensearch_plugins_security_enabled
+  tags:
+    - opensearch
+    - validate

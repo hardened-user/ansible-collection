@@ -10,3 +10,4 @@
       {{ result }}
   tags:
     - opensearch
+    - set_facts

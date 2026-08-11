@@ -16,3 +16,6 @@
   until: _result is succeeded
   retries: 12
   delay: 5
+  tags:
+    - opensearch
+    - verify

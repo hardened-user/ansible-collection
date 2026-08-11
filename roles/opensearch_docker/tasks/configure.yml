@@ -20,6 +20,9 @@
   loop_control:
     label: "{{ item.key }}"
   run_once: true
+  tags:
+    - opensearch
+    - configure
 
 
 - name: "Delete users"
@@ -41,6 +44,9 @@
   loop_control:
     label: "{{ item.key }}"
   run_once: true
+  tags:
+    - opensearch
+    - configure
 
 
 - name: "Configure via API"
@@ -61,3 +67,6 @@
   loop_control:
     label: "{{ item.method | default('PUT') }} {{ item.path | trim('/') }}"
   run_once: true
+  tags:
+    - opensearch
+    - configure

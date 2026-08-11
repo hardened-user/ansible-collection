@@ -1,7 +1,0 @@
----
-- name: "restart opensearch-docker"
-  community.docker.docker_compose_v2:
-    project_src: "{{ opensearch_docker_compose_dir }}"
-    state: restarted
-    timeout: 60
-  when: not r_opensearch_docker_start_result.changed

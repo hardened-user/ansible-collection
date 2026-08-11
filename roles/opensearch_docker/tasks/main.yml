@@ -10,12 +10,14 @@
   ansible.builtin.include_tasks: "set_facts.yml"
   tags:
     - opensearch
+    - set_facts
 
 
 - name: "Install"
   ansible.builtin.include_tasks: "install.yml"
   tags:
     - opensearch
+    - install
 
 
 - name: "Verify"
@@ -30,3 +32,4 @@
   ansible.builtin.include_tasks: "configure.yml"
   tags:
     - opensearch
+    - configure
