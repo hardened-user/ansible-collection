@@ -4,12 +4,12 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### opensearch_dashboards_version
+#### opensearch_dashboards_docker_version
 Версия **opensearch**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-opensearch_dashboards_version: "2.19.3"
+opensearch_dashboards_docker_version: "2.19.4"
 ```
 
 #### opensearch_dashboards_docker_instance
@@ -20,7 +20,7 @@ opensearch_dashboards_version: "2.19.3"
 opensearch_dashboards_docker_instance: ""
 
 # example
-opensearch_dashboards_docker_instance: "{{ opensearch_dashboards_version.split('.')[:2] | join('.') }}"
+opensearch_dashboards_docker_instance: "{{ opensearch_dashboards_docker_version.split('.')[:2] | join('.') }}"
 ```
 
 #### opensearch_dashboards_docker_network
