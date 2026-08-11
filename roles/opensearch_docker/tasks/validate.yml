@@ -5,7 +5,7 @@
     quiet: true
     fail_msg: "The variable must be a string, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
-    - opensearch_version
+    - opensearch_docker_version
     - opensearch_docker_tag
     - opensearch_docker_image
     - opensearch_docker_instance

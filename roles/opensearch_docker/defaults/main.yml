@@ -1,6 +1,6 @@
 ---
-opensearch_version: "2.19.4"
-opensearch_docker_tag: "{{ opensearch_version }}"
+opensearch_docker_version: "2.19.4"
+opensearch_docker_tag: "{{ opensearch_docker_version }}"
 opensearch_docker_image: "opensearchproject/opensearch:{{ opensearch_docker_tag }}"
 opensearch_docker_instance: ""
 opensearch_docker_uid: 1000

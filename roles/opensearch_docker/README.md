@@ -4,12 +4,12 @@ Simple installation compatible with the [official Docker image](https://hub.dock
 
 
 ## Variables
-#### opensearch_version
+#### opensearch_docker_version
 Версия **opensearch**.<br/>
 Используется как базовое значение для определения других переменных, имён каталогов и т.п.
 ```
 # default
-opensearch_version: "2.19.4"
+opensearch_docker_version: "2.19.4"
 ```
 
 #### opensearch_docker_uid
@@ -34,7 +34,7 @@ opensearch_docker_gid: 1000
 opensearch_docker_instance: ""
 
 # example
-opensearch_docker_instance: "{{ opensearch_version.split('.')[:2] | join('.') }}"
+opensearch_docker_instance: "{{ opensearch_docker_version.split('.')[:2] | join('.') }}"
 ```
 
 #### opensearch_docker_network
