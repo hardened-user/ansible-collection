@@ -1,4 +1,6 @@
 ---
+getssl_user_name: "getssl"
+getssl_user_home: "/home/{{ getssl_user_name }}"
 getssl_download_url: "https://raw.githubusercontent.com/srvrco/getssl/latest/getssl"
 getssl_cert_dir: "/etc/ssl/getssl"
 getssl_acme_challenge_dir: "{{ getssl_user_home }}/.well-known/acme-challenge"
