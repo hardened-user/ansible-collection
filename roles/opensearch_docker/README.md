@@ -99,43 +99,43 @@ opensearch_docker_data_dir: "{{ opensearch_docker_compose_dir }}/data"
 opensearch_docker_logs_dir: "{{ opensearch_docker_compose_dir }}/logs"
 ```
 
-#### opensearch_plugins_security_enabled
+#### opensearch_docker_plugins_security_enabled
 Использовать **security-plugin**.
 ```
 # default
-opensearch_plugins_security_enabled: true
+opensearch_docker_plugins_security_enabled: true
 ```
 
-#### opensearch_plugins_security_ssl_http_enabled
+#### opensearch_docker_plugins_security_ssl_http_enabled
 Позволяет отключить требование использовать шифрование трафика (**https**).<br/>
-Используется если `opensearch_plugins_security_enabled: true`
+Используется если `opensearch_docker_plugins_security_enabled: true`
 ```
 # default
-opensearch_plugins_security_ssl_http_enabled: false
+opensearch_docker_plugins_security_ssl_http_enabled: false
 ```
 
-#### opensearch_admin_password
+#### opensearch_docker_admin_password
 Пароль для встроенного пользователя **admin**.<br/>
 Смену пароля администратора через ansible не предусмотрена.<br/>
 Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.<br/>
-Используется если `opensearch_plugins_security_enabled: true`
+Используется если `opensearch_docker_plugins_security_enabled: true`
 ```
 # default
-opensearch_admin_password: ""
+opensearch_docker_admin_password: ""
 ```
 
-#### opensearch_internal_users
+#### opensearch_docker_internal_users
 Пользователи, которые будут созданы или удалены.<br/>
-Используется если `opensearch_plugins_security_enabled: true`
+Используется если `opensearch_docker_plugins_security_enabled: true`
 Структура переменной:.<br/>
 * `state` - специальный ключ для ansible. Возможные значения: `present` (default) - создать, `absent` - удалить
 * `*API*` - ключи из спецификации API [create-user](https://docs.opensearch.org/2.19/security/access-control/api/#create-user)
 ```
 # default
-opensearch_internal_users: {}
+opensearch_docker_internal_users: {}
 
 # example
-opensearch_internal_users:
+opensearch_docker_internal_users:
   vector:
     password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -151,7 +151,7 @@ opensearch_internal_users:
   snapshotrestore: { state: absent }
 ```
 
-### opensearch_api_requests
+### opensearch_docker_api_requests
 Пользовательские запросы к API (см. [api-reference](https://opensearch.org/docs/latest/api-reference/)).<br/>
 Структура переменной:.<br/>
 * `path`- путь к API endpoint
@@ -159,10 +159,10 @@ opensearch_internal_users:
 * `body` - тело запроса
 ```
 # default
-opensearch_api_requests: []
+opensearch_docker_api_requests: []
 
 # example
-opensearch_api_requests:
+opensearch_docker_api_requests:
   - path: _plugins/_security/api/roles/vector
     method: PUT
     body:
@@ -191,7 +191,7 @@ opensearch_docker_environment: {}
   hosts: localhost
   become: yes
   vars:
-    opensearch_admin_password: !vault |
+    opensearch_docker_admin_password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       38636564636362396136383762303936616531383438643462383136646431613733376263353763
       38636564636362396136383762303936616531383438643462383136646431613733376263353763

@@ -6,17 +6,17 @@
     validate_certs: false
     follow_redirects: none
     user: "admin"
-    password: "{{ opensearch_admin_password }}"
+    password: "{{ opensearch_docker_admin_password }}"
     force_basic_auth: true
     headers:
       Accept: application/json
     body_format: json
     body: "{{ item.value | default({}) | dict2items | rejectattr('key', 'equalto', 'state') | items2dict }}"
     status_code: [200, 201]
-  register: _result
-  changed_when: _result.status == 201
-  when: opensearch_plugins_security_enabled
-  loop: "{{ _opensearch_internal_users | dict2items | selectattr('value.state', 'ne', 'absent') | list }}"
+  register: _opensearch_docker_temp
+  changed_when: _opensearch_docker_temp.status == 201
+  when: opensearch_docker_plugins_security_enabled
+  loop: "{{ _opensearch_docker_internal_users | dict2items | selectattr('value.state', 'ne', 'absent') | list }}"
   loop_control:
     label: "{{ item.key }}"
   run_once: true
@@ -32,15 +32,15 @@
     validate_certs: false
     follow_redirects: none
     user: "admin"
-    password: "{{ opensearch_admin_password }}"
+    password: "{{ opensearch_docker_admin_password }}"
     force_basic_auth: true
     headers:
       Accept: application/json
     status_code: [200, 404]
-  register: _result
-  changed_when: _result.status == 200
-  when: opensearch_plugins_security_enabled
-  loop: "{{ _opensearch_internal_users | dict2items | selectattr('value.state', 'eq', 'absent') | list }}"
+  register: _opensearch_docker_temp
+  changed_when: _opensearch_docker_temp.status == 200
+  when: opensearch_docker_plugins_security_enabled
+  loop: "{{ _opensearch_docker_internal_users | dict2items | selectattr('value.state', 'eq', 'absent') | list }}"
   loop_control:
     label: "{{ item.key }}"
   run_once: true
@@ -56,14 +56,14 @@
     validate_certs: false
     follow_redirects: none
     user: "admin"
-    password: "{{ opensearch_admin_password }}"
+    password: "{{ opensearch_docker_admin_password }}"
     force_basic_auth: true
     headers:
       Accept: application/json
     body_format: json
     body: "{{ item.body | default({}) }}"
     status_code: [200, 201]
-  loop: "{{ opensearch_api_requests }}"
+  loop: "{{ opensearch_docker_api_requests }}"
   loop_control:
     label: "{{ item.method | default('PUT') }} {{ item.path | trim('/') }}"
   run_once: true

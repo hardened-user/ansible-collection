@@ -14,10 +14,10 @@
     - opensearch_docker_data_dir
     - opensearch_docker_logs_dir
     - opensearch_docker_listen_addr
-    - opensearch_discovery_type
-    - opensearch_cluster_name
-    - opensearch_node_name
-    - opensearch_admin_password
+    - opensearch_docker_discovery_type
+    - opensearch_docker_cluster_name
+    - opensearch_docker_node_name
+    - opensearch_docker_admin_password
   tags:
     - opensearch
     - validate
@@ -44,8 +44,8 @@
     fail_msg: "The variable must be a boolean"
   loop:
     - opensearch_docker_bind_mount_volumes
-    - opensearch_plugins_security_enabled
-    - opensearch_plugins_security_ssl_http_enabled
+    - opensearch_docker_plugins_security_enabled
+    - opensearch_docker_plugins_security_ssl_http_enabled
   tags:
     - opensearch
     - validate
@@ -58,7 +58,7 @@
     fail_msg: "The variable must be a list, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - opensearch_docker_extra_volumes
-    - opensearch_api_requests
+    - opensearch_docker_api_requests
   tags:
     - opensearch
     - validate
@@ -71,7 +71,7 @@
     fail_msg: "The variable must be a dictionary, but received {{ lookup('ansible.builtin.vars', item) | type_debug }}"
   loop:
     - opensearch_docker_compose_extra_conf
-    - opensearch_internal_users
+    - opensearch_docker_internal_users
     - opensearch_docker_environment
     - opensearch_docker_env_default
   tags:
@@ -80,12 +80,13 @@
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-- name: "Validating variable: opensearch_admin_password"
+- name: "Validating variable: opensearch_docker_admin_password"
   ansible.builtin.assert:
-    that: opensearch_admin_password | length > 7
+    that: opensearch_docker_admin_password | length > 7
     quiet: true
-    fail_msg: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
-  when: opensearch_plugins_security_enabled
+    fail_msg: "Password must be at least 8 characters long and contain at least one uppercase letter,
+      one lowercase letter, one digit, and one special character."
+  when: opensearch_docker_plugins_security_enabled
   tags:
     - opensearch
     - validate

@@ -1,13 +1,15 @@
 ---
 - name: "Internal variables"
   ansible.builtin.set_fact:
-    _opensearch_docker_base_url: "{{ 'https' if opensearch_plugins_security_ssl_http_enabled else 'http' }}://{{ opensearch_docker_listen_addr }}:{{ opensearch_docker_listen_port }}"
-    _opensearch_internal_users: |-
+    _opensearch_docker_base_url: "{{ scheme }}://{{ opensearch_docker_listen_addr }}:{{ opensearch_docker_listen_port }}"
+    _opensearch_docker_internal_users: |-
       {%- set result = {} -%}
-      {%- for key, value in opensearch_internal_users.items() -%}
+      {%- for key, value in opensearch_docker_internal_users.items() -%}
       {%- set _ = result.update({key: {'state': 'present'} | combine(value)}) -%}
       {%- endfor -%}
       {{ result }}
+  vars:
+    scheme: "{{ 'https' if opensearch_docker_plugins_security_ssl_http_enabled else 'http' }}"
   tags:
     - opensearch
     - set_facts

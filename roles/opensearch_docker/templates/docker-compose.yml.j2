@@ -18,12 +18,12 @@ services:
       network.host: "{{ opensearch_docker_listen_addr }}"
       http.port: "{{ opensearch_docker_listen_port }}"
 {% endif %}
-      discovery.type: "{{ opensearch_discovery_type }}"
-      cluster.name: "{{ opensearch_cluster_name }}"
-      node.name: "{{ opensearch_node_name }}"
-{% if opensearch_plugins_security_enabled %}
-      plugins.security.ssl.http.enabled: "{{ opensearch_plugins_security_ssl_http_enabled | lower }}"
-      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "{{ opensearch_admin_password }}"
+      discovery.type: "{{ opensearch_docker_discovery_type }}"
+      cluster.name: "{{ opensearch_docker_cluster_name }}"
+      node.name: "{{ opensearch_docker_node_name }}"
+{% if opensearch_docker_plugins_security_enabled %}
+      plugins.security.ssl.http.enabled: "{{ opensearch_docker_plugins_security_ssl_http_enabled | lower }}"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "{{ opensearch_docker_admin_password }}"
 {% else %}
       plugins.security.disabled: "true"
 {% endif %}
