@@ -32,21 +32,6 @@
     - install
 
 
-- name: "Configure sysctl: /etc/sysctl.d/90-opensearch-dashboards.conf"
-  ansible.posix.sysctl:
-    sysctl_file: "/etc/sysctl.d/90-opensearch-dashboards.conf"
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-    state: present
-    sysctl_set: true
-    reload: true
-  loop:
-    - { name: vm.max_map_count, value: 262144 }
-  tags:
-    - opensearch_dashboards
-    - install
-
-
 - name: "docker-compose up: {{ opensearch_dashboards_docker_compose_dir }}"
   community.docker.docker_compose_v2:
     project_src: "{{ opensearch_dashboards_docker_compose_dir }}"
