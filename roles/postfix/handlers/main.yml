@@ -1,5 +1,5 @@
 ---
-- name: "execute postmap"
+- name: Run postmap
   ansible.builtin.command: "postmap '{{ item }}'"
   with_items:
     - "{{ postfix_smtp_generic_maps_file }}"
@@ -8,13 +8,13 @@
     - "{{ postfix_sender_canonical_maps_file }}"
 
 
-- name: "execute newaliases"
+- name: Run newaliases
   ansible.builtin.command: "newaliases"
 
 
-- name: "restart postfix"
+- name: Restart postfix
   ansible.builtin.service:
     name: "{{ postfix_service_name }}"
     state: restarted
   when:
-    - not r_postfix_start.changed
+    - not _postfix_started.changed

@@ -56,12 +56,25 @@ postfix_file_content_smtp_header_checks: |-
   /^DKIM-Filter:/                   IGNORE
 ```
 
-#### postfix_main_conf_dict
+#### postfix_file_content_sender_canonical_maps
+Содержимое файла **sender_canonical_maps**.<br/>
+См. [man canonical](https://www.postfix.org/canonical.5.html).
+```
+# default
+postfix_file_content_sender_canonical_maps: ""
+
+# example
+postfix_file_content_sender_canonical_maps: |-
+  root      server-host@example.com
+  www-data  server-host@example.com
+```
+
+#### postfix_main_conf_setting
 Пользовательская конфигурация `main.cf`.<br/>
 Перезаписывает `postfix_main_conf_default`, значение `null` удалит переменную.
 ```
 # default
-postfix_main_conf_dict: {}
+postfix_main_conf_setting: {}
 ```
 
 #### postfix_main_conf_default
@@ -81,7 +94,7 @@ postfix_main_conf_default:
   hosts: localhost
   become: yes
   vars:
-    postfix_main_conf_dict:
+    postfix_main_conf_setting:
       smtp_sasl_auth_enable: "yes"
       smtp_destination_rate_delay: "60s"
       relay_destination_rate_delay: "60s"

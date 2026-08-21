@@ -3,117 +3,18 @@
   ansible.builtin.include_vars: "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
   tags:
     - postfix
+    - always
 
 
-- name: "Remove packages: {{ postfix_remove_packages | join(' ') }}"
-  ansible.builtin.package:
-    name: "{{ postfix_remove_packages }}"
-    state: absent
+- name: "Validate"
+  ansible.builtin.include_tasks: "validate.yml"
   tags:
     - postfix
-    - packages
+    - validate
 
 
-- name: "Install packages: {{ postfix_install_packages | join(' ') }}"
-  ansible.builtin.package:
-    name: "{{ postfix_install_packages }}"
-    state: present
+- name: "Install"
+  ansible.builtin.include_tasks: "install.yml"
   tags:
     - postfix
-    - packages
-
-
-- name: "Install packages (SASL): {{ postfix_sasl_packages | join(' ') }}"
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "{{ postfix_sasl_packages }}"
-  when:
-    - postfix_main_conf_runtime.smtp_sasl_auth_enable == "yes"
-  tags:
-    - postfix
-    - packages
-
-
-- name: "Copy files from template: ..."
-  ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: root
-    group: root
-    mode: '0600'
-  notify: execute postmap
-  with_items:
-    - { dest: "{{ postfix_smtp_generic_maps_file }}", src: "smtp_generic_maps.j2" }
-    - { dest: "{{ postfix_sasl_password_maps_file }}", src: "sasl_password_maps.j2" }
-    - { dest: "{{ postfix_smtp_header_checks_file }}", src: "smtp_header_checks.j2" }
-    - { dest: "{{ postfix_sender_canonical_maps_file }}", src: "sender_canonical_maps.j2" }
-  loop_control:
-    label: "{{ item.dest }}"
-  tags:
-    - postfix
-    - config
-
-
-- name: "Configure aliases: {{ postfix_aliases_file }}"
-  ansible.builtin.lineinfile:
-    path: "{{ postfix_aliases_file }}"
-    regexp: '^{{ item.key }}:'
-    line: "{{ item.key }}: {{ item.value }}"
-    owner: root
-    group: root
-    mode: '0644'
-  notify: execute newaliases
-  loop: "{{ postfix_aliases | dict2items | rejectattr('value', 'none') }}"
-  when: item.value | string | length > 0
-  tags:
-    - postfix
-    - config
-
-
-### add/edit
-- name: "Configure postfix: {{ postfix_main_conf_file }}"
-  ansible.builtin.lineinfile:
-    path: "{{ postfix_main_conf_file }}"
-    regexp: '^{{ item.key }}[\s=]'
-    line: "{{ item.key }} = {{ item.value }}"
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart postfix
-  loop: "{{ postfix_main_conf_runtime | dict2items | rejectattr('value', 'none') | list }}"
-  when: item.value | string | length > 0
-  tags:
-    - postfix
-    - config
-
-
-### remove
-- name: "Configure postfix: {{ postfix_main_conf_file }}"
-  ansible.builtin.lineinfile:
-    path: "{{ postfix_main_conf_file }}"
-    state: absent
-    regexp: '^{{ item.key }}[\s=]'
-  notify: restart postfix
-  loop: "{{ postfix_main_conf_runtime | dict2items | selectattr('value', 'none') | list }}"
-  tags:
-    - postfix
-    - config
-
-
-- name: "Service start: {{ postfix_service_name }}"
-  ansible.builtin.service:
-    name: "{{ postfix_service_name }}"
-    state: started
-    enabled: true
-  register: r_postfix_start
-  tags:
-    - postfix
-    - service
-
-
-- name: "Flush handlers"
-  ansible.builtin.meta: flush_handlers
-  tags:
-    - postfix
+    - install

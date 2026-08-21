@@ -9,7 +9,7 @@ postfix_file_content_smtp_header_checks: ""
 postfix_file_content_sender_canonical_maps: ""
 
 ### main.cf ------------------------------------------------------------------------------------------------------------
-postfix_main_conf_dict: {}
+postfix_main_conf_setting: {}
 postfix_main_conf_default:
   inet_interfaces: "localhost"
   inet_protocols: "ipv4"

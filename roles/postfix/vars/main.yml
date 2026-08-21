@@ -5,4 +5,4 @@ postfix_sasl_password_maps_file: "/etc/postfix/sasl_passwd"
 postfix_smtp_header_checks_file: "/etc/postfix/header_checks"
 postfix_sender_canonical_maps_file: "/etc/postfix/canonical"
 
-postfix_main_conf_runtime: "{{ postfix_main_conf_default | combine(postfix_main_conf_dict) }}"
+postfix_main_conf_runtime: "{{ postfix_main_conf_default | combine(postfix_main_conf_setting) }}"
